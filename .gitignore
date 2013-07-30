@@ -1,8 +1,8 @@
 #asdf
 assets/
 bin/
-gen/
 libs/
+out/
 .idea/
 
 local.properties

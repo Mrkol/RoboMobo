@@ -11,6 +11,10 @@ import java.util.ArrayList;
  */
 public class Map
 {
+    /**
+     * Resource ID of background for this map.
+     */
+    public final int background;
     public final int width;
     public final int height;
 
@@ -19,11 +23,13 @@ public class Map
      */
     public short[] tiles;
 
-    public Map(int w, int h)
+    public Map(int w, int h, int bgrid)
     {
         this.width = w;
         this.height = h;
         tiles = new short[width * height];
+        this.background = bgrid;
+
     }
 
     public void postInit()

@@ -36,7 +36,7 @@ public class RMR
         am = act;
         rnd = new Random();
 
-        currentMap = new Map(10, 10);
+        currentMap = new Map(10, 10, 0);
     }
 
     /**

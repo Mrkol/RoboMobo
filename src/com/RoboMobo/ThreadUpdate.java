@@ -11,14 +11,14 @@ import android.view.SurfaceHolder;
  * Time: 13:14
  * To change this template use File | Settings | File Templates.
  */
-public class ThreadDraw extends Thread
+public class ThreadUpdate extends Thread
 {
     public long prevTime;
     public boolean isRunning;
     public SurfaceHolder surfaceHolder;
     public float rotation = 0;
 
-    public ThreadDraw(SurfaceHolder surfaceHolder)
+    public ThreadUpdate(SurfaceHolder surfaceHolder)
     {
         this.surfaceHolder = surfaceHolder;
 

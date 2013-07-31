@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ActivityMain extends Activity
 {
@@ -20,10 +21,10 @@ public class ActivityMain extends Activity
         super.onCreate(savedInstanceState);
         RMR.init(this);
         setContentView(R.layout.main);
-
+        TextView text = (TextView) findViewById(R.id.tv_coord);
         Log.wtf("1", "1");
         LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        LocationListener mlocListener = new GPSModule(getApplicationContext());
+        LocationListener mlocListener = new GPSModule(getApplicationContext(),text);
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
     }
 }

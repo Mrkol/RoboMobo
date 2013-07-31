@@ -20,20 +20,20 @@ public class GPSModule implements LocationListener
     public Context context;
     public double last_latt;
     public double last_long;
+    public TextView text;
 
-    public GPSModule(Context _context)
+    public GPSModule(Context _context, TextView _text)
     {
         context = _context;
+        text = _text;
     }
 
     @Override
     public void onLocationChanged(Location location)
     {
-        //TextView text = (TextView) findViewById(R.id.tv1);
         last_latt = location.getLatitude();      // широта
         last_long = location.getLongitude();     // долгота
-        Toast.makeText(context, "Координаты: "+ last_latt+", "+last_long, Toast.LENGTH_SHORT).show();
-        //text.setText("Координаты: " + last_latt + ", " + last_long);
+        text.setText("Координаты: " + last_latt + ", " + last_long);
         Log.wtf("1",Double.toString(last_latt) + ' ' + Double.toString(last_long));
     }
 

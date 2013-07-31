@@ -1,5 +1,7 @@
 package com.RoboMobo;
 
+import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.location.Location;
@@ -34,6 +36,9 @@ public class Map
     public double baseylong;
     public double def;
     public ArrayList<int[]> pickups;
+    public Player player1;
+    public Activity am;
+
 
     /**
      * Array of tile IDs. Every [width] indexes starts a new row.
@@ -49,6 +54,7 @@ public class Map
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
         corner2fixed = false;
+        Player player1 = new Player(0,0,0);
     }
 
     public void Update(long elapsedTime)
@@ -63,6 +69,8 @@ public class Map
         {
             this.generatePickups();
         }
+
+        player1.changePos(coordTransform(RMR.gps.last_latt,RMR.gps.last_long));
     }
 
     public void Draw()
@@ -90,9 +98,11 @@ public class Map
                 }
                 RMR.c.restore();
             }
-            RMR.c.drawRect();
+            pa.setColor(Color.BLUE);
+            RMR.c.drawRect(player1.posX, player1.posY, 20, 20, pa);
         }
         RMR.c.restore();
+
     }
 
     public void generatePickups()

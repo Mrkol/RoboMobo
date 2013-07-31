@@ -22,12 +22,12 @@ public class ActivityMain extends Activity
     {
         super.onCreate(savedInstanceState);
         RMGR.init(this);
-        RMR.init(this);
         setContentView(R.layout.main);
         Log.wtf("1", "1");
         LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new GPSModule();
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+        RMR.init(this,mlocListener);
     }
     public void fixCoord(View v)
     {
@@ -36,13 +36,13 @@ public class ActivityMain extends Activity
        if (flag)
        {
            RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
-            fixCoord1.setText("Первый угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
+            //fixCoord1.setText("Первый угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
             flag = false;
        }
         else
        {
            RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
-           fixCoord2.setText("Второй угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
+           //fixCoord2.setText("Второй угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
            flag = true;
        }
 

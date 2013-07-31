@@ -24,10 +24,11 @@ public class RMR
     public static Activity am;
     public static Random rnd;
     public static int cell = 10;
+    public static GPSModule gps;
 
     public static Map currentMap;
 
-    public static void init(Activity act)
+    public static void init(Activity act, GPSModule _gps)
     {
         display = act.getWindowManager().getDefaultDisplay();
         width = display.getWidth();
@@ -36,6 +37,8 @@ public class RMR
         rnd = new Random();
 
         currentMap = new Map(cell, cell, R.drawable.map_test);
+
+        gps = _gps;
     }
 
     /**

@@ -47,6 +47,8 @@ public class RMR
         for(int[] apple : apples)
         {
             apple[2]-=elapsedTime;
+            if(apple[2]<=0)
+                apples.remove(apple);
         }
     }
 

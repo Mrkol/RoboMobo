@@ -14,7 +14,7 @@ import android.view.SurfaceView;
  */
 public class MainSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 {
-    public ThreadDraw threadDraw;
+    public ThreadUpdate threadDraw;
 
     public MainSurfaceView(Context context)
     {
@@ -35,7 +35,7 @@ public class MainSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder)
     {
-        threadDraw = new ThreadDraw(getHolder());
+        threadDraw = new ThreadUpdate(getHolder());
         threadDraw.start();
     }
 
@@ -50,11 +50,16 @@ public class MainSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     {
         boolean retry = true;
         threadDraw.isRunning = false;
-        while (retry) {
-            try {
+        while (retry)
+        {
+            try
+            {
                 threadDraw.join();
                 retry = false;
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e)
+            {
+
             }
         }
     }

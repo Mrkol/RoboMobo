@@ -35,7 +35,7 @@ public class Map
     public double basexlong;
     public double baseylatt;
     public double baseylong;
-    public double def;
+    public double det;
     public ArrayList<int[]> pickups;
     public Player player1;
     public Activity am;
@@ -103,7 +103,9 @@ public class Map
                 RMR.c.restore();
             }
             pa.setColor(Color.BLUE);
-            RMR.c.drawRect(player1.posX, player1.posY, 20, 20, pa);
+            RMR.c.translate(player1.posY, player1.posX);
+            RMR.c.drawRect(-2, -2, 2, 2, pa);
+
         }
         RMR.c.restore();
 
@@ -141,7 +143,7 @@ public class Map
         basexlong = (dbaseLong/2 + dbaseLatt/2)*Math.sqrt(2);
         baseylatt = (dbaseLatt/2 + dbaseLong/2)*Math.sqrt(2);
         baseylong = (dbaseLong/2 - dbaseLatt/2)*Math.sqrt(2);
-        def = basexlatt*baseylong - basexlong*baseylatt;
+        det = basexlatt*baseylong - basexlong*baseylatt;
         //Log.wtf("dbase",Double.toString(Math.sqrt(dbaseLatt*dbaseLatt+dbaseLong*dbaseLong)));
         //Log.wtf("basex",Double.toString(Math.sqrt(basexlatt*basexlatt+baseylong*baseylong)));
         //Log.wtf("basey",Double.toString(Math.sqrt(baseylatt*baseylatt+baseylong*baseylong)));
@@ -151,9 +153,11 @@ public class Map
     {
         if (!(corner1fixed && corner2fixed))
             return null;
+        double relLatt = latt - corner1latt;
+        double relLong = longt - corner1long;
         int[] coord = new int[2];
-        coord[0] = (int)((baseylong*latt/def-baseylatt*longt/def)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
-        coord[1] = (int)((-basexlong*latt/def+basexlatt*longt/def)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        coord[0] = (int)((baseylong*relLatt/det-baseylatt*relLong/det)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        coord[1] = (int)((-basexlong*relLatt/det+basexlatt*relLong/det)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
         return coord;
     }
 }

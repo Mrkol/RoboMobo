@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.Display;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -24,7 +25,7 @@ public class RMR
     public static Canvas c;
     public static Activity am;
     public static Random rnd;
-    public static List<int[]> apples;
+    public static ArrayList<int[]> apples;
 
     public static Map currentMap;
 
@@ -35,6 +36,7 @@ public class RMR
         height = display.getHeight();
         am = act;
         rnd = new Random();
+        apples = new ArrayList<int[]>();
 
         currentMap = new Map(10, 10, R.drawable.map_test);
     }

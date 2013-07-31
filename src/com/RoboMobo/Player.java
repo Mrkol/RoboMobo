@@ -9,6 +9,7 @@ package com.RoboMobo;
  */
 public class Player
 {
-    double posX;
-    double posY;
+    public double posX;
+    public double posY;
+    public short points;
 }

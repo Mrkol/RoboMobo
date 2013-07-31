@@ -36,11 +36,13 @@ public class ActivityMain extends Activity
        TextView fixCoord2 = (TextView) findViewById(R.id.tv_fix2);
        if (flag)
        {
+           RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
             fixCoord1.setText("Первый угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
             flag = false;
        }
         else
        {
+           RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
            fixCoord2.setText("Второй угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
            flag = true;
        }

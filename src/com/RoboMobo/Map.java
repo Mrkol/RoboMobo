@@ -106,6 +106,8 @@ public class Map
 
     public void fixCorner1(double latt, double longt)
     {
+        if(corner1fixed)
+            return;
         corner1latt = latt;
         corner1long = longt;
         corner1fixed = true;
@@ -113,6 +115,8 @@ public class Map
 
     public void fixCorner2(double latt, double longt)
     {
+        if(corner2fixed)
+            return;
         corner2latt = latt;
         corner2long = longt;
         corner2fixed = true;

@@ -30,7 +30,7 @@ public class ActivityMain extends Activity
         });
 
         LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        LocationListener mlocListener = new gpsModule(getApplicationContext());
+        LocationListener mlocListener = new GPSModule(getApplicationContext());
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
     }
 }

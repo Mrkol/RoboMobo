@@ -15,13 +15,13 @@ import android.content.Context;
  * Time: 10:55
  * To change this template use File | Settings | File Templates.
  */
-public class gpsModule implements LocationListener
+public class GPSModule implements LocationListener
 {
     public Context context;
     public double last_latt;
     public double last_long;
 
-    public gpsModule(Context _context)
+    public GPSModule(Context _context)
     {
         context = _context;
     }
@@ -32,6 +32,7 @@ public class gpsModule implements LocationListener
         //TextView text = (TextView) findViewById(R.id.tv1);
         last_latt = location.getLatitude();      // широта
         last_long = location.getLongitude();     // долгота
+        Toast.makeText(context, "Координаты: "+ last_latt+", "+last_long, Toast.LENGTH_SHORT).show();
         //text.setText("Координаты: " + last_latt + ", " + last_long);
     }
 

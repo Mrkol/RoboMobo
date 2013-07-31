@@ -35,7 +35,7 @@ public class ThreadUpdate extends Thread
             long elapsedTime = now - prevTime;
             if (elapsedTime > 30)
             {
-                RMR.Update();
+                RMR.Update(elapsedTime);
 
                 try
                 {

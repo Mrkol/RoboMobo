@@ -6,6 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.Display;
 
+import java.util.List;
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Роман
@@ -20,6 +23,8 @@ public class RMR
     public static int height;
     public static Canvas c;
     public static Activity am;
+    public static Random rnd;
+    public static List<int[]> apples;
 
     public static Map currentMap;
 
@@ -29,6 +34,7 @@ public class RMR
         width = display.getWidth();
         height = display.getHeight();
         am = act;
+        rnd = new Random();
 
         currentMap = new Map(10, 10);
     }
@@ -47,5 +53,10 @@ public class RMR
     public static void Draw()
     {
 
+    }
+
+    public static void generateApple()
+    {
+        apples.add(new int[] {rnd.nextInt(10),rnd.nextInt(10),rnd.nextInt(20000)+10000});
     }
 }

@@ -148,7 +148,7 @@ public class Map
 
     public void generatePickups()
     {
-        pickups.add(new int[] {RMR.rnd.nextInt(RMR.cell), RMR.rnd.nextInt(RMR.cell), RMR.rnd.nextInt(20000)+10000, 0});
+        pickups.add(new int[] {RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(20000)+10000, 0});
     }
 
     public void postInit()
@@ -191,8 +191,8 @@ public class Map
         double relLatt = latt - corner1latt;
         double relLong = longt - corner1long;
         int[] coord = new int[2];
-        coord[0] = (int)((baseylong*relLatt/det-baseylatt*relLong/det)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
-        coord[1] = (int)((-basexlong*relLatt/det+basexlatt*relLong/det)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        coord[0] = (int)((baseylong*relLatt/det-baseylatt*relLong/det)*Math.sqrt((2048*RMR.mapSide *RMR.mapSide)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        coord[1] = (int)((-basexlong*relLatt/det+basexlatt*relLong/det)*Math.sqrt((2048*RMR.mapSide *RMR.mapSide)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
         return coord;
     }
 }

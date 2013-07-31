@@ -44,7 +44,10 @@ public class RMR
      * Random generator.
      */
     public static Random rnd;
-    public static int cell = 10;
+    /**
+     * Side of the map in tiles.
+     */
+    public static int mapSide = 10;
     public static GPSModule gps;
 
     /**
@@ -57,10 +60,13 @@ public class RMR
      */
     public static Matrix prevTransform;
 
-
+    /*
+     * Control states.
+     */
     public static  final short NONE = 0;
     public static  final short DRAG = 1;
     public static  final short ZOOM = 2;
+
     public static short transformMode = NONE;
 
     /**
@@ -74,7 +80,7 @@ public class RMR
     public static float prevZoomDistance;
 
     /**
-     *
+     * Last point between the fingers (for zoom).
      */
     public static PointF midPoint;
 
@@ -98,7 +104,7 @@ public class RMR
         transform = new Matrix();
         prevTransform = new Matrix();
 
-        currentMap = new Map(cell, cell, R.drawable.map_test);
+        currentMap = new Map(mapSide, mapSide, R.drawable.map_test);
 
         gps = _gps;
     }

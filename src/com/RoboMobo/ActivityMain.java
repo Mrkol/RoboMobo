@@ -36,19 +36,15 @@ public class ActivityMain extends Activity implements View.OnTouchListener
 
     public void fixCoord(View v)
     {
-        TextView fixCoord1 = (TextView) findViewById(R.id.tv_fix1);
-        TextView fixCoord2 = (TextView) findViewById(R.id.tv_fix2);
         if (flag)
         {
             RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
-            //fixCoord1.setText("Первый угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
             flag = false;
             Log.wtf("fix","1");
         }
         else
         {
             RMR.currentMap.fixCorner2(mlocListener.last_latt, mlocListener.last_long);
-            //fixCoord2.setText("Второй угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
             flag = true;
             Log.wtf("fix","2");
         }

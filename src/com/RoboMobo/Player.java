@@ -9,5 +9,6 @@ package com.RoboMobo;
  */
 public class Player
 {
-
+    double posX;
+    double posY;
 }

@@ -20,16 +20,15 @@ public class GPSModule implements LocationListener
 {
     public double last_latt;
     public double last_long;
-    public static Activity am;
 
     @Override
     public void onLocationChanged(Location location)
     {
         last_latt = location.getLatitude();      // широта
         last_long = location.getLongitude();     // долгота
-        TextView text = (TextView) am.findViewById(R.id.tv_coord);
+        TextView text = (TextView) RMR.am.findViewById(R.id.tv_coord);
         text.setText("Координаты: " + last_latt + ", " + last_long);
-        Log.wtf("1",Double.toString(last_latt) + ' ' + Double.toString(last_long));
+        //Log.wtf("1",Double.toString(last_latt) + ' ' + Double.toString(last_long));
     }
 
     @Override
@@ -40,12 +39,12 @@ public class GPSModule implements LocationListener
     @Override
     public void onProviderEnabled(String s)
     {
-        Toast.makeText(am.getApplicationContext(), "GPS Enabled", Toast.LENGTH_SHORT).show();
+        Toast.makeText(RMR.am.getApplicationContext(), "GPS Enabled", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderDisabled(String s)
     {
-        Toast.makeText(am.getApplicationContext(), "GPS Disabled", Toast.LENGTH_SHORT).show();
+        Toast.makeText(RMR.am.getApplicationContext(), "GPS Disabled", Toast.LENGTH_SHORT).show();
     }
 }

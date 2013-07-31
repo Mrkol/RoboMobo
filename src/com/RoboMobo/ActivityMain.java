@@ -24,13 +24,14 @@ public class ActivityMain extends Activity implements View.OnTouchListener
     {
         super.onCreate(savedInstanceState);
         RMGR.init(this);
-        RMR.init(this);
         setContentView(R.layout.main);
         Log.wtf("1", "1");
-        /*LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new GPSModule();
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener); */
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
         ((MainSurfaceView) findViewById(R.id.view)).setOnTouchListener(this);
+        RMR.init(this,mlocListener);
     }
 
     public void fixCoord(View v)
@@ -39,15 +40,18 @@ public class ActivityMain extends Activity implements View.OnTouchListener
         TextView fixCoord2 = (TextView) findViewById(R.id.tv_fix2);
         if (flag)
         {
-            fixCoord1.setText("Первый угол: " + mlocListener.last_latt + ", " + mlocListener.last_long);
+            RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
+            //fixCoord1.setText("Первый угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
             flag = false;
+            Log.wtf("fix","1");
         }
         else
         {
-            fixCoord2.setText("Второй угол: " + mlocListener.last_latt + ", " + mlocListener.last_long);
+            RMR.currentMap.fixCorner2(mlocListener.last_latt, mlocListener.last_long);
+            //fixCoord2.setText("Второй угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
             flag = true;
+            Log.wtf("fix","2");
         }
-
     }
 
     @Override

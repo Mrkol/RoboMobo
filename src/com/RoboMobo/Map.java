@@ -3,7 +3,6 @@ package com.RoboMobo;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-
 import java.util.ArrayList;
 
 /**
@@ -21,7 +20,20 @@ public class Map
     public final int background;
     public final int width;
     public final int height;
+    public double corner1latt;
+    public double corner1long;
+    public double corner2latt;
+    public double corner2long;
+    public boolean corner1fixed;
+    public boolean corner2fixed;
+    public double basexlatt;
+    public double basexlong;
+    public double baseylatt;
+    public double baseylong;
+    public double det;
     public ArrayList<int[]> pickups;
+    public Player player1;
+
 
     /**
      * Array of tile IDs. Every [width] indexes starts a new row.
@@ -35,7 +47,9 @@ public class Map
         tiles = new short[width * height];
         this.background = bgrid;
         pickups = new ArrayList<int[]>();
-
+        corner1fixed = false;
+        corner2fixed = false;
+        player1 = new Player(0,0,0);
     }
 
     public void Update(long elapsedTime)
@@ -50,6 +64,11 @@ public class Map
         {
             this.generatePickups();
         }
+
+        //Log.wtf("current coords", RMR.gps.last_latt + " " + RMR.gps.last_long);
+        int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
+        if(coord!=null)
+            player1.changePos(coord);
     }
 
     public void Draw()
@@ -116,17 +135,64 @@ public class Map
                 }
                 RMR.c.restore();
             }
+
+
+            pa.setColor(Color.BLUE);
+            RMR.c.translate(player1.posY, player1.posX);
+            RMR.c.drawRect(-2, -2, 2, 2, pa);
+
         }
         RMR.c.restore();
+
     }
 
     public void generatePickups()
     {
-        pickups.add(new int[] {RMR.rnd.nextInt(10), RMR.rnd.nextInt(10), RMR.rnd.nextInt(20000)+10000, 0});
+        pickups.add(new int[] {RMR.rnd.nextInt(RMR.cell), RMR.rnd.nextInt(RMR.cell), RMR.rnd.nextInt(20000)+10000, 0});
     }
 
     public void postInit()
     {
 
+    }
+
+    public void fixCorner1(double latt, double longt)
+    {
+        if(corner1fixed)
+            return;
+        corner1latt = latt;
+        corner1long = longt;
+        corner1fixed = true;
+    }
+
+    public void fixCorner2(double latt, double longt)
+    {
+        if(corner2fixed)
+            return;
+        corner2latt = latt;
+        corner2long = longt;
+        corner2fixed = true;
+        double dbaseLatt = (corner2latt - corner1latt)/Math.sqrt((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long));
+        double dbaseLong = (corner2long - corner1long)/Math.sqrt((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long));
+        basexlatt = (dbaseLatt/2 - dbaseLong/2)*Math.sqrt(2);
+        basexlong = (dbaseLong/2 + dbaseLatt/2)*Math.sqrt(2);
+        baseylatt = (dbaseLatt/2 + dbaseLong/2)*Math.sqrt(2);
+        baseylong = (dbaseLong/2 - dbaseLatt/2)*Math.sqrt(2);
+        det = basexlatt*baseylong - basexlong*baseylatt;
+        //Log.wtf("dbase",Double.toString(Math.sqrt(dbaseLatt*dbaseLatt+dbaseLong*dbaseLong)));
+        //Log.wtf("basex",Double.toString(Math.sqrt(basexlatt*basexlatt+baseylong*baseylong)));
+        //Log.wtf("basey",Double.toString(Math.sqrt(baseylatt*baseylatt+baseylong*baseylong)));
+    }
+
+    public int[] coordTransform(double latt, double longt)
+    {
+        if (!(corner1fixed && corner2fixed))
+            return null;
+        double relLatt = latt - corner1latt;
+        double relLong = longt - corner1long;
+        int[] coord = new int[2];
+        coord[0] = (int)((baseylong*relLatt/det-baseylatt*relLong/det)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        coord[1] = (int)((-basexlong*relLatt/det+basexlatt*relLong/det)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        return coord;
     }
 }

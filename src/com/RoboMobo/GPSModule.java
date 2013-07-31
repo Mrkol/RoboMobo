@@ -1,5 +1,6 @@
 package com.RoboMobo;
 
+import android.app.Activity;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -17,22 +18,16 @@ import android.content.Context;
  */
 public class GPSModule implements LocationListener
 {
-    public Context context;
     public double last_latt;
     public double last_long;
-    public TextView text;
-
-    public GPSModule(Context _context, TextView _text)
-    {
-        context = _context;
-        text = _text;
-    }
+    public static Activity am;
 
     @Override
     public void onLocationChanged(Location location)
     {
         last_latt = location.getLatitude();      // широта
         last_long = location.getLongitude();     // долгота
+        TextView text = (TextView) am.findViewById(R.id.tv_coord);
         text.setText("Координаты: " + last_latt + ", " + last_long);
         Log.wtf("1",Double.toString(last_latt) + ' ' + Double.toString(last_long));
     }
@@ -45,12 +40,12 @@ public class GPSModule implements LocationListener
     @Override
     public void onProviderEnabled(String s)
     {
-        Toast.makeText(context, "GPS Enabled", Toast.LENGTH_SHORT).show();
+        Toast.makeText(am.getApplicationContext(), "GPS Enabled", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderDisabled(String s)
     {
-        Toast.makeText(context, "GPS Disabled", Toast.LENGTH_SHORT).show();
+        Toast.makeText(am.getApplicationContext(), "GPS Disabled", Toast.LENGTH_SHORT).show();
     }
 }

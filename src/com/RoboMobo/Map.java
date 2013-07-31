@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.location.Location;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -54,7 +55,7 @@ public class Map
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
         corner2fixed = false;
-        Player player1 = new Player(0,0,0);
+        player1 = new Player(0,0,0);
     }
 
     public void Update(long elapsedTime)
@@ -70,7 +71,10 @@ public class Map
             this.generatePickups();
         }
 
-        player1.changePos(coordTransform(RMR.gps.last_latt,RMR.gps.last_long));
+        //Log.wtf("current coords", RMR.gps.last_latt + " " + RMR.gps.last_long);
+        int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
+        if(coord!=null)
+            player1.changePos(coord);
     }
 
     public void Draw()
@@ -131,13 +135,16 @@ public class Map
         corner2latt = latt;
         corner2long = longt;
         corner2fixed = true;
-        double dbaseLatt = (corner2latt - corner1latt)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long));
-        double dbaseLong = (corner2long - corner1long)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long));
-        basexlatt = dbaseLatt/2 - dbaseLong/2;
-        basexlong = dbaseLong/2 + dbaseLatt/2;
-        baseylatt = dbaseLatt/2 + dbaseLong/2;
-        baseylong = dbaseLong/2 - dbaseLatt/2;
+        double dbaseLatt = (corner2latt - corner1latt)/Math.sqrt((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long));
+        double dbaseLong = (corner2long - corner1long)/Math.sqrt((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long));
+        basexlatt = (dbaseLatt/2 - dbaseLong/2)*Math.sqrt(2);
+        basexlong = (dbaseLong/2 + dbaseLatt/2)*Math.sqrt(2);
+        baseylatt = (dbaseLatt/2 + dbaseLong/2)*Math.sqrt(2);
+        baseylong = (dbaseLong/2 - dbaseLatt/2)*Math.sqrt(2);
         def = basexlatt*baseylong - basexlong*baseylatt;
+        //Log.wtf("dbase",Double.toString(Math.sqrt(dbaseLatt*dbaseLatt+dbaseLong*dbaseLong)));
+        //Log.wtf("basex",Double.toString(Math.sqrt(basexlatt*basexlatt+baseylong*baseylong)));
+        //Log.wtf("basey",Double.toString(Math.sqrt(baseylatt*baseylatt+baseylong*baseylong)));
     }
 
     public int[] coordTransform(double latt, double longt)
@@ -145,8 +152,8 @@ public class Map
         if (!(corner1fixed && corner2fixed))
             return null;
         int[] coord = new int[2];
-        coord[1] = (int)((baseylong*latt/def-baseylatt*longt/def)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
-        coord[2] = (int)((-basexlong*latt/def+basexlatt*longt/def)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        coord[0] = (int)((baseylong*latt/def-baseylatt*longt/def)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        coord[1] = (int)((-basexlong*latt/def+basexlatt*longt/def)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
         return coord;
     }
 }

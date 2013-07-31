@@ -1,5 +1,7 @@
 package com.RoboMobo;
 
+import android.util.Log;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Nats
@@ -23,5 +25,6 @@ public class Player
     {
         posX = coord[0];
         posY = coord[1];
+        Log.wtf("player","x: "+posX+", y: "+posY);
     }
 }

@@ -38,12 +38,14 @@ public class ActivityMain extends Activity
            RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
             //fixCoord1.setText("Первый угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
             flag = false;
+           Log.wtf("fix","1");
        }
         else
        {
-           RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
+           RMR.currentMap.fixCorner2(mlocListener.last_latt, mlocListener.last_long);
            //fixCoord2.setText("Второй угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
            flag = true;
+           Log.wtf("fix","2");
        }
 
     }

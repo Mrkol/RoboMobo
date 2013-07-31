@@ -85,8 +85,5 @@ public class ThreadUpdate extends Thread
         }
     }
 
-    public void generateApple()
-    {
-        RMR.apples.add(new int[] {RMR.rnd.nextInt(10),RMR.rnd.nextInt(10),RMR.rnd.nextInt(20000)+10000});
-    }
+
 }

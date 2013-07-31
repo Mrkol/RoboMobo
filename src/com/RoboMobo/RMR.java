@@ -34,4 +34,9 @@ public class RMR
         am = act;
         rnd = new Random();
     }
+
+    public static void generateApple()
+    {
+        apples.add(new int[] {rnd.nextInt(10),rnd.nextInt(10),rnd.nextInt(20000)+10000});
+    }
 }

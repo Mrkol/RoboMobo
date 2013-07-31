@@ -3,7 +3,6 @@ package com.RoboMobo;
 import android.app.Activity;
 import android.graphics.*;
 import android.view.Display;
-
 import java.util.Random;
 
 /**
@@ -11,7 +10,6 @@ import java.util.Random;
  * User: Роман
  * Date: 30.07.13
  * Time: 12:50
- * To change this template use File | Settings | File Templates.
  */
 public class RMR
 {

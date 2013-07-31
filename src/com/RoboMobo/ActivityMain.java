@@ -2,14 +2,11 @@ package com.RoboMobo;
 
 import android.app.Activity;
 import android.content.Context;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class ActivityMain extends Activity implements View.OnTouchListener
 {
@@ -34,7 +31,7 @@ public class ActivityMain extends Activity implements View.OnTouchListener
         RMR.init(this,mlocListener);
     }
 
-    public void fixCoord(View v)
+    public void fixCoord()
     {
         if (flag)
         {

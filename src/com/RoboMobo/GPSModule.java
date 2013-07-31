@@ -1,20 +1,16 @@
 package com.RoboMobo;
 
-import android.app.Activity;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Context;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Nats
  * Date: 31.07.13
  * Time: 10:55
- * To change this template use File | Settings | File Templates.
  */
 public class GPSModule implements LocationListener
 {

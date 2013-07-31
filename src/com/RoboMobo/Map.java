@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Роман
  * Date: 31.07.13
  * Time: 11:01
- * To change this template use File | Settings | File Templates.
  */
 public class Map
 {
@@ -149,11 +148,6 @@ public class Map
     public void generatePickups()
     {
         pickups.add(new int[] {RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(20000)+10000, 0});
-    }
-
-    public void postInit()
-    {
-
     }
 
     public void fixCorner1(double latt, double longt)

@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
  * User: Роман
  * Date: 31.07.13
  * Time: 12:51
- * To change this template use File | Settings | File Templates.
  */
 public class RMGR
 {

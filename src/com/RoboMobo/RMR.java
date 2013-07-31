@@ -36,6 +36,7 @@ public class RMR
         rnd = new Random();
         apples = new ArrayList<int[]>();
 
+
         currentMap = new Map(10, 10, R.drawable.map_test);
     }
 

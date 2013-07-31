@@ -24,10 +24,9 @@ public class ActivityMain extends Activity
         RMGR.init(this);
         RMR.init(this);
         setContentView(R.layout.main);
-        TextView text = (TextView) findViewById(R.id.tv_coord);
         Log.wtf("1", "1");
         LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        mlocListener = new GPSModule(getApplicationContext(),text);
+        mlocListener = new GPSModule();
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
     }
     public void fixCoord(View v)

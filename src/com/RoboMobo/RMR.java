@@ -23,7 +23,6 @@ public class RMR
     public static Canvas c;
     public static Activity am;
     public static Random rnd;
-    public static ArrayList<int[]> apples;
 
     public static Map currentMap;
 
@@ -34,7 +33,6 @@ public class RMR
         height = display.getHeight();
         am = act;
         rnd = new Random();
-        apples = new ArrayList<int[]>();
 
         currentMap = new Map(10, 10, R.drawable.map_test);
     }
@@ -44,11 +42,7 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
-        for(int[] apple : apples)
-        {
-            apple[2] -= elapsedTime;
-            if(apple[2] <= 0) apples.remove(apple);
-        }
+        RMR.currentMap.Update(elapsedTime);
     }
 
 
@@ -59,25 +53,46 @@ public class RMR
     {
         RMR.c.save();
         {
+            RMR.c.scale(2, 2);
             int mapW = RMR.currentMap.width * 32;
             int mapH = RMR.currentMap.height * 32;
-            RMR.c.translate(RMR.width / 2 - mapW, 0);
+            RMR.c.translate(RMR.width / 4 - mapW / 2, 0);
 
-
+            Paint pa = new Paint();
 
             Rect src = new Rect();
             Rect dst = new Rect();
 
             src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
-            dst.set(0, 0, mapW * 2, mapH * 2);
+            dst.set(0, 0, mapW, mapH);
 
-            RMR.c.drawBitmap(RMGR.MAP_test, src, dst, new Paint());
+            RMR.c.drawBitmap(RMGR.MAP_test, src, dst, pa);
+
+            pa.setColor(Color.BLACK);
+
+            RMR.c.save();
+            {
+
+                for(int i = 0; i < RMR.currentMap.width; i++)
+                {
+                    for(int j = 0; j < RMR.currentMap.height; j++)
+                    {
+                        RMR.c.save();
+                        {
+                            RMR.c.translate(i * 32, j * 32);
+                            RMR.c.drawLine(0, 0, 32, 0, pa);
+                            RMR.c.drawLine(0, 0, 0, 32, pa);
+                            RMR.c.drawLine(32, 32, 32, 0, pa);
+                            RMR.c.drawLine(32, 32, 0, 32, pa);
+                        }
+                        RMR.c.restore();
+                    }
+                }
+            }
+            RMR.c.restore();
+
+            RMR.currentMap.Draw();
         }
         RMR.c.restore();
-    }
-
-    public static void generateApple()
-    {
-        apples.add(new int[] {rnd.nextInt(10), rnd.nextInt(10), rnd.nextInt(20000)+10000});
     }
 }

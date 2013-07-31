@@ -1,5 +1,7 @@
 package com.RoboMobo;
 
+import java.util.ArrayList;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Роман
@@ -9,4 +11,23 @@ package com.RoboMobo;
  */
 public class Map
 {
+    public final int width;
+    public final int height;
+
+    /**
+     * Array of tile IDs. Every [width] indexes starts a new row.
+     */
+    public short[] tiles;
+
+    public Map(int w, int h)
+    {
+        this.width = w;
+        this.height = h;
+        tiles = new short[width * height];
+    }
+
+    public void postInit()
+    {
+
+    }
 }

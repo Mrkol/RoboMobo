@@ -35,52 +35,27 @@ public class ThreadUpdate extends Thread
             long elapsedTime = now - prevTime;
             if (elapsedTime > 30)
             {
+                RMR.Update();
 
-                prevTime = now;
-            }
-
-            try
-            {
-                RMR.c = surfaceHolder.lockCanvas(null);
-                synchronized (surfaceHolder)
+                try
                 {
-                    if(RMR.c != null)
+                    RMR.c = surfaceHolder.lockCanvas(null);
+                    synchronized (surfaceHolder)
                     {
-                        //draw sheit
-
-                        rotation += 4;
-
-                        RMR.c.drawColor(Color.WHITE);
-
-                        RMR.c.save();
+                        if(RMR.c != null)
                         {
-                            RMR.c.translate(128, 128);
-                            RMR.c.rotate(rotation);
-
-                            Paint p = new Paint();
-                            p.setColor(Color.CYAN);
-
-
-                            Bitmap bitmap = BitmapFactory.decodeResource(RMR.am.getResources(), R.drawable.img_test);
-                            //RMR.c.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), p);
-
-                            p.setColor(Color.WHITE);
-                            Rect r0 = new Rect();
-                            r0.set(42, 14, 42 + 136, 14 + 110);
-                            RectF r1 = new RectF();
-                            r1.set(-32, -32, 64, 64);
-                            RMR.c.drawBitmap(bitmap, r0, r1, p);
+                            RMR.Draw();
                         }
-                        RMR.c.restore();
                     }
                 }
-            }
-            finally
-            {
-                if (RMR.c != null)
+                finally
                 {
-                    surfaceHolder.unlockCanvasAndPost(RMR.c);
+                    if (RMR.c != null)
+                    {
+                        surfaceHolder.unlockCanvasAndPost(RMR.c);
+                    }
                 }
+                prevTime = now;
             }
         }
     }

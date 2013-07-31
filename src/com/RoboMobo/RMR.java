@@ -21,11 +21,31 @@ public class RMR
     public static Canvas c;
     public static Activity am;
 
+    public static Map currentMap;
+
     public static void init(Activity act)
     {
         display = act.getWindowManager().getDefaultDisplay();
         width = display.getWidth();
         height = display.getHeight();
         am = act;
+
+        currentMap = new Map(10, 10);
+    }
+
+    /**
+     * Update stuff.
+     */
+    public static void Update()
+    {
+
+    }
+
+    /**
+     * Draw stuff.
+     */
+    public static void Draw()
+    {
+
     }
 }

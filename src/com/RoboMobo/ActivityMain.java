@@ -20,15 +20,6 @@ public class ActivityMain extends Activity
         RMR.init(this);
         setContentView(R.layout.main);
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                setContentView(new MainSurfaceView(RMR.am));
-            }
-        });
-
         LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         LocationListener mlocListener = new gpsModule(getApplicationContext());
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);

@@ -36,7 +36,7 @@ public class RMR
         am = act;
         rnd = new Random();
 
-        currentMap = new Map(10, 10, 0);
+        currentMap = new Map(10, 10, R.drawable.map_test);
     }
 
     /**
@@ -46,9 +46,8 @@ public class RMR
     {
         for(int[] apple : apples)
         {
-            apple[2]-=elapsedTime;
-            if(apple[2]<=0)
-                apples.remove(apple);
+            apple[2] -= elapsedTime;
+            if(apple[2] <= 0) apples.remove(apple);
         }
     }
 
@@ -58,11 +57,17 @@ public class RMR
      */
     public static void Draw()
     {
-
+        RMR.c.save();
+        {
+            int mapW = RMR.currentMap.width * 32;
+            int mapH = RMR.currentMap.height * 32;
+            RMR.c.translate(RMR.width / 2 - mapW / 2, 0);
+        }
+        RMR.c.restore();
     }
 
     public static void generateApple()
     {
-        apples.add(new int[] {rnd.nextInt(10),rnd.nextInt(10),rnd.nextInt(20000)+10000});
+        apples.add(new int[] {rnd.nextInt(10), rnd.nextInt(10), rnd.nextInt(20000)+10000});
     }
 }

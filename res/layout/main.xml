@@ -14,12 +14,4 @@
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/button"/>
 
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
 </RelativeLayout>

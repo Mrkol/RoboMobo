@@ -42,10 +42,16 @@ public class RMR
     /**
      * Update stuff.
      */
-    public static void Update()
+    public static void Update(long elapsedTime)
     {
-
+        for(int[] apple : apples)
+        {
+            apple[2]-=elapsedTime;
+            if(apple[2]<=0)
+                apples.remove(apple);
+        }
     }
+
 
     /**
      * Draw stuff.

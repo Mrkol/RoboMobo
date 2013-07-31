@@ -1,5 +1,6 @@
 package com.RoboMobo;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -53,12 +54,51 @@ public class Map
 
     public void Draw()
     {
-        Paint pa = new Paint();
-        Rect r0 = new Rect();
-        Rect r1 = new Rect();
 
-        r0.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
-        r1.set(0, 0, 32, 32);
+        RMR.c.scale(2, 2);
+        int mapW = RMR.currentMap.width * 32;
+        int mapH = RMR.currentMap.height * 32;
+        RMR.c.translate(RMR.width / 4 - mapW / 2, 0);
+
+        Paint pa = new Paint();
+
+        Rect src = new Rect();
+        Rect dst = new Rect();
+
+        src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
+        dst.set(0, 0, mapW, mapH);
+
+        RMR.c.drawBitmap(RMGR.MAP_test, src, dst, pa);
+
+        pa.setColor(Color.BLACK);
+
+        RMR.c.save();
+        {
+
+            for(int i = 0; i < RMR.currentMap.width; i++)
+            {
+                for(int j = 0; j < RMR.currentMap.height; j++)
+                {
+                    RMR.c.save();
+                    {
+                        RMR.c.translate(i * 32, j * 32);
+                        RMR.c.drawLine(0, 0, 32, 0, pa);
+                        RMR.c.drawLine(0, 0, 0, 32, pa);
+                        RMR.c.drawLine(32, 32, 32, 0, pa);
+                        RMR.c.drawLine(32, 32, 0, 32, pa);
+
+
+                    }
+                    RMR.c.restore();
+                }
+            }
+        }
+        RMR.c.restore();
+
+        pa = new Paint();
+
+        src.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
+        dst.set(0, 0, 32, 32);
 
         RMR.c.save();
         {
@@ -70,7 +110,7 @@ public class Map
                     switch(this.pickups.get(i)[0])
                     {
                         default:
-                            RMR.c.drawBitmap(RMGR.PICKUP_test, r0, r1, pa);
+                            RMR.c.drawBitmap(RMGR.PICKUP_test, src, dst, pa);
                             break;
                     }
                 }

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.graphics.*;
 import android.view.Display;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -17,13 +15,70 @@ import java.util.Random;
  */
 public class RMR
 {
+    /**
+     * Display object.
+     */
     public static Display display;
+
+    /**
+     * Width of display.
+     */
     public static int width;
+
+    /**
+     * Height of display.
+     */
     public static int height;
+
+    /**
+     * Canvas. Used to draw things on screen.
+     */
     public static Canvas c;
+
+    /**
+     * Main ingame activity.
+     */
     public static Activity am;
+
+    /**
+     * Random generator.
+     */
     public static Random rnd;
 
+    /**
+     * Rotation/zoomDistance matrix.
+     */
+    public static Matrix transform;
+
+    /**
+     * Previous state of rotation/zoomDistance matrix.
+     */
+    public static Matrix prevTransform;
+
+
+    public static  final short NONE = 0;
+    public static  final short DRAG = 1;
+    public static  final short ZOOM = 2;
+    public static short transformMode = NONE;
+
+    /**
+     * Map zoomDistance.
+     */
+    public static float zoomDistance;
+
+    /**
+     * Map prevZoomDistance.
+     */
+    public static float prevZoomDistance;
+
+    /**
+     *
+     */
+    public static PointF midPoint;
+
+    /**
+     * The current map.
+     */
     public static Map currentMap;
 
     public static void init(Activity act)
@@ -33,6 +88,10 @@ public class RMR
         height = display.getHeight();
         am = act;
         rnd = new Random();
+
+        zoomDistance = 0;
+        prevZoomDistance = 0;
+        midPoint = new PointF();
 
 
         currentMap = new Map(10, 10, R.drawable.map_test);
@@ -54,44 +113,7 @@ public class RMR
     {
         RMR.c.save();
         {
-            RMR.c.scale(2, 2);
-            int mapW = RMR.currentMap.width * 32;
-            int mapH = RMR.currentMap.height * 32;
-            RMR.c.translate(RMR.width / 4 - mapW / 2, 0);
-
-            Paint pa = new Paint();
-
-            Rect src = new Rect();
-            Rect dst = new Rect();
-
-            src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
-            dst.set(0, 0, mapW, mapH);
-
-            RMR.c.drawBitmap(RMGR.MAP_test, src, dst, pa);
-
-            pa.setColor(Color.BLACK);
-
-            RMR.c.save();
-            {
-
-                for(int i = 0; i < RMR.currentMap.width; i++)
-                {
-                    for(int j = 0; j < RMR.currentMap.height; j++)
-                    {
-                        RMR.c.save();
-                        {
-                            RMR.c.translate(i * 32, j * 32);
-                            RMR.c.drawLine(0, 0, 32, 0, pa);
-                            RMR.c.drawLine(0, 0, 0, 32, pa);
-                            RMR.c.drawLine(32, 32, 32, 0, pa);
-                            RMR.c.drawLine(32, 32, 0, 32, pa);
-                        }
-                        RMR.c.restore();
-                    }
-                }
-            }
-            RMR.c.restore();
-
+            RMR.c.setMatrix(RMR.transform);
             RMR.currentMap.Draw();
         }
         RMR.c.restore();

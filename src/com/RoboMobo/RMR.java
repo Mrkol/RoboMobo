@@ -23,6 +23,7 @@ public class RMR
     public static Canvas c;
     public static Activity am;
     public static Random rnd;
+    public static int cell = 10;
 
     public static Map currentMap;
 
@@ -34,7 +35,7 @@ public class RMR
         am = act;
         rnd = new Random();
 
-        currentMap = new Map(10, 10, R.drawable.map_test);
+        currentMap = new Map(cell, cell, R.drawable.map_test);
     }
 
     /**

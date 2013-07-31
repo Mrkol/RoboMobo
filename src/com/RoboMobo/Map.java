@@ -2,8 +2,10 @@ package com.RoboMobo;
 
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.location.Location;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,6 +22,17 @@ public class Map
     public final int background;
     public final int width;
     public final int height;
+    public double corner1latt;
+    public double corner1long;
+    public double corner2latt;
+    public double corner2long;
+    public boolean corner1fixed;
+    public boolean corner2fixed;
+    public double basexlatt;
+    public double basexlong;
+    public double baseylatt;
+    public double baseylong;
+    public double def;
     public ArrayList<int[]> pickups;
 
     /**
@@ -34,7 +47,8 @@ public class Map
         tiles = new short[width * height];
         this.background = bgrid;
         pickups = new ArrayList<int[]>();
-
+        corner1fixed = false;
+        corner2fixed = false;
     }
 
     public void Update(long elapsedTime)
@@ -82,11 +96,42 @@ public class Map
 
     public void generatePickups()
     {
-        pickups.add(new int[] {RMR.rnd.nextInt(10), RMR.rnd.nextInt(10), RMR.rnd.nextInt(20000)+10000, 0});
+        pickups.add(new int[] {RMR.rnd.nextInt(RMR.cell), RMR.rnd.nextInt(RMR.cell), RMR.rnd.nextInt(20000)+10000, 0});
     }
 
     public void postInit()
     {
 
+    }
+
+    public void fixCorner1(double latt, double longt)
+    {
+        corner1latt = latt;
+        corner1long = longt;
+        corner1fixed = true;
+    }
+
+    public void fixCorner2(double latt, double longt)
+    {
+        corner2latt = latt;
+        corner2long = longt;
+        corner2fixed = true;
+        double dbaseLatt = (corner2latt - corner1latt)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long));
+        double dbaseLong = (corner2long - corner1long)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long));
+        basexlatt = dbaseLatt/2 - dbaseLong/2;
+        basexlong = dbaseLong/2 + dbaseLatt/2;
+        baseylatt = dbaseLatt/2 + dbaseLong/2;
+        baseylong = dbaseLong/2 - dbaseLatt/2;
+        def = basexlatt*baseylong - basexlong*baseylatt;
+    }
+
+    public int[] coordTransform(double latt, double longt)
+    {
+        if (!(corner1fixed && corner2fixed))
+            return null;
+        int[] coord = new int[2];
+        coord[1] = (int)((baseylong*latt/def-baseylatt*longt/def)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        coord[2] = (int)((-basexlong*latt/def+basexlatt*longt/def)*Math.sqrt((2048*RMR.cell*RMR.cell)/((corner2latt - corner1latt)*(corner2latt - corner1latt)+(corner2long - corner1long)*(corner2long - corner1long))));
+        return coord;
     }
 }

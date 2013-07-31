@@ -1,5 +1,7 @@
 package com.RoboMobo;
 
+import android.location.LocationListener;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Nats
@@ -9,7 +11,9 @@ package com.RoboMobo;
  */
 public class Player
 {
+    public LocationListener mLocListener;
     public double posX;
     public double posY;
     public short points;
+
 }

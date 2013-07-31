@@ -10,9 +10,8 @@
             android:layout_height="fill_parent"
             class="com.RoboMobo.MainSurfaceView"
             android:id="@+id/view"
-            android:layout_alignLeft="@+id/button"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/button"/>
+            android:layout_alignParentRight="true" android:layout_alignParentLeft="true"/>
     <TextView
             android:layout_width="146dp"
             android:layout_height="wrap_content"
@@ -20,5 +19,22 @@
             android:id="@+id/tv_coord"
             android:layout_alignParentLeft="true" android:layout_marginLeft="28dp" android:layout_alignParentTop="true"
             android:layout_marginTop="18dp"/>
+    <Button
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button_fix" android:layout_alignParentLeft="true" android:layout_marginLeft="94dp"
+            android:layout_alignParentTop="true" android:layout_marginTop="244dp" android:onClick="fixCoord"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/tv_fix1" android:layout_alignLeft="@+id/tv_coord" android:layout_alignParentTop="true"
+            android:layout_marginTop="35dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/tv_fix2" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/textView"/>
 
 </RelativeLayout>

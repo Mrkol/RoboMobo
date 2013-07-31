@@ -15,6 +15,8 @@ public class ActivityMain extends Activity
     /**
      * Called when the activity is first created.
      */
+    public boolean flag = true;
+    public GPSModule mlocListener;
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -25,7 +27,23 @@ public class ActivityMain extends Activity
         TextView text = (TextView) findViewById(R.id.tv_coord);
         Log.wtf("1", "1");
         LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        LocationListener mlocListener = new GPSModule(getApplicationContext(),text);
+        mlocListener = new GPSModule(getApplicationContext(),text);
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+    }
+    public void fixCoord(View v)
+    {
+       TextView fixCoord1 = (TextView) findViewById(R.id.tv_fix1);
+       TextView fixCoord2 = (TextView) findViewById(R.id.tv_fix2);
+       if (flag)
+       {
+            fixCoord1.setText("Первый угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
+            flag = false;
+       }
+        else
+       {
+           fixCoord2.setText("Второй угол: " + mlocListener.last_latt + ", "+mlocListener.last_long);
+           flag = true;
+       }
+
     }
 }

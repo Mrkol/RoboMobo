@@ -59,7 +59,7 @@ public class ActivityMain extends Activity implements View.OnTouchListener
     {
         if (view instanceof MainSurfaceView)
         {
-            switch (motionEvent.getActionIndex() & MotionEvent.ACTION_MASK)
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
             {
                 case MotionEvent.ACTION_POINTER_DOWN:
                     RMR.prevZoomDistance = (float) (Math.sqrt(Math.pow(Math.abs(motionEvent.getX(0) - motionEvent.getX(1)), 2f) + Math.pow(Math.abs(motionEvent.getY(0) - motionEvent.getY(1)), 2f)));
@@ -73,14 +73,21 @@ public class ActivityMain extends Activity implements View.OnTouchListener
                     break;
 
                 case MotionEvent.ACTION_MOVE:
-                    if (RMR.transformMode == RMR.ZOOM) {
+                    if (RMR.transformMode == RMR.ZOOM)
+                    {
                         float newDist = (float) (Math.sqrt(Math.pow(Math.abs(motionEvent.getX(0) - motionEvent.getX(1)), 2f) + Math.pow(Math.abs(motionEvent.getY(0) - motionEvent.getY(1)), 2f)));
-                        if (newDist > 10f) {
+                        if (newDist > 10f)
+                        {
                             RMR.transform.set(RMR.prevTransform);
                             float scale = newDist / RMR.prevZoomDistance;
                             RMR.transform.postScale(scale, scale, RMR.midPoint.x, RMR.midPoint.y);
                         }
                     }
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_POINTER_UP:
+                    RMR.transformMode = RMR.NONE;
                     break;
             }
         }

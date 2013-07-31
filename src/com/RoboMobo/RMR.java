@@ -91,9 +91,12 @@ public class RMR
         am = act;
         rnd = new Random();
 
-        zoomDistance = 0;
-        prevZoomDistance = 0;
+        zoomDistance = 11;
+        prevZoomDistance = 11;
         midPoint = new PointF();
+
+        transform = new Matrix();
+        prevTransform = new Matrix();
 
         currentMap = new Map(cell, cell, R.drawable.map_test);
 
@@ -116,6 +119,9 @@ public class RMR
     {
         RMR.c.save();
         {
+            Paint p = new Paint();
+            p.setColor(Color.rgb(0x40, 0xF, 0xF));
+            RMR.c.drawPaint(p);
             RMR.c.setMatrix(RMR.transform);
             RMR.currentMap.Draw();
         }

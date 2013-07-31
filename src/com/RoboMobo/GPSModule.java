@@ -34,6 +34,7 @@ public class GPSModule implements LocationListener
         last_long = location.getLongitude();     // долгота
         Toast.makeText(context, "Координаты: "+ last_latt+", "+last_long, Toast.LENGTH_SHORT).show();
         //text.setText("Координаты: " + last_latt + ", " + last_long);
+        Log.wtf("1",Double.toString(last_latt) + ' ' + Double.toString(last_long));
     }
 
     @Override

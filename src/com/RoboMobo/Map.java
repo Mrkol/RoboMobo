@@ -90,6 +90,7 @@ public class Map
                 }
                 RMR.c.restore();
             }
+            RMR.c.drawRect();
         }
         RMR.c.restore();
     }

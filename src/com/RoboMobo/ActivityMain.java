@@ -18,6 +18,7 @@ public class ActivityMain extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        RMGR.init(this);
         RMR.init(this);
         setContentView(R.layout.main);
 

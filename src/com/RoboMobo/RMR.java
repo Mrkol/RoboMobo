@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.view.Display;
 
 import java.util.ArrayList;
@@ -64,6 +65,14 @@ public class RMR
             int mapW = RMR.currentMap.width * 32;
             int mapH = RMR.currentMap.height * 32;
             RMR.c.translate(RMR.width / 2 - mapW / 2, 0);
+
+
+
+            /*Rect src = new Rect();
+            Rect dst = new Rect();
+
+            src.set(0, 0, );
+            RMR.c.drawBitmap(, src, dst, ); */
         }
         RMR.c.restore();
     }

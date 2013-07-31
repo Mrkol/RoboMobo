@@ -35,13 +35,12 @@ public class ThreadUpdate extends Thread
             long elapsedTime = now - prevTime;
             if (elapsedTime > 30)
             {
-                RMR.Update(elapsedTime);
-
                 try
                 {
                     RMR.c = surfaceHolder.lockCanvas(null);
                     synchronized (surfaceHolder)
                     {
+                        RMR.Update(elapsedTime);
                         if(RMR.c != null)
                         {
                             RMR.Draw();

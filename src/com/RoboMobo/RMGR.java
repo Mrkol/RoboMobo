@@ -13,9 +13,11 @@ import android.graphics.BitmapFactory;
 public class RMGR
 {
     public static Bitmap MAP_test;
+    public static Bitmap PICKUP_test;
 
     public static void init(ActivityMain activityMain)
     {
         MAP_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.map_test);
+        PICKUP_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.pickup_test);
     }
 }

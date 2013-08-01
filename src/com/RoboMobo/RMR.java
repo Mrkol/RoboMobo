@@ -43,7 +43,7 @@ public class RMR
      */
     public static Random rnd;
     /**
-     * Side of the map in tiles.
+     * Side of the map in labyrinth.
      */
     public static int mapSide = 10;
     public static GPSModule gps;

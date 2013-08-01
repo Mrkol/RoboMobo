@@ -40,13 +40,13 @@ public class Map
     /**
      * Array of tile IDs. Every [width] indexes starts a new row.
      */
-    public short[] tiles;
+    public Labyrinth labyrinth;
 
     public Map(int w, int h, int bgrid)
     {
         this.width = w;
         this.height = h;
-        tiles = new short[width * height];
+        labyrinth = new Labyrinth();
         this.background = bgrid;
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
@@ -94,6 +94,22 @@ public class Map
 
         int mapW = RMR.currentMap.width * 32;
         int mapH = RMR.currentMap.height * 32;
+
+        Player p = RMR.currentMap.player1;
+
+        double angle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
+        if((p.posX-p.prevPosX)>=0)
+            if((p.posY-p.prevPosY)<0)
+                angle = 360 - angle;
+        else
+            if((p.posY-p.prevPosY)>=0)
+                angle = 180 - angle;
+            else
+                angle = 180 + angle;
+
+        Log.wtf("angle", angle + "");
+        //Log.wtf("Draw", (Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(Math.abs(p.posX - p.prevPosX), 2) + Math.pow(Math.abs(p.posY - p.prevPosY), 2))) + "");
+
         RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));
 
         Paint pa = new Paint();
@@ -133,6 +149,29 @@ public class Map
 
         pa = new Paint();
 
+
+        RMR.c.save();
+        {
+            for(int i = 0; i < this.height; i++)
+            {
+                for(int j = 0; j < this.width; j++)
+                {
+                    if(this.labyrinth.tiles[j][i] == 0) continue;
+                    RMR.c.save();
+                    {
+                        RMR.c.translate(j * 32, i * 32);
+                        src.set(0, 0, RMGR.TILE_test.getWidth(), RMGR.TILE_test.getHeight());
+                        dst.set(0, 0, 32, 32);
+                        pa.setColor(Color.WHITE);
+                        RMR.c.drawBitmap(RMGR.TILE_test, src, dst, pa);
+                    }
+                    RMR.c.restore();
+                }
+            }
+        }
+        RMR.c.save();
+
+
         src.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
         dst.set(0, 0, 32, 32);
 
@@ -154,9 +193,11 @@ public class Map
             }
 
 
-            pa.setColor(Color.BLUE);
+            pa.setColor(Color.WHITE);
             RMR.c.translate(player1.posY, player1.posX);
-            RMR.c.drawRect(-2, -2, 2, 2, pa);
+            src.set(0, 0, RMGR.CHAR_test.getWidth(), RMGR.CHAR_test.getHeight());
+            dst.set(-16, -16, 16, 16);
+            RMR.c.drawBitmap(RMGR.CHAR_test, src, dst, pa);
 
         }
         RMR.c.restore();

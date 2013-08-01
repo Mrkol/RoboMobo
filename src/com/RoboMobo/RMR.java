@@ -58,6 +58,8 @@ public class RMR
      */
     public static Matrix prevTransform;
 
+    public static MainSurfaceView sw;
+
     /*
      * Control states.
      */
@@ -95,8 +97,8 @@ public class RMR
         am = act;
         rnd = new Random();
 
-        zoomDistance = 11;
-        prevZoomDistance = 11;
+        zoomDistance = 1;
+        prevZoomDistance = 1;
         midPoint = new PointF();
 
         transform = new Matrix();

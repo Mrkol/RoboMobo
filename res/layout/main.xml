@@ -20,12 +20,12 @@
             android:layout_alignLeft="@+id/view"
             android:layout_alignTop="@+id/view"/>
     <Button
-            android:layout_width="125dp"
+            android:layout_width="90dp"
             android:layout_height="44dp"
             android:text="Fix corner"
             android:id="@+id/button_fix"
             android:onClick="fixCoord"
-            android:layout_alignLeft="@+id/view"
+            android:layout_alignRight="@+id/view"
             android:layout_alignBottom="@+id/view"/>
 
 </RelativeLayout>

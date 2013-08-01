@@ -80,7 +80,7 @@ public class RMR
     public static float prevZoomDistance;
 
     /**
-     * Last point between the fingers (for zoom).
+     * Last score between the fingers (for zoom).
      */
     public static PointF midPoint;
 
@@ -128,6 +128,7 @@ public class RMR
             Paint p = new Paint();
             p.setColor(Color.rgb(0x40, 0xF, 0xF));
             RMR.c.drawPaint(p);
+
             RMR.c.setMatrix(RMR.transform);
             RMR.currentMap.Draw();
         }

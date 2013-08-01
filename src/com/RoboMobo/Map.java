@@ -81,10 +81,9 @@ public class Map
     public void Draw()
     {
 
-        RMR.c.scale(2, 2);
         int mapW = RMR.currentMap.width * 32;
         int mapH = RMR.currentMap.height * 32;
-        RMR.c.translate(RMR.width / 4 - mapW / 2, 0);
+        RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));
 
         Paint pa = new Paint();
 

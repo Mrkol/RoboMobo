@@ -3,6 +3,8 @@ package com.RoboMobo;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -95,6 +97,17 @@ public class Map
 
         Player p = RMR.currentMap.player1;
 
+        double angle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
+        if((p.posX-p.prevPosX)>=0)
+            if((p.posY-p.prevPosY)<0)
+                angle = 360 - angle;
+        else
+            if((p.posY-p.prevPosY)>=0)
+                angle = 180 - angle;
+            else
+                angle = 180 + angle;
+
+        Log.wtf("angle", angle + "");
         //Log.wtf("Draw", (Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(Math.abs(p.posX - p.prevPosX), 2) + Math.pow(Math.abs(p.posY - p.prevPosY), 2))) + "");
 
         RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));

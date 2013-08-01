@@ -33,7 +33,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         RMR.init(this, mlocListener);
     }
 
-    public void fixCoord()
+    public void fixCoord(View view)
     {
         if (flag)
         {

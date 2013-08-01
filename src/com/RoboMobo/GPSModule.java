@@ -17,10 +17,12 @@ public class GPSModule implements LocationListener
 {
     public double last_latt;
     public double last_long;
+    public boolean active = false;
 
     @Override
     public void onLocationChanged(Location location)
     {
+        if(active == false) active = true;
         last_latt = location.getLatitude();      // широта
         last_long = location.getLongitude();     // долгота
         TextView text = (TextView) RMR.am.findViewById(R.id.tv_coord);
@@ -33,6 +35,7 @@ public class GPSModule implements LocationListener
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle)
     {
+
     }
 
     @Override

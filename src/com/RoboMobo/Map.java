@@ -3,8 +3,6 @@ package com.RoboMobo;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -50,15 +48,12 @@ public class Map
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
         corner2fixed = false;
-        player1 = new Player(0, 0, 0);
-
+        player1 = new Player(0,0,0);
     }
 
     public void Update(long elapsedTime)
     {
-
-
-        for (int i = 0; i < this.pickups.size(); i++)
+        for(int i = 0; i < this.pickups.size(); i++)
         {
             this.pickups.get(i)[2] -= elapsedTime;
             if (this.pickups.get(i)[2] <= 0)
@@ -67,7 +62,7 @@ public class Map
             }
         }
 
-        if (this.pickups.size() < 10 && RMR.rnd.nextInt(20) == 1)
+        if(this.pickups.size() < 10 && RMR.rnd.nextInt(20) == 1)
         {
             this.generatePickups();
         }
@@ -78,8 +73,7 @@ public class Map
         {
             player1.changePos(coord);
         }
-
-        for (int i = 0; i < this.pickups.size(); i++)
+        for (int i = 0; i < pickups.size(); i++)
         {
            if ((Math.floor(this.player1.posX/32) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32) == this.pickups.get(i)[1]))
            {
@@ -88,10 +82,7 @@ public class Map
                this.player1.addPoint(1);
                this.pickups.remove(i);
 
-           }
         }
-
-
     }
 
     public void Draw()
@@ -116,9 +107,9 @@ public class Map
         RMR.c.save();
         {
 
-            for (int i = 0; i < RMR.currentMap.width; i++)
+            for(int i = 0; i < RMR.currentMap.width; i++)
             {
-                for (int j = 0; j < RMR.currentMap.height; j++)
+                for(int j = 0; j < RMR.currentMap.height; j++)
                 {
                     RMR.c.save();
                     {
@@ -143,12 +134,12 @@ public class Map
 
         RMR.c.save();
         {
-            for (int i = 0; i < this.pickups.size(); i++)
+            for(int i = 0; i < this.pickups.size(); i++)
             {
                 RMR.c.save();
                 {
-                    RMR.c.translate(this.pickups.get(i)[1] * 32, this.pickups.get(i)[0] * 32);
-                    switch (this.pickups.get(i)[0])
+                    RMR.c.translate(this.pickups.get(i)[0] * 32, this.pickups.get(i)[1] * 32);
+                    switch(this.pickups.get(i)[0])
                     {
                         default:
                             RMR.c.drawBitmap(RMGR.PICKUP_test, src, dst, pa);
@@ -168,12 +159,10 @@ public class Map
 
     }
 
-
     public void generatePickups()
     {
-        pickups.add(new int[]{RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(20000) + 10000, 1});
+        pickups.add(new int[] {RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(20000)+10000, 1});
     }
-
 
     public void fixCorner1(double latt, double longt)
     {

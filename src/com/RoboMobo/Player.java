@@ -11,15 +11,17 @@ import android.util.Log;
  */
 public class Player
 {
-    int posX;
-    int posY;
-    int point;
+    public int posX;
+    public int posY;
+    public int prevPosX;
+    public int prevPosY;
+    public int score;
 
-    public Player(int x, int y, int p)
+    public Player(int x, int y, int s)
     {
         posX = x;
         posY = y;
-        point =p;
+        score = s;
     }
     public void changePos(int[] coord)
     {
@@ -29,6 +31,6 @@ public class Player
     }
     public void addPoint(int _point)
     {
-        point+=_point;
+        score += _point;
     }
 }

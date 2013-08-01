@@ -2,14 +2,11 @@ package com.RoboMobo;
 
 import android.app.Activity;
 import android.content.Context;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class ActivityMain extends Activity// implements View.OnTouchListener
 {
@@ -36,19 +33,17 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         RMR.init(this, mlocListener);
     }
 
-    public void fixCoord(View v)
+    public void fixCoord(View view)
     {
         if (flag)
         {
             RMR.currentMap.fixCorner1(mlocListener.last_latt, mlocListener.last_long);
-
             flag = false;
             Log.wtf("fix","1");
         }
         else
         {
             RMR.currentMap.fixCorner2(mlocListener.last_latt, mlocListener.last_long);
-
             flag = true;
             Log.wtf("fix","2");
         }
@@ -56,26 +51,36 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void moveUp(View view)
     {
+        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
+        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
         RMR.currentMap.player1.posX-=32;
     }
 
     public void moveDown(View view)
     {
+        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
+        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
         RMR.currentMap.player1.posX+=32;
     }
 
     public void moveRight(View view)
     {
+        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
+        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
         RMR.currentMap.player1.posY+=32;
     }
 
     public void moveLeft(View view)
     {
+        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
+        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
         RMR.currentMap.player1.posY-=32;
     }
 
     public void setPlayer(View view)
     {
+        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
+        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
         RMR.currentMap.player1.changePos(new int[] {16, 16});
     }
 

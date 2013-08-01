@@ -47,24 +47,24 @@ public class ActivityMain extends Activity implements View.OnTouchListener
         }
     }
 
-    public void moveUp()
+    public void moveUp(View view)
     {
-        RMR.currentMap.player1.posY++;
+        RMR.currentMap.player1.posX-=16;
     }
 
-    public void moveDown()
+    public void moveDown(View view)
     {
-        RMR.currentMap.player1.posY--;
+        RMR.currentMap.player1.posX+=16;
     }
 
-    public void moveRight()
+    public void moveRight(View view)
     {
-        RMR.currentMap.player1.posX++;
+        RMR.currentMap.player1.posY+=16;
     }
 
-    public void moveLeft()
+    public void moveLeft(View view)
     {
-        RMR.currentMap.player1.posX--;
+        RMR.currentMap.player1.posY-=16;
     }
 
     @Override

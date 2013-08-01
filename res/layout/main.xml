@@ -52,5 +52,11 @@
             android:text="Down"
             android:id="@+id/btn_down"
             android:layout_toLeftOf="@+id/btn_right" android:layout_below="@+id/btn_right" android:onClick="moveDown"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set"
+            android:id="@+id/btn_set" android:layout_alignLeft="@+id/btn_up" android:layout_below="@+id/btn_up"
+            android:layout_alignRight="@+id/btn_up" android:onClick="setPlayer"/>
 
 </RelativeLayout>

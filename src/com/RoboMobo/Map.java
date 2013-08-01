@@ -55,9 +55,7 @@ public class Map
 
     public void Update(long elapsedTime)
     {
-        player1.prevPosY = player1.posY;
-
-        for (int i = 0; i < this.pickups.size(); i++)
+        for(int i = 0; i < this.pickups.size(); i++)
         {
             this.pickups.get(i)[2] -= elapsedTime;
             if (this.pickups.get(i)[2] <= 0)
@@ -72,8 +70,6 @@ public class Map
         }
 
         //Log.wtf("current coords", RMR.gps.last_latt + " " + RMR.gps.last_long);
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
         int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
         if (coord != null)
         {
@@ -81,11 +77,13 @@ public class Map
         }
         for (int i = 0; i < pickups.size(); i++)
         {
-            if ((Math.floor(player1.posX / 32) * 32 == this.pickups.get(i)[0]) && (Math.floor(player1.posY / 32) * 32 == this.pickups.get(i)[1]))
-            {
-                player1.addPoint(this.pickups.get(i)[3]);
-            }
-
+           if ((Math.floor(this.player1.posX/32) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32) == this.pickups.get(i)[1]))
+           {
+               Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
+               Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);
+               this.player1.addPoint(1);
+               this.pickups.remove(i);
+           }
         }
     }
 

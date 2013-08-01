@@ -3,6 +3,7 @@ package com.RoboMobo;
 import android.content.res.Resources;
 import android.graphics.*;
 import android.view.SurfaceHolder;
+import android.widget.TextView;
 
 /**
  * Created with IntelliJ IDEA.

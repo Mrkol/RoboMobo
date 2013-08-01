@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -79,10 +80,11 @@ public class Map
         {
            if ((Math.floor(this.player1.posX/32) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32) == this.pickups.get(i)[1]))
            {
-               Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
-               Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);
+               /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
+               Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
                this.player1.addPoint(1);
                this.pickups.remove(i);
+               Log.wtf("Score: ", Integer.toString(this.player1.score));
            }
         }
     }
@@ -140,7 +142,7 @@ public class Map
             {
                 RMR.c.save();
                 {
-                    RMR.c.translate(this.pickups.get(i)[0] * 32, this.pickups.get(i)[1] * 32);
+                    RMR.c.translate(this.pickups.get(i)[1] * 32, this.pickups.get(i)[0] * 32);
                     switch(this.pickups.get(i)[0])
                     {
                         default:

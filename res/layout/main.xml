@@ -57,5 +57,10 @@
             android:text="Set"
             android:id="@+id/btn_set" android:layout_alignLeft="@+id/btn_up" android:layout_below="@+id/btn_up"
             android:layout_alignRight="@+id/btn_up" android:onClick="setPlayer"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Очки: "
+            android:id="@+id/tv_score" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/tv_coord"/>
 
 </RelativeLayout>

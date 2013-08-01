@@ -3,6 +3,8 @@ package com.RoboMobo;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -34,16 +36,17 @@ public class Map
     public Player player1;
 
 
+
     /**
      * Array of tile IDs. Every [width] indexes starts a new row.
      */
-    public short[] tiles;
+    public Labyrinth tiles;
 
     public Map(int w, int h, int bgrid)
     {
         this.width = w;
         this.height = h;
-        tiles = new short[width * height];
+        tiles = new Labyrinth();
         this.background = bgrid;
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
@@ -68,9 +71,10 @@ public class Map
         int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
         if(coord!=null)
             player1.changePos(coord);
+        Log.wtf("player", player1.posX + " " + player1.posY + " " + Math.floor(player1.posX/32) + " " + Math.floor(player1.posY/32) + " " + player1.point);
         for (int i=0; i<pickups.size();i++)
         {
-            if ((Math.floor(player1.posX/32)*32==this.pickups.get(i)[0])&&(Math.floor(player1.posY/32)*32==this.pickups.get(i)[1]))
+            if ((Math.floor(player1.posX/32)==this.pickups.get(i)[0])&&(Math.floor(player1.posY/32)==this.pickups.get(i)[1]))
             {
                player1.addPoint(this.pickups.get(i)[3]);
             }

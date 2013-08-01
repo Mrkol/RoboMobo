@@ -47,6 +47,26 @@ public class ActivityMain extends Activity implements View.OnTouchListener
         }
     }
 
+    public void moveUp()
+    {
+        RMR.currentMap.player1.posY++;
+    }
+
+    public void moveDown()
+    {
+        RMR.currentMap.player1.posY--;
+    }
+
+    public void moveRight()
+    {
+        RMR.currentMap.player1.posX++;
+    }
+
+    public void moveLeft()
+    {
+        RMR.currentMap.player1.posX--;
+    }
+
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent)
     {

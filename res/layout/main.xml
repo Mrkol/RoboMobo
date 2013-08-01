@@ -27,5 +27,30 @@
             android:onClick="fixCoord"
             android:layout_alignRight="@+id/view"
             android:layout_alignBottom="@+id/view"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Up"
+            android:id="@+id/btn_up"
+            android:layout_toLeftOf="@+id/btn_right" android:layout_above="@+id/btn_right"
+            android:layout_alignLeft="@+id/btn_down" android:onClick="moveUp"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Left"
+            android:id="@+id/btn_left"
+            android:layout_toLeftOf="@+id/btn_up" android:layout_below="@+id/btn_up" android:onClick="moveLeft"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Right"
+            android:id="@+id/btn_right"
+            android:layout_alignRight="@+id/view" android:layout_centerVertical="true" android:onClick="moveRight"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Down"
+            android:id="@+id/btn_down"
+            android:layout_toLeftOf="@+id/btn_right" android:layout_below="@+id/btn_right" android:onClick="moveDown"/>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.RoboMobo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,9 @@ public class GPSModule implements LocationListener
         last_long = location.getLongitude();     // долгота
         TextView text = (TextView) RMR.am.findViewById(R.id.tv_coord);
         text.setText("Координаты: " + last_latt + ", " + last_long);
-        //Log.wtf("1",Double.toString(last_latt) + ' ' + Double.toString(last_long));
+        Log.wtf("1", Double.toString(last_latt) + ' ' + Double.toString(last_long));
+        //Log.wtf("Accuracy"," "+location.getAccuracy());
+        //Log.wtf("Speed"," "+location.getSpeed());
     }
 
     @Override

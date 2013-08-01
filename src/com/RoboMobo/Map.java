@@ -3,6 +3,8 @@ package com.RoboMobo;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -53,9 +55,7 @@ public class Map
 
     public void Update(long elapsedTime)
     {
-        player1.prevPosY = player1.posY;
-
-        for (int i = 0; i < this.pickups.size(); i++)
+        for(int i = 0; i < this.pickups.size(); i++)
         {
             this.pickups.get(i)[2] -= elapsedTime;
             if (this.pickups.get(i)[2] <= 0)
@@ -70,8 +70,6 @@ public class Map
         }
 
         //Log.wtf("current coords", RMR.gps.last_latt + " " + RMR.gps.last_long);
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
         int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
         if (coord != null)
         {
@@ -79,11 +77,13 @@ public class Map
         }
         for (int i = 0; i < pickups.size(); i++)
         {
-            if ((Math.floor(player1.posX / 32) * 32 == this.pickups.get(i)[0]) && (Math.floor(player1.posY / 32) * 32 == this.pickups.get(i)[1]))
-            {
-                player1.addPoint(this.pickups.get(i)[3]);
-            }
-
+           if ((Math.floor(this.player1.posX/32) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32) == this.pickups.get(i)[1]))
+           {
+               Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
+               Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);
+               this.player1.addPoint(1);
+               this.pickups.remove(i);
+           }
         }
     }
 
@@ -95,6 +95,17 @@ public class Map
 
         Player p = RMR.currentMap.player1;
 
+        double angle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
+        if((p.posX-p.prevPosX)>=0)
+            if((p.posY-p.prevPosY)<0)
+                angle = 360 - angle;
+        else
+            if((p.posY-p.prevPosY)>=0)
+                angle = 180 - angle;
+            else
+                angle = 180 + angle;
+
+        Log.wtf("angle", angle + "");
         //Log.wtf("Draw", (Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(Math.abs(p.posX - p.prevPosX), 2) + Math.pow(Math.abs(p.posY - p.prevPosY), 2))) + "");
 
         RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));

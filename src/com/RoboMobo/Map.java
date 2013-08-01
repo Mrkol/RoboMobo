@@ -151,7 +151,7 @@ public class Map
                         src.set(0, 0, RMGR.TILE_test.getWidth(), RMGR.TILE_test.getHeight());
                         dst.set(0, 0, mapW, mapH);
                         pa.setColor(Color.WHITE);
-                        RMR.c.drawBitmap(RMGR.TILE_test, dst, src, pa);
+                        RMR.c.drawBitmap(RMGR.TILE_test, src, dst, pa);
                     }
                     RMR.c.restore();
                 }
@@ -169,7 +169,7 @@ public class Map
                     switch(this.pickups.get(i)[0])
                     {
                         default:
-                            RMR.c.drawBitmap(RMGR.PICKUP_test, dst, src, pa);
+                            RMR.c.drawBitmap(RMGR.PICKUP_test, src, dst, pa);
                             break;
                     }
                 }

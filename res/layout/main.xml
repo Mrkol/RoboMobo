@@ -17,8 +17,7 @@
             android:layout_height="wrap_content"
             android:text="Координаты:"
             android:id="@+id/tv_coord"
-            android:layout_alignLeft="@+id/view"
-            android:layout_alignTop="@+id/view"/>
+            android:layout_alignRight="@+id/view" android:layout_alignTop="@+id/view"/>
     <Button
             android:layout_width="90dp"
             android:layout_height="44dp"

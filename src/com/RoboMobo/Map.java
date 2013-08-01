@@ -147,8 +147,6 @@ public class Map
 
         pa = new Paint();
 
-        src.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
-        dst.set(0, 0, 32, 32);
 
         RMR.c.save();
         {
@@ -156,11 +154,12 @@ public class Map
             {
                 for(int j = 0; j < this.width; j++)
                 {
+                    if(this.labyrinth.tiles[j][i] == 0) continue;
                     RMR.c.save();
                     {
                         RMR.c.translate(j * 32, i * 32);
                         src.set(0, 0, RMGR.TILE_test.getWidth(), RMGR.TILE_test.getHeight());
-                        dst.set(0, 0, mapW, mapH);
+                        dst.set(0, 0, 32, 32);
                         pa.setColor(Color.WHITE);
                         RMR.c.drawBitmap(RMGR.TILE_test, src, dst, pa);
                     }
@@ -169,6 +168,10 @@ public class Map
             }
         }
         RMR.c.save();
+
+
+        src.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
+        dst.set(0, 0, 32, 32);
 
         RMR.c.save();
         {

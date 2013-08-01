@@ -70,7 +70,7 @@ public class Map
             player1.changePos(coord);
         for (int i=0; i<pickups.size();i++)
         {
-            if ((coord[0]==this.pickups.get(i)[0])&&(coord[1]==this.pickups.get(1)[1]) )
+            if ((Math.floor(player1.posX/32)*32==this.pickups.get(i)[0])&&(Math.floor(player1.posY/32)*32==this.pickups.get(i)[1]))
             {
                player1.addPoint(this.pickups.get(i)[3]);
             }

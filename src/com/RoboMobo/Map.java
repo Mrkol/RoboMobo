@@ -68,6 +68,14 @@ public class Map
         int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
         if(coord!=null)
             player1.changePos(coord);
+        for (int i=0; i<pickups.size();i++)
+        {
+            if ((Math.floor(player1.posX/32)*32==this.pickups.get(i)[0])&&(Math.floor(player1.posY/32)*32==this.pickups.get(i)[1]))
+            {
+               player1.addPoint(this.pickups.get(i)[3]);
+            }
+
+        }
     }
 
     public void Draw()
@@ -146,7 +154,7 @@ public class Map
 
     public void generatePickups()
     {
-        pickups.add(new int[] {RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(20000)+10000, 0});
+        pickups.add(new int[] {RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(20000)+10000, 1});
     }
 
     public void fixCorner1(double latt, double longt)

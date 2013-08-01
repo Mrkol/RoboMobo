@@ -27,4 +27,8 @@ public class Player
         posY = coord[1];
         Log.wtf("player","x: "+posX+", y: "+posY);
     }
+    public void addPoint(int _point)
+    {
+        point+=_point;
+    }
 }

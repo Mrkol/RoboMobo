@@ -26,6 +26,8 @@ public class GPSModule implements LocationListener
         TextView text = (TextView) RMR.am.findViewById(R.id.tv_coord);
         text.setText("Координаты: " + last_latt + ", " + last_long);
         Log.wtf("1", Double.toString(last_latt) + ' ' + Double.toString(last_long));
+        //Log.wtf("Accuracy"," "+location.getAccuracy());
+        //Log.wtf("Speed"," "+location.getSpeed());
     }
 
     @Override

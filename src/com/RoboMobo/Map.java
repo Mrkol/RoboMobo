@@ -37,13 +37,13 @@ public class Map
     /**
      * Array of tile IDs. Every [width] indexes starts a new row.
      */
-    public Labyrinth tiles;
+    public Labyrinth labyrinth;
 
     public Map(int w, int h, int bgrid)
     {
         this.width = w;
         this.height = h;
-        tiles = new Labyrinth();
+        labyrinth = new Labyrinth();
         this.background = bgrid;
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
@@ -141,6 +141,26 @@ public class Map
 
         RMR.c.save();
         {
+            for(int i = 0; i < this.height; i++)
+            {
+                for(int j = 0; j < this.width; j++)
+                {
+                    RMR.c.save();
+                    {
+                        RMR.c.translate(j * 32, i * 32);
+                        src.set(0, 0, RMGR.TILE_test.getWidth(), RMGR.TILE_test.getHeight());
+                        dst.set(0, 0, mapW, mapH);
+                        pa.setColor(Color.WHITE);
+                        RMR.c.drawBitmap(RMGR.TILE_test, dst, src, pa);
+                    }
+                    RMR.c.restore();
+                }
+            }
+        }
+        RMR.c.save();
+
+        RMR.c.save();
+        {
             for(int i = 0; i < this.pickups.size(); i++)
             {
                 RMR.c.save();
@@ -149,7 +169,7 @@ public class Map
                     switch(this.pickups.get(i)[0])
                     {
                         default:
-                            RMR.c.drawBitmap(RMGR.PICKUP_test, src, dst, pa);
+                            RMR.c.drawBitmap(RMGR.PICKUP_test, dst, src, pa);
                             break;
                     }
                 }

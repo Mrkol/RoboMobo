@@ -66,7 +66,9 @@ public class Map
 
         if(this.pickups.size() < 10 && RMR.rnd.nextInt(20) == 1)
         {
-            this.generatePickups();
+            int x = RMR.rnd.nextInt(RMR.mapSide);
+            int y = RMR.rnd.nextInt(RMR.mapSide);
+            if(this.labyrinth.tiles[x][y] == 0) pickups.add(new int[] {x, y, RMR.rnd.nextInt(20000)+10000, 1});
         }
 
         //Log.wtf("current coords", RMR.gps.last_latt + " " + RMR.gps.last_long);
@@ -75,6 +77,7 @@ public class Map
         {
             player1.changePos(coord);
         }
+
         for (int i = 0; i < pickups.size(); i++)
         {
            if ((Math.floor(this.player1.posX/32) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32) == this.pickups.get(i)[1]))
@@ -157,7 +160,7 @@ public class Map
                     if(this.labyrinth.tiles[j][i] == 0) continue;
                     RMR.c.save();
                     {
-                        RMR.c.translate(j * 32, i * 32);
+                        RMR.c.translate(i * 32, j * 32);
                         src.set(0, 0, RMGR.TILE_test.getWidth(), RMGR.TILE_test.getHeight());
                         dst.set(0, 0, 32, 32);
                         pa.setColor(Color.WHITE);
@@ -179,7 +182,7 @@ public class Map
             {
                 RMR.c.save();
                 {
-                    RMR.c.translate(this.pickups.get(i)[0] * 32, this.pickups.get(i)[1] * 32);
+                    RMR.c.translate(this.pickups.get(i)[1] * 32, this.pickups.get(i)[0] * 32);
                     switch(this.pickups.get(i)[0])
                     {
                         default:
@@ -200,11 +203,6 @@ public class Map
         }
         RMR.c.restore();
 
-    }
-
-    public void generatePickups()
-    {
-        pickups.add(new int[] {RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(RMR.mapSide), RMR.rnd.nextInt(20000)+10000, 1});
     }
 
     public void fixCorner1(double latt, double longt)

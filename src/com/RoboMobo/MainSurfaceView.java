@@ -1,7 +1,6 @@
 package com.RoboMobo;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -37,7 +36,7 @@ public class MainSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     public void surfaceCreated(SurfaceHolder surfaceHolder)
     {
         threadDraw = new ThreadUpdate(getHolder());
-        new Handler().post(threadDraw);
+        threadDraw.start();
     }
 
     @Override

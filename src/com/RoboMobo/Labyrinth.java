@@ -46,7 +46,7 @@ public class Labyrinth
     {
         if (checkAround(x, y) == 3)
         {
-            if (RMR.rnd.nextBoolean())
+            if (RMR.rnd.nextInt(10)<8)
             {
                 tiles[x][y] = 1;
                 if (x + 1 < RMR.mapSide)

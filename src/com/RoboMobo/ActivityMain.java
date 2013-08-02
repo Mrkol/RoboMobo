@@ -82,10 +82,13 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void setPlayer(View view)
     {
-        RMR.currentMap.player1.changePos(new int[]{16, 16});
+        if(RMR.currentMap.player1.posX != 16 && RMR.currentMap.player1.posY != 16)
+        {
+            RMR.currentMap.player1.changePos(new int[]{16, 16});
 
-        RMR.suspendTile = new Point(0, 0);
-        RMR.suspended = false;
+            RMR.suspendTile = new Point(0, 0);
+            RMR.suspended = false;
+        }
     }
 
     /*

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -82,12 +83,15 @@ public class Map
         {
            if ((Math.floor(this.player1.posX/32) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32) == this.pickups.get(i)[1]))
            {
-               Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
-               Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);
+               /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
+               Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
                this.player1.addPoint(1);
                this.pickups.remove(i);
+               Log.wtf("Score: ", Integer.toString(this.player1.score));
            }
         }
+        /*TextView text = (TextView) RMR.am.findViewById(R.id.tv_score);
+        text.setText("Очки: "+this.player1.score);*/
     }
 
     public void Draw()

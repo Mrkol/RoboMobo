@@ -57,8 +57,6 @@ public class Map
 
     public void Update(long elapsedTime)
     {
-
-
         //Log.wtf("current coords", RMR.gps.last_latt + " " + RMR.gps.last_long);
         int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
         if (coord != null)

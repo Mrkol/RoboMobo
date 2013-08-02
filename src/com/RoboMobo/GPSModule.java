@@ -35,7 +35,6 @@ public class GPSModule implements LocationListener
         text1.setText("Точность: " + location.getAccuracy());
         text2.setText("Скорость: " + location.getSpeed());
 
-        Log.wtf("1", Double.toString(last_latt) + ' ' + Double.toString(last_long));
         //Log.wtf("Accuracy"," "+location.getAccuracy());
         //Log.wtf("Speed"," "+location.getSpeed());
         /*TextView text1 = (TextView) RMR.am.findViewById(R.id.tv_accuracy);

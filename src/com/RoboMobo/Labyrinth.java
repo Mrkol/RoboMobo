@@ -14,6 +14,7 @@ public class Labyrinth
     public Labyrinth()
     {
         tiles = new short[RMR.mapSide][RMR.mapSide];
+
         for (int i = 0; i < RMR.mapSide; i++)
         {
             for (int j = 0; j < RMR.mapSide; j++)
@@ -21,7 +22,7 @@ public class Labyrinth
                 tiles[i][j] = 0;
             }
         }
-        for (int i = 0; i < RMR.mapSide; i++)
+        /*for (int i = 0; i < RMR.mapSide; i++)
         {
             for (int j = 0; j < RMR.mapSide; j++)
             {
@@ -30,8 +31,16 @@ public class Labyrinth
                     generateWall(i, j);
                 }
             }
-        }
+        }*/
 
+        for (int i = 0; i < 3; i++)
+        {
+            tiles[3][i] = 1;
+        }
+        for (int i = 2; i < 7; i++)
+        {
+            tiles[i][5] = 1;
+        }
     }
 
     private short checkAround(int x, int y)
@@ -61,6 +70,13 @@ public class Labyrinth
         if (y - 1 >= 0)
         {
             if (tiles[x][y - 1] == 0)
+            {
+                free++;
+            }
+        }
+        if (x >= 0 && x + 1 < RMR.mapSide && y >= 0 && y + 1 < RMR.mapSide)
+        {
+            if (tiles[x][y] == 0)
             {
                 free++;
             }

@@ -29,8 +29,8 @@ public class Player
         //Log.wtf("player","x: "+posX+", y: "+posY);
     }
 
-    public void addPoint(int _point)
+    public void addPoint(int _score)
     {
-        score += _point;
+        score += _score;
     }
 }

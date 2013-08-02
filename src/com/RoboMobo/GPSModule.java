@@ -29,10 +29,19 @@ public class GPSModule implements LocationListener
         last_latt = location.getLatitude();      // широта
         last_long = location.getLongitude();     // долгота
         TextView text = (TextView) RMR.am.findViewById(R.id.tv_coord);
+        TextView text1 = (TextView) RMR.am.findViewById(R.id.tv_accuracy);
+        TextView text2 = (TextView) RMR.am.findViewById(R.id.tv_speed);
         text.setText("Координаты: " + last_latt + ", " + last_long);
+        text1.setText("Точность: " + location.getAccuracy());
+        text2.setText("Скорость: " + location.getSpeed());
+
         Log.wtf("1", Double.toString(last_latt) + ' ' + Double.toString(last_long));
         //Log.wtf("Accuracy"," "+location.getAccuracy());
         //Log.wtf("Speed"," "+location.getSpeed());
+        /*TextView text1 = (TextView) RMR.am.findViewById(R.id.tv_accuracy);
+        TextView text2 = (TextView) RMR.am.findViewById(R.id.tv_speed) ;
+        text1.setText("Точность: "+location.getAccuracy());
+        text2.setText("Скорость: "+location.getSpeed());*/
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.RoboMobo;
 import android.app.Activity;
 import android.graphics.*;
 import android.view.Display;
+
 import java.util.Random;
 
 /**
@@ -63,9 +64,9 @@ public class RMR
     /*
      * Control states.
      */
-    public static  final short NONE = 0;
-    public static  final short DRAG = 1;
-    public static  final short ZOOM = 2;
+    public static final short NONE = 0;
+    public static final short DRAG = 1;
+    public static final short ZOOM = 2;
 
     public static short transformMode = NONE;
 
@@ -89,6 +90,10 @@ public class RMR
      */
     public static Map currentMap;
 
+    public static boolean suspended;
+
+    public static Point suspendTile;
+
     public static void init(Activity act, GPSModule _gps)
     {
         display = act.getWindowManager().getDefaultDisplay();
@@ -103,6 +108,9 @@ public class RMR
 
         transform = new Matrix();
         prevTransform = new Matrix();
+
+        suspended = false;
+        suspendTile = new Point();
 
         currentMap = new Map(mapSide, mapSide, R.drawable.map_test);
 

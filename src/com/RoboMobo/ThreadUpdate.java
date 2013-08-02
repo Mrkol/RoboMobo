@@ -1,7 +1,5 @@
 package com.RoboMobo;
 
-import android.content.res.Resources;
-import android.graphics.*;
 import android.view.SurfaceHolder;
 
 /**
@@ -41,7 +39,7 @@ public class ThreadUpdate extends Thread
                     synchronized (surfaceHolder)
                     {
                         RMR.Update(elapsedTime);
-                        if(RMR.c != null)
+                        if (RMR.c != null)
                         {
                             RMR.Draw();
                         }

@@ -22,12 +22,14 @@ public class MainSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         getHolder().addCallback(this);
     }
 
-    public MainSurfaceView(Context context, AttributeSet attrs, int defStyle) {
+    public MainSurfaceView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
         getHolder().addCallback(this);
     }
 
-    public MainSurfaceView(Context context, AttributeSet attrs) {
+    public MainSurfaceView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         getHolder().addCallback(this);
     }

@@ -1,7 +1,5 @@
 package com.RoboMobo;
 
-import android.util.Log;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Nats
@@ -23,12 +21,14 @@ public class Player
         posY = y;
         score = s;
     }
+
     public void changePos(int[] coord)
     {
         posX = coord[0];
         posY = coord[1];
         //Log.wtf("player","x: "+posX+", y: "+posY);
     }
+
     public void addPoint(int _point)
     {
         score += _point;

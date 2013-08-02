@@ -7,7 +7,7 @@ package com.RoboMobo;
  * Time: 11:16
  * To change this template use File | Settings | File Templates.
  */
-public class RMBluetooth
+public class BluetoothModule
 {
 
 }

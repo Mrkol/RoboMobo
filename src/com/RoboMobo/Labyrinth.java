@@ -15,12 +15,22 @@ public class Labyrinth
     {
         tiles = new short[RMR.mapSide][RMR.mapSide];
         for (int i = 0; i < RMR.mapSide; i++)
+        {
             for (int j = 0; j < RMR.mapSide; j++)
+            {
                 tiles[i][j] = 0;
+            }
+        }
         for (int i = 0; i < RMR.mapSide; i++)
+        {
             for (int j = 0; j < RMR.mapSide; j++)
+            {
                 if (i == 0 || i == RMR.mapSide || j == 0 || j == RMR.mapSide)
+                {
                     generateWall(i, j);
+                }
+            }
+        }
 
     }
 
@@ -28,17 +38,33 @@ public class Labyrinth
     {
         short free = 0;
         if (x + 1 < RMR.mapSide)
+        {
             if (tiles[x + 1][y] == 0)
+            {
                 free++;
+            }
+        }
         if (x - 1 >= 0)
+        {
             if (tiles[x - 1][y] == 0)
+            {
                 free++;
+            }
+        }
         if (y + 1 < RMR.mapSide)
+        {
             if (tiles[x][y + 1] == 0)
+            {
                 free++;
+            }
+        }
         if (y - 1 >= 0)
+        {
             if (tiles[x][y - 1] == 0)
+            {
                 free++;
+            }
+        }
         return free;
     }
 
@@ -46,21 +72,37 @@ public class Labyrinth
     {
         if (checkAround(x, y) == 3)
         {
-            if (RMR.rnd.nextInt(10)<8)
+            if (RMR.rnd.nextInt(10) < 8)
             {
                 tiles[x][y] = 1;
                 if (x + 1 < RMR.mapSide)
+                {
                     if (tiles[x + 1][y] == 0)
+                    {
                         generateWall(x + 1, y);
+                    }
+                }
                 if (x - 1 >= 0)
+                {
                     if (tiles[x - 1][y] == 0)
+                    {
                         generateWall(x - 1, y);
+                    }
+                }
                 if (y + 1 < RMR.mapSide)
+                {
                     if (tiles[x][y + 1] == 0)
+                    {
                         generateWall(x, y + 1);
+                    }
+                }
                 if (y - 1 >= 0)
+                {
                     if (tiles[x][y - 1] == 0)
+                    {
                         generateWall(x, y - 1);
+                    }
+                }
             }
         }
     }

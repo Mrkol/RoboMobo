@@ -131,11 +131,7 @@ public class Map
             double playerAngle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
             if ((p.posX - p.prevPosX) >= 0)
             {
-                if ((p.posY - p.prevPosY) < 0)
-                {
-                    playerAngle = 360 - playerAngle;
-                }
-                else if ((p.posY - p.prevPosY) >= 0)
+                if ((p.posY - p.prevPosY) >= 0)
                 {
                     playerAngle = 180 - playerAngle;
                 }
@@ -144,6 +140,15 @@ public class Map
                     playerAngle = 180 + playerAngle;
                 }
             }
+            else
+            {
+                if ((p.posY - p.prevPosY) < 0)
+                {
+                    playerAngle = 360 - playerAngle;
+                }
+            }
+
+            Log.wtf("angle",playerAngle+"");
 
 
             RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));

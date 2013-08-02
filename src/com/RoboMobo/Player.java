@@ -24,10 +24,13 @@ public class Player
 
     public void changePos(int[] coord)
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        posX = coord[0];
-        posY = coord[1];
+        if ((posX != coord[0]) || (posY != coord[1]))
+        {
+            prevPosX = posX;
+            prevPosY = posY;
+            posX = coord[0];
+            posY = coord[1];
+        }
         //Log.wtf("player","x: "+posX+", y: "+posY);
     }
 

@@ -41,13 +41,16 @@ public class ThreadUpdate extends Thread
                     RMR.c = surfaceHolder.lockCanvas(null);
                     synchronized (surfaceHolder)
                     {
+
                         RMR.Update(elapsedTime);
                         if(RMR.c != null)
                         {
                             RMR.Draw();
                         }
                     }
+
                 }
+
                 finally
                 {
                     if (RMR.c != null)

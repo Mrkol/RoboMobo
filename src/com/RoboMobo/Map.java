@@ -90,6 +90,8 @@ public class Map
                Log.wtf("Score: ", Integer.toString(this.player1.score));
            }
         }
+        /*TextView text = (TextView) RMR.am.findViewById(R.id.tv_score);
+        text.setText("Очки: "+this.player1.score);*/
     }
 
     public void Draw()

@@ -62,5 +62,15 @@
             android:layout_height="wrap_content"
             android:text="Очки: "
             android:id="@+id/tv_score" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/tv_coord"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Точность: "
+            android:id="@+id/tv_accuracy" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/tv_score"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Скорость: "
+            android:id="@+id/tv_speed" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/textView"/>
 
 </RelativeLayout>

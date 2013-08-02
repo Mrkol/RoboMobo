@@ -12,12 +12,7 @@
             android:id="@+id/view"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true" android:layout_alignParentLeft="true"/>
-    <TextView
-            android:layout_width="146dp"
-            android:layout_height="wrap_content"
-            android:text="Координаты:"
-            android:id="@+id/tv_coord"
-            android:layout_alignRight="@+id/view" android:layout_alignTop="@+id/view"/>
+
     <Button
             android:layout_width="90dp"
             android:layout_height="44dp"
@@ -55,22 +50,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set"
-            android:id="@+id/btn_set" android:layout_alignLeft="@+id/btn_up" android:layout_below="@+id/btn_up"
-            android:layout_alignRight="@+id/btn_up" android:onClick="setPlayer"/>
+            android:id="@+id/btn_set"
+            android:onClick="setPlayer"
+            android:layout_alignRight="@+id/btn_up"
+            android:layout_alignTop="@+id/btn_right"
+            android:layout_alignLeft="@+id/btn_up"/>
+
+    <TextView
+            android:layout_width="146dp"
+            android:layout_height="wrap_content"
+            android:text="Координаты:"
+            android:id="@+id/tv_coord"
+            android:layout_alignRight="@+id/view"
+            android:layout_alignTop="@+id/view"/>
+
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="23dp"
             android:text="Очки: "
-            android:id="@+id/tv_score" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/tv_coord"/>
+            android:id="@+id/tv_score"
+            android:layout_alignLeft="@+id/tv_coord"
+            android:layout_below="@+id/tv_accuracy"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Точность: "
-            android:id="@+id/tv_accuracy" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/tv_score"/>
+            android:id="@+id/tv_accuracy"
+            android:layout_alignLeft="@+id/tv_coord"
+            android:layout_below="@+id/tv_speed"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Скорость: "
-            android:id="@+id/tv_speed" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/textView"/>
+            android:id="@+id/tv_speed"
+            android:layout_alignLeft="@+id/tv_coord"
+            android:layout_below="@+id/tv_coord"/>
 
 </RelativeLayout>

@@ -74,7 +74,12 @@ public class Map
 
         if(!RMR.suspended)
         {
-            if((player1.posX < 0 || player1.posY < 0 || player1.posX > RMR.mapSide * 32 || player1.posY > RMR.mapSide * 32) || (RMR.currentMap.labyrinth.tiles[((int) Math.floor(player1.posX / 32))][((int) Math.floor(player1.posY / 32))] != 0))
+            if(player1.posX < 0 || player1.posY < 0 || Math.floor(player1.posX / 32) >= RMR.mapSide || Math.floor(player1.posY / 32) >= RMR.mapSide)
+            {
+                RMR.suspended = true;
+                RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32), (int) Math.floor(player1.prevPosY / 32));
+            }
+            else if (RMR.currentMap.labyrinth.tiles[((int) Math.floor(player1.posX / 32))][((int) Math.floor(player1.posY / 32))] != 0)
             {
                 RMR.suspended = true;
                 RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32), (int) Math.floor(player1.prevPosY / 32));
@@ -125,25 +130,23 @@ public class Map
 
             Player p = RMR.currentMap.player1;
 
-            double angle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
+            double playerAngle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
             if ((p.posX - p.prevPosX) >= 0)
             {
                 if ((p.posY - p.prevPosY) < 0)
                 {
-                    angle = 360 - angle;
+                    playerAngle = 360 - playerAngle;
                 }
                 else if ((p.posY - p.prevPosY) >= 0)
                 {
-                    angle = 180 - angle;
+                    playerAngle = 180 - playerAngle;
                 }
                 else
                 {
-                    angle = 180 + angle;
+                    playerAngle = 180 + playerAngle;
                 }
             }
 
-            Log.wtf("angle", angle + "");
-            //Log.wtf("Draw", (Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(Math.abs(p.posX - p.prevPosX), 2) + Math.pow(Math.abs(p.posY - p.prevPosY), 2))) + "");
 
             RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));
 
@@ -230,12 +233,17 @@ public class Map
                 }
             }
 
+            RMR.c.save();
+            {
+                RMR.c.restore();
+                pa.setColor(Color.WHITE);
+                RMR.c.translate(player1.posY, player1.posX);
+                src.set(0, 0, RMGR.CHAR_test.getWidth(), RMGR.CHAR_test.getHeight());
+                dst.set(-8, -8, 8, 8);
+                RMR.c.rotate((float)playerAngle - 90, 0, 0);
+                RMR.c.drawBitmap(RMGR.CHAR_test, src, dst, pa);
+            }
             RMR.c.restore();
-            pa.setColor(Color.WHITE);
-            RMR.c.translate(player1.posY, player1.posX);
-            src.set(0, 0, RMGR.CHAR_test.getWidth(), RMGR.CHAR_test.getHeight());
-            dst.set(-16, -16, 16, 16);
-            RMR.c.drawBitmap(RMGR.CHAR_test, src, dst, pa);
         }
         RMR.c.restore();
 

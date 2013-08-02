@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -111,6 +112,9 @@ public class Map
                     this.player1.addPoint(1);
                     this.pickups.remove(i);
                     Log.wtf("Score: ", Integer.toString(this.player1.score));
+                    Message msg = new Message();
+                    msg.arg1 = this.player1.score;
+                    ((ActivityMain)RMR.am).HandlerUIUpdate.sendMessage(msg);
                 }
             }
             /*TextView text = (TextView) RMR.am.findViewById(R.id.tv_score);
@@ -148,7 +152,7 @@ public class Map
                 }
             }
 
-            Log.wtf("angle",playerAngle+"");
+            Log.wtf("angle", Double.toString(playerAngle));
 
 
             RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));

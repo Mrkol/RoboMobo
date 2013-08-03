@@ -64,7 +64,7 @@ public class Map
             player1.changePos(coord);
         }
 
-        if(Math.floor(player1.posX / 32) == RMR.suspendTile.x && Math.floor(player1.posY / 32) == RMR.suspendTile.y)
+        if(Math.floor(player1.posX / 32.0) == RMR.suspendTile.x && Math.floor(player1.posY / 32.0) == RMR.suspendTile.y)
         {
             RMR.suspendTile = new Point();
             RMR.suspended = false;
@@ -72,15 +72,15 @@ public class Map
 
         if(!RMR.suspended)
         {
-            if(player1.posX < 0 || player1.posY < 0 || Math.floor(player1.posX / 32) >= RMR.mapSide || Math.floor(player1.posY / 32) >= RMR.mapSide)
+            if(player1.posX < 0 || player1.posY < 0 || Math.floor(player1.posX / 32.0) >= RMR.mapSide || Math.floor(player1.posY / 32.0) >= RMR.mapSide)
             {
                 RMR.suspended = true;
-                RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32), (int) Math.floor(player1.prevPosY / 32));
+                RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32.0), (int) Math.floor(player1.prevPosY / 32.0));
             }
-            else if (RMR.currentMap.labyrinth.tiles[((int) Math.floor(player1.posX / 32))][((int) Math.floor(player1.posY / 32))] != 0)
+            else if (RMR.currentMap.labyrinth.tiles[((int) Math.floor(player1.posX / 32.0))][((int) Math.floor(player1.posY / 32.0))] != 0)
             {
                 RMR.suspended = true;
-                RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32), (int) Math.floor(player1.prevPosY / 32));
+                RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32.0), (int) Math.floor(player1.prevPosY / 32.0));
             }
 
             for (int i = 0; i < this.pickups.size(); i++)
@@ -104,13 +104,12 @@ public class Map
 
             for (int i = 0; i < pickups.size(); i++)
             {
-                if ((Math.floor(this.player1.posX/32) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32) == this.pickups.get(i)[1]))
+                if ((Math.floor(this.player1.posX/32.0) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32.0) == this.pickups.get(i)[1]))
                 {
                /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
                Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
                     this.player1.addPoint(1);
                     this.pickups.remove(i);
-                    Log.wtf("Score: ", Integer.toString(this.player1.score));
                 }
             }
             /*TextView text = (TextView) RMR.am.findViewById(R.id.tv_score);
@@ -147,9 +146,6 @@ public class Map
                     playerAngle = 360 - playerAngle;
                 }
             }
-
-            Log.wtf("angle",playerAngle+"");
-
 
             RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));
 

@@ -1,18 +1,15 @@
 package com.RoboMobo;
 
 import android.util.Log;
-import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -47,7 +44,7 @@ public class Networking
 
     public static JSONObject get(JSONObject send)
     {
-        JSONObject recieved;
+        JSONObject received;
         try
         {
             InputStream is = connection.getInputStream();
@@ -56,10 +53,10 @@ public class Networking
             while (is.available()==0);
             byte[] raw = new byte[is.available()];
             is.read(raw);
-            recieved = new JSONObject(new String(raw));
+            received = new JSONObject(new String(raw));
             is.close();
             os.close();
-            return recieved;
+            return received;
 
         } catch (IOException e)
         {

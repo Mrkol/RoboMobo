@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -110,6 +111,9 @@ public class Map
                Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
                     this.player1.addPoint(1);
                     this.pickups.remove(i);
+                    Message msg = new Message();
+                    msg.arg1 = this.player1.score;
+                    ((ActivityMain)RMR.am).HandlerUIUpdate.sendMessage(msg);
                 }
             }
             /*TextView text = (TextView) RMR.am.findViewById(R.id.tv_score);

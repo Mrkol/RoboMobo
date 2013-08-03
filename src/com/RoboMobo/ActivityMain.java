@@ -5,8 +5,11 @@ import android.content.Context;
 import android.graphics.Point;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class ActivityMain extends Activity// implements View.OnTouchListener
 {
@@ -15,6 +18,16 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
      */
     public boolean flag = true;
     public GPSModule mlocListener;
+
+    public final Handler HandlerUIUpdate = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            TextView tv = (TextView) RMR.am.findViewById(R.id.tv_score);
+            tv.setText("Очки: " + msg.arg1);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -82,7 +95,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void setPlayer(View view)
     {
-        if(RMR.currentMap.player1.posX != 16 && RMR.currentMap.player1.posY != 16)
+        if(RMR.currentMap.player1.posX != 16 && RMR.currentMap.player1.posY != 16 )
         {
             RMR.currentMap.player1.changePos(new int[]{16, 16});
 

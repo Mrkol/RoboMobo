@@ -1,14 +1,12 @@
 package com.RoboMobo;
 
 import android.view.SurfaceHolder;
-import android.widget.TextView;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Роман
  * Date: 30.07.13
  * Time: 13:14
- * To change this template use File | Settings | File Templates.
  */
 public class ThreadUpdate extends Thread
 {

@@ -3,21 +3,18 @@ package com.RoboMobo;
 import android.util.Log;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created with IntelliJ IDEA.
  * User: loredan
  * Date: 03.08.13
  * Time: 10:05
- * To change this template use File | Settings | File Templates.
  */
 public class Networking
 {
@@ -50,10 +47,14 @@ public class Networking
             InputStream is = connection.getInputStream();
             OutputStream os = connection.getOutputStream();
             os.write(send.toString().getBytes());
-            while (is.available()==0);
+            while (is.available() == 0)
+            {
+                ;
+            }
             return send;
 
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

@@ -1,7 +1,10 @@
 package com.RoboMobo;
 
 import android.app.Activity;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.view.Display;
 
 import java.util.Random;
@@ -49,41 +52,7 @@ public class RMR
     public static int mapSide = 10;
     public static GPSModule gps;
 
-    /**
-     * Rotation/zoomDistance matrix.
-     */
-    public static Matrix transform;
-
-    /**
-     * Previous state of rotation/zoomDistance matrix.
-     */
-    public static Matrix prevTransform;
-
     public static MainSurfaceView sw;
-
-    /*
-     * Control states.
-     */
-    public static final short NONE = 0;
-    public static final short DRAG = 1;
-    public static final short ZOOM = 2;
-
-    public static short transformMode = NONE;
-
-    /**
-     * Map zoomDistance.
-     */
-    public static float zoomDistance;
-
-    /**
-     * Map prevZoomDistance.
-     */
-    public static float prevZoomDistance;
-
-    /**
-     * Last score between the fingers (for zoom).
-     */
-    public static PointF midPoint;
 
     /**
      * The current map.
@@ -94,7 +63,7 @@ public class RMR
 
     public static Point suspendTile;
 
-    public static void init(Activity act, GPSModule _gps)
+    public static void init(Activity act)
     {
         display = act.getWindowManager().getDefaultDisplay();
         width = display.getWidth();
@@ -102,19 +71,10 @@ public class RMR
         am = act;
         rnd = new Random();
 
-        zoomDistance = 1;
-        prevZoomDistance = 1;
-        midPoint = new PointF();
-
-        transform = new Matrix();
-        prevTransform = new Matrix();
-
         suspended = false;
         suspendTile = new Point();
 
         currentMap = new Map(mapSide, mapSide, R.drawable.map_test);
-
-        gps = _gps;
     }
 
     /**
@@ -137,7 +97,6 @@ public class RMR
             p.setColor(Color.rgb(0x40, 0xF, 0xF));
             RMR.c.drawPaint(p);
 
-            RMR.c.setMatrix(RMR.transform);
             RMR.currentMap.Draw();
         }
         RMR.c.restore();

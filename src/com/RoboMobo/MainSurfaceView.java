@@ -10,7 +10,6 @@ import android.view.SurfaceView;
  * User: Роман
  * Date: 30.07.13
  * Time: 13:04
- * To change this template use File | Settings | File Templates.
  */
 public class MainSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 {

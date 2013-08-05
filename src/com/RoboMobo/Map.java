@@ -5,8 +5,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Message;
-import android.util.Log;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -42,18 +40,35 @@ public class Map
     /**
      * Array of tile IDs. Every [width] indexes starts a new row.
      */
-    public Labyrinth labyrinth;
+    public short[][] tiles;
 
     public Map(int w, int h, int bgrid)
     {
         this.width = w;
         this.height = h;
-        labyrinth = new Labyrinth();
         this.background = bgrid;
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
         corner2fixed = false;
-        player1 = new Player(0, 0, 0);
+        player1 = new Player(0, 0);
+
+        tiles = new short[RMR.mapSide][RMR.mapSide];
+
+        for (int i = 0; i < RMR.mapSide; i++)
+        {
+            for (int j = 0; j < RMR.mapSide; j++)
+            {
+                tiles[i][j] = 0;
+            }
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            tiles[3][i] = 1;
+        }
+        for (int i = 2; i < 7; i++)
+        {
+            tiles[i][5] = 1;
+        }
     }
 
     public void Update(long elapsedTime)
@@ -65,20 +80,20 @@ public class Map
             player1.changePos(coord);
         }
 
-        if(Math.floor(player1.posX / 32.0) == RMR.suspendTile.x && Math.floor(player1.posY / 32.0) == RMR.suspendTile.y)
+        if (Math.floor(player1.posX / 32.0) == RMR.suspendTile.x && Math.floor(player1.posY / 32.0) == RMR.suspendTile.y)
         {
             RMR.suspendTile = new Point();
             RMR.suspended = false;
         }
 
-        if(!RMR.suspended)
+        if (!RMR.suspended)
         {
-            if(player1.posX < 0 || player1.posY < 0 || Math.floor(player1.posX / 32.0) >= RMR.mapSide || Math.floor(player1.posY / 32.0) >= RMR.mapSide)
+            if (player1.posX < 0 || player1.posY < 0 || Math.floor(player1.posX / 32.0) >= RMR.mapSide || Math.floor(player1.posY / 32.0) >= RMR.mapSide)
             {
                 RMR.suspended = true;
                 RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32.0), (int) Math.floor(player1.prevPosY / 32.0));
             }
-            else if (RMR.currentMap.labyrinth.tiles[((int) Math.floor(player1.posX / 32.0))][((int) Math.floor(player1.posY / 32.0))] != 0)
+            else if (this.tiles[((int) Math.floor(player1.posX / 32.0))][((int) Math.floor(player1.posY / 32.0))] != 0)
             {
                 RMR.suspended = true;
                 RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32.0), (int) Math.floor(player1.prevPosY / 32.0));
@@ -97,7 +112,7 @@ public class Map
             {
                 int x = RMR.rnd.nextInt(RMR.mapSide);
                 int y = RMR.rnd.nextInt(RMR.mapSide);
-                if (this.labyrinth.tiles[x][y] == 0)
+                if (this.tiles[x][y] == 0)
                 {
                     pickups.add(new int[]{x, y, RMR.rnd.nextInt(20000) + 10000, 1});
                 }
@@ -105,7 +120,7 @@ public class Map
 
             for (int i = 0; i < pickups.size(); i++)
             {
-                if ((Math.floor(this.player1.posX/32.0) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY/32.0) == this.pickups.get(i)[1]))
+                if ((Math.floor(this.player1.posX / 32.0) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY / 32.0) == this.pickups.get(i)[1]))
                 {
                /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
                Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
@@ -113,7 +128,7 @@ public class Map
                     this.pickups.remove(i);
                     Message msg = new Message();
                     msg.arg1 = this.player1.score;
-                    ((ActivityMain)RMR.am).HandlerUIUpdate.sendMessage(msg);
+                    ((ActivityMain) RMR.am).HandlerUIUpdate.sendMessage(msg);
                 }
             }
             /*TextView text = (TextView) RMR.am.findViewById(R.id.tv_score);
@@ -160,7 +175,7 @@ public class Map
             RMR.c.save();
             {
                 RMR.c.translate(RMR.mapSide * 32 / 2, RMR.mapSide * 32 / 2);
-                RMR.c.rotate(-(float)playerAngle, 0, 0);
+                RMR.c.rotate(-(float) playerAngle, 0, 0);
                 RMR.c.translate(-player1.posY, -player1.posX);
 
                 src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
@@ -202,7 +217,7 @@ public class Map
                     {
                         for (int j = 0; j < this.width; j++)
                         {
-                            if (this.labyrinth.tiles[j][i] == 0)
+                            if (this.tiles[j][i] == 0)
                             {
                                 continue;
                             }
@@ -243,7 +258,7 @@ public class Map
                 }
                 RMR.c.restore();
 
-                if(RMR.suspended)
+                if (RMR.suspended)
                 {
                     RMR.c.save();
                     {
@@ -270,7 +285,6 @@ public class Map
                 RMR.c.restore();
             }
             RMR.c.restore();
-
 
 
             RMR.c.save();

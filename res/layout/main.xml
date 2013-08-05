@@ -16,7 +16,9 @@
     <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/view" android:layout_centerVertical="true" android:id="@+id/tableLayout">
+            android:id="@+id/tableLayout"
+            android:layout_alignRight="@+id/view"
+            android:layout_above="@+id/button_fix">
         <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
@@ -98,6 +100,74 @@
     android:id="@+id/button_fix"
     android:onClick="fixCoord"
     android:layout_alignRight="@+id/view" android:layout_alignBottom="@+id/view"/>
+
+    <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/view"
+            android:layout_alignTop="@+id/view"
+            android:layout_alignParentLeft="false"
+            android:id="@+id/tl_rotation"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false">
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="U"
+                    android:id="@+id/btn_r_up"
+                    android:layout_gravity="center"
+                    android:layout_column="1"
+                    android:onClick="rotateUp"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="L"
+                    android:id="@+id/btn_r_left"
+                    android:singleLine="false"
+                    android:layout_gravity="center"
+                    android:onClick="rotateLeft"/>
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="O"
+                    android:id="@+id/button"
+                    android:layout_gravity="center"/>
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="R"
+                    android:id="@+id/btn_r_right"
+                    android:layout_gravity="center"
+                    android:onClick="rotateRight"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="D"
+                    android:id="@+id/btn_r_down"
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:onClick="rotateDown"/>
+        </TableRow>
+    </TableLayout>
 
 
 </RelativeLayout>

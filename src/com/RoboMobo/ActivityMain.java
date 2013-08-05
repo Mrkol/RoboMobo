@@ -171,4 +171,24 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
         return true;
     }*/
+
+    public void rotateUp(View view)
+    {
+        RMR.currentMap.player1.prevPosX--;
+    }
+
+    public void rotateDown(View view)
+    {
+        RMR.currentMap.player1.prevPosX++;
+    }
+
+    public void rotateLeft(View view)
+    {
+        RMR.currentMap.player1.prevPosY--;
+    }
+
+    public void rotateRight(View view)
+    {
+        RMR.currentMap.player1.prevPosY++;
+    }
 }

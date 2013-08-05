@@ -161,113 +161,133 @@ public class Map
             Rect src = new Rect();
             Rect dst = new Rect();
 
-            src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
-            dst.set(0, 0, mapW, mapH);
-
-            RMR.c.drawBitmap(RMGR.MAP_test, src, dst, pa);
-
-            pa.setColor(Color.BLACK);
-
             RMR.c.save();
             {
+                RMR.c.translate(RMR.mapSide * 32 / 2, RMR.mapSide * 32 / 2);
+                RMR.c.rotate(-(float)playerAngle, 0, 0);
+                RMR.c.translate(-player1.posY, -player1.posX);
 
-                for (int i = 0; i < RMR.currentMap.width; i++)
+                src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
+                dst.set(0, 0, mapW, mapH);
+
+                RMR.c.drawBitmap(RMGR.MAP_test, src, dst, pa);
+
+                pa.setColor(Color.BLACK);
+
+                RMR.c.save();
                 {
-                    for (int j = 0; j < RMR.currentMap.height; j++)
+
+                    for (int i = 0; i < RMR.currentMap.width; i++)
+                    {
+                        for (int j = 0; j < RMR.currentMap.height; j++)
+                        {
+                            RMR.c.save();
+                            {
+                                RMR.c.translate(i * 32, j * 32);
+                                RMR.c.drawLine(0, 0, 32, 0, pa);
+                                RMR.c.drawLine(0, 0, 0, 32, pa);
+                                RMR.c.drawLine(32, 32, 32, 0, pa);
+                                RMR.c.drawLine(32, 32, 0, 32, pa);
+
+
+                            }
+                            RMR.c.restore();
+                        }
+                    }
+                }
+                RMR.c.restore();
+
+                pa = new Paint();
+
+
+                RMR.c.save();
+                {
+                    for (int i = 0; i < this.height; i++)
+                    {
+                        for (int j = 0; j < this.width; j++)
+                        {
+                            if (this.labyrinth.tiles[j][i] == 0)
+                            {
+                                continue;
+                            }
+                            RMR.c.save();
+                            {
+                                RMR.c.translate(i * 32, j * 32);
+                                src.set(0, 0, RMGR.TILE_test.getWidth(), RMGR.TILE_test.getHeight());
+                                dst.set(0, 0, 32, 32);
+                                pa.setColor(Color.WHITE);
+                                RMR.c.drawBitmap(RMGR.TILE_test, src, dst, pa);
+                            }
+                            RMR.c.restore();
+                        }
+                    }
+                }
+                RMR.c.restore();
+
+
+                src.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
+                dst.set(0, 0, 32, 32);
+
+                RMR.c.save();
+                {
+                    for (int i = 0; i < this.pickups.size(); i++)
                     {
                         RMR.c.save();
                         {
-                            RMR.c.translate(i * 32, j * 32);
-                            RMR.c.drawLine(0, 0, 32, 0, pa);
-                            RMR.c.drawLine(0, 0, 0, 32, pa);
-                            RMR.c.drawLine(32, 32, 32, 0, pa);
-                            RMR.c.drawLine(32, 32, 0, 32, pa);
-
-
+                            RMR.c.translate(this.pickups.get(i)[1] * 32, this.pickups.get(i)[0] * 32);
+                            switch (this.pickups.get(i)[0])
+                            {
+                                default:
+                                    RMR.c.drawBitmap(RMGR.PICKUP_test, src, dst, pa);
+                                    break;
+                            }
                         }
                         RMR.c.restore();
                     }
                 }
-            }
-            RMR.c.restore();
+                RMR.c.restore();
 
-            pa = new Paint();
-
-
-            RMR.c.save();
-            {
-                for (int i = 0; i < this.height; i++)
-                {
-                    for (int j = 0; j < this.width; j++)
-                    {
-                        if (this.labyrinth.tiles[j][i] == 0)
-                        {
-                            continue;
-                        }
-                        RMR.c.save();
-                        {
-                            RMR.c.translate(i * 32, j * 32);
-                            src.set(0, 0, RMGR.TILE_test.getWidth(), RMGR.TILE_test.getHeight());
-                            dst.set(0, 0, 32, 32);
-                            pa.setColor(Color.WHITE);
-                            RMR.c.drawBitmap(RMGR.TILE_test, src, dst, pa);
-                        }
-                        RMR.c.restore();
-                    }
-                }
-            }
-            RMR.c.save();
-
-
-            src.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
-            dst.set(0, 0, 32, 32);
-
-            RMR.c.save();
-            {
-                for (int i = 0; i < this.pickups.size(); i++)
+                if(RMR.suspended)
                 {
                     RMR.c.save();
                     {
-                        RMR.c.translate(this.pickups.get(i)[1] * 32, this.pickups.get(i)[0] * 32);
-                        switch (this.pickups.get(i)[0])
-                        {
-                            default:
-                                RMR.c.drawBitmap(RMGR.PICKUP_test, src, dst, pa);
-                                break;
-                        }
+                        pa.setColor(Color.BLACK);
+                        pa.setAlpha(80);
+
+                        RMR.c.drawRect(0, 0, RMR.mapSide * 32, RMR.suspendTile.x * 32, pa);
+                        RMR.c.drawRect((RMR.suspendTile.y + 1) * 32, RMR.suspendTile.x * 32, RMR.mapSide * 32, (RMR.suspendTile.x + 1) * 32, pa);
+                        RMR.c.drawRect(0, RMR.suspendTile.x * 32, RMR.suspendTile.y * 32, (RMR.suspendTile.x + 1) * 32, pa);
+                        RMR.c.drawRect(0, (RMR.suspendTile.x + 1) * 32, RMR.mapSide * 32, RMR.mapSide * 32, pa);
+
+                        pa.setColor(Color.YELLOW);
+                        pa.setAlpha((int) Math.floor((Math.sin(System.currentTimeMillis() / 100) + 2) * 30));
+                        RMR.c.drawRect(RMR.suspendTile.y * 32, RMR.suspendTile.x * 32, (RMR.suspendTile.y + 1) * 32, (RMR.suspendTile.x + 1) * 32, pa);
                     }
                     RMR.c.restore();
                 }
+                RMR.c.save();
+                {
+                    pa.setColor(Color.MAGENTA);
+                    RMR.c.translate(RMR.currentMap.player1.prevPosY, RMR.currentMap.player1.prevPosX);
+                    RMR.c.drawRect(-4, -4, 4, 4, pa);
+                }
+                RMR.c.restore();
             }
+            RMR.c.restore();
+
+
 
             RMR.c.save();
             {
-                RMR.c.restore();
                 pa.setColor(Color.WHITE);
-                RMR.c.translate(player1.posY, player1.posX);
+                RMR.c.translate(RMR.mapSide * 32 / 2, RMR.mapSide * 32 / 2);
                 src.set(0, 0, RMGR.CHAR_test.getWidth(), RMGR.CHAR_test.getHeight());
                 dst.set(-8, -8, 8, 8);
-                RMR.c.rotate((float)playerAngle - 90, 0, 0);
                 RMR.c.drawBitmap(RMGR.CHAR_test, src, dst, pa);
             }
             RMR.c.restore();
         }
         RMR.c.restore();
-
-        if(RMR.suspended)
-        {
-            pa.setColor(Color.BLACK);
-            pa.setAlpha(80);
-
-            RMR.c.drawRect(0, 0, RMR.mapSide * 32, RMR.suspendTile.x * 32, pa);
-            RMR.c.drawRect((RMR.suspendTile.y + 1) * 32, RMR.suspendTile.x * 32, RMR.mapSide * 32, (RMR.suspendTile.x + 1) * 32, pa);
-            RMR.c.drawRect(0, RMR.suspendTile.x * 32, RMR.suspendTile.y * 32, (RMR.suspendTile.x + 1) * 32, pa);
-            RMR.c.drawRect(0, (RMR.suspendTile.x + 1) * 32, RMR.mapSide * 32, RMR.mapSide * 32, pa);
-
-            pa.setColor(Color.YELLOW);
-            pa.setAlpha((int) Math.floor((Math.sin(System.currentTimeMillis() / 100) + 2) * 30));
-            RMR.c.drawRect(RMR.suspendTile.y * 32, RMR.suspendTile.x * 32, (RMR.suspendTile.y + 1) * 32, (RMR.suspendTile.x + 1) * 32, pa);
-        }
     }
 
     public void fixCorner1(double latt, double longt)

@@ -61,6 +61,7 @@ public class Map
                 tiles[i][j] = 0;
             }
         }
+
         for (int i = 0; i < 3; i++)
         {
             tiles[3][i] = 1;
@@ -69,6 +70,16 @@ public class Map
         {
             tiles[i][5] = 1;
         }
+
+        /*Runnable r = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Generation.generateRivers(tiles, width, height);
+            }
+        };
+        r.run();*/
     }
 
     public void Update(long elapsedTime)

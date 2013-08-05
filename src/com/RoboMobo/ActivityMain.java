@@ -3,6 +3,8 @@ package com.RoboMobo;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 public class ActivityMain extends Activity// implements View.OnTouchListener
 {
     public boolean flag = true;
+    public SensorManager msensorManager;
 
     public final Handler HandlerUIUpdate = new Handler()
     {
@@ -35,11 +38,27 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         RMR.gps = new GPSModule();
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, RMR.gps);
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, RMR.gps);
         //((MainSurfaceView) findViewById(R.id.view)).setOnTouchListener(this);
+        RMR.compass = new CompassModule();
+        msensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 
         RMR.sw = (MainSurfaceView) findViewById(R.id.view);
         RMR.init(this);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        msensorManager.registerListener(RMR.compass, msensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+        msensorManager.registerListener(RMR.compass, msensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        msensorManager.unregisterListener(RMR.compass);
     }
 
     public void fixCoord(View view)

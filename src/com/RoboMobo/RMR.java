@@ -51,6 +51,7 @@ public class RMR
      */
     public static int mapSide = 10;
     public static GPSModule gps;
+    public static CompassModule compass;
 
     public static MainSurfaceView sw;
 

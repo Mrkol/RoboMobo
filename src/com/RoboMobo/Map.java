@@ -22,19 +22,21 @@ public class Map
     public final int background;
     public final int width;
     public final int height;
-    public double corner1latt;
-    public double corner1long;
-    public double corner2latt;
-    public double corner2long;
+    public double corner1latt = 0;
+    public double corner1long = 0;
+    public double corner2latt = 0;
+    public double corner2long = 0;
     public boolean corner1fixed;
     public boolean corner2fixed;
-    public double basexlatt;
-    public double basexlong;
-    public double baseylatt;
-    public double baseylong;
+    public double basexlatt = 0;
+    public double basexlong = 0;
+    public double baseylatt = 0;
+    public double baseylong = 0;
     public double det;
     public ArrayList<int[]> pickups;
     public Player player1;
+
+    public float prevFilteredCompass = 0;
 
 
     /**
@@ -157,23 +159,24 @@ public class Map
 
             Player p = RMR.currentMap.player1;
 
-            double playerAngle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
+            double mapRotation = Math.toDegrees(Math.asin(Math.abs(this.basexlong - this.baseylong) / Math.sqrt(Math.pow(this.basexlatt - this.baseylatt, 2) + Math.pow(this.basexlong - this.baseylong, 2))));
+            //double playerAngle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
             if ((p.posX - p.prevPosX) >= 0)
             {
                 if ((p.posY - p.prevPosY) >= 0)
                 {
-                    playerAngle = 180 - playerAngle;
+                    mapRotation = 180 - mapRotation;
                 }
                 else
                 {
-                    playerAngle = 180 + playerAngle;
+                    mapRotation = 180 + mapRotation;
                 }
             }
             else
             {
                 if ((p.posY - p.prevPosY) < 0)
                 {
-                    playerAngle = 360 - playerAngle;
+                    mapRotation = 360 - mapRotation;
                 }
             }
 
@@ -183,10 +186,14 @@ public class Map
             Rect src = new Rect();
             Rect dst = new Rect();
 
+            float α = 0.9f;
+
             RMR.c.save();
             {
                 RMR.c.translate(RMR.mapSide * 32 / 2, RMR.mapSide * 32 / 2);
-                RMR.c.rotate(-(float) playerAngle, 0, 0);
+                /*if(this.corner1fixed && this.corner2fixed)*/
+                prevFilteredCompass = (α * prevFilteredCompass) + ((1 - α) * ((float)Math.toDegrees(-RMR.compass.orientationData[0])));
+                RMR.c.rotate((float)mapRotation - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
                 RMR.c.translate(-player1.posY, -player1.posX);
 
                 src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());

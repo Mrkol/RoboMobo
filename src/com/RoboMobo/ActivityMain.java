@@ -34,7 +34,6 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         super.onCreate(savedInstanceState);
         RMGR.init(this);
         setContentView(R.layout.main);
-        Log.wtf("1", "1");
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         RMR.gps = new GPSModule();
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, RMR.gps);
@@ -42,7 +41,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         RMR.compass = new CompassModule();
         msensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 
-        RMR.sw = (MainSurfaceView) findViewById(R.id.view);
+        RMR.sw = (MainSurfaceView) findViewById(R.id.view_ingame_canvas);
         RMR.init(this);
     }
 

@@ -193,7 +193,7 @@ public class Map
                 RMR.c.translate(RMR.mapSide * 32 / 2, RMR.mapSide * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
                 prevFilteredCompass = (α * prevFilteredCompass) + ((1 - α) * ((float)Math.toDegrees(-RMR.compass.orientationData[0])));
-                RMR.c.rotate((float)mapRotation - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
+                RMR.c.rotate((this.corner1fixed && this.corner2fixed ? (float)mapRotation : 0) + prevFilteredCompass, 0, 0);
                 RMR.c.translate(-player1.posY, -player1.posX);
 
                 src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());

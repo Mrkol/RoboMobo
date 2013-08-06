@@ -134,7 +134,8 @@ public class Map
 
         try
         {
-            RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
+            if(RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.ServerIngame) RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
+
         }
         catch (IOException e)
         {
@@ -237,7 +238,7 @@ public class Map
                 RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
                 prevFilteredCompass = (α * prevFilteredCompass) + ((1 - α) * ((float)Math.toDegrees(-RMR.compass.orientationData[0])));
-                RMR.c.rotate((!Double.isNaN(mapRotation) ? (float)mapRotation : 0) - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
+                if(this.corner1fixed && this.corner2fixed) RMR.c.rotate((!Double.isNaN(mapRotation) ? (float)mapRotation : 0) - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
                 RMR.c.translate(-this.p0.posY, -this.p0.posX);
 
                 src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());

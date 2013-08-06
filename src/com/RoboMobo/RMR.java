@@ -94,6 +94,8 @@ public class RMR
         {
             RMR.onServerConnected();
         }
+
+        if(RMR.state == GameState.Singleplayer) RMR.state = GameState.SingleplayerIngame;
     }
 
     public static void onServerConnected()
@@ -149,7 +151,7 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
-        if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame) RMR.currentMap.Update(elapsedTime);
+        if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Update(elapsedTime);
     }
 
 
@@ -164,7 +166,7 @@ public class RMR
             p.setColor(Color.rgb(0xFF, 0xFF, 0xFF));
             RMR.c.drawPaint(p);
 
-            if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame) RMR.currentMap.Draw();
+            if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Draw();
         }
         RMR.c.restore();
     }
@@ -176,6 +178,8 @@ public class RMR
         Client,
         Server,
         ClientIngame,
-        ServerIngame
+        ServerIngame,
+        Singleplayer,
+        SingleplayerIngame
     }
 }

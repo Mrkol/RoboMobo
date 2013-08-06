@@ -35,7 +35,7 @@
                     android:layout_below="@+id/btn_ingame_up"
                     android:onClick="moveUp"
                     android:layout_column="1"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
 
         </TableRow>
 
@@ -52,7 +52,7 @@
                     android:layout_below="@+id/btn_ingame_up"
                     android:onClick="moveLeft"
                     android:layout_column="0"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
 
             <Button
                     android:layout_width="48dp"
@@ -64,7 +64,7 @@
                     android:layout_alignRight="@+id/btn_ingame_up"
                     android:onClick="setPlayer"
                     android:layout_column="1"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
 
             <Button
                     android:layout_width="48dp"
@@ -75,7 +75,7 @@
                     android:layout_centerVertical="true"
                     android:onClick="moveRight"
                     android:layout_column="2"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
         </TableRow>
 
         <TableRow
@@ -91,7 +91,7 @@
                     android:layout_below="@+id/btn_ingame_right"
                     android:onClick="moveDown"
                     android:layout_column="1"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
         </TableRow>
 
     </TableLayout>
@@ -168,7 +168,7 @@
                     android:layout_gravity="center"
                     android:layout_column="1"
                     android:onClick="rotateUp"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
         </TableRow>
 
         <TableRow
@@ -183,7 +183,7 @@
                     android:singleLine="true"
                     android:layout_gravity="center"
                     android:onClick="rotateLeft"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
 
             <Button
                     android:layout_width="35dp"
@@ -191,7 +191,7 @@
                     android:text="O"
                     android:id="@+id/btn_ingame_O"
                     android:layout_gravity="center"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
 
             <Button
                     android:layout_width="35dp"
@@ -200,7 +200,7 @@
                     android:id="@+id/btn_ingame_r_right"
                     android:layout_gravity="center"
                     android:onClick="rotateRight"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
         </TableRow>
 
         <TableRow
@@ -215,7 +215,7 @@
                     android:layout_column="1"
                     android:layout_gravity="center"
                     android:onClick="rotateDown"
-                    android:background="@drawable/btn_test"/>
+                    android:background="@drawable/button"/>
         </TableRow>
     </TableLayout>
 

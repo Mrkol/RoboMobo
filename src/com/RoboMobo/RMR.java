@@ -1,6 +1,8 @@
 package com.RoboMobo;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +10,7 @@ import android.graphics.Point;
 import android.view.Display;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,6 +58,11 @@ public class RMR
 
     public static MainSurfaceView sw;
 
+    public static UUID uuid;
+    public static BluetoothServerSocket btServerSocket;
+    public static BluetoothSocket btSocket;
+    public static final int INCOMING_MESSAGE = 1;
+
     /**
      * The current map.
      */
@@ -76,6 +84,9 @@ public class RMR
         suspendTile = new Point();
 
         currentMap = new Map(mapSide, mapSide, R.drawable.map_test);
+
+
+        uuid = UUID.fromString("0b344d07-87a9-41cd-bc61-0e4e22f15f4d");
     }
 
     /**

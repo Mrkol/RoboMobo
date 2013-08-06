@@ -9,95 +9,202 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             class="com.RoboMobo.MainSurfaceView"
-            android:id="@+id/view"
+            android:id="@+id/view_ingame_canvas"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true" android:layout_alignParentLeft="true"/>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"/>
 
     <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/view" android:layout_centerVertical="true" android:id="@+id/tableLayout">
+            android:id="@+id/tl_ingame_controlls"
+            android:layout_alignRight="@+id/view_ingame_canvas"
+            android:layout_above="@+id/btn_ingame_fixcorner">
+
         <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
+
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Up"
-                    android:id="@+id/btn_up"
-                    android:layout_toLeftOf="@+id/btn_right" android:layout_above="@+id/btn_right"
-                    android:layout_alignLeft="@+id/btn_down" android:onClick="moveUp" android:layout_column="1"/>
+                    android:id="@+id/btn_ingame_up"
+                    android:layout_toLeftOf="@+id/btn_ingame_right"
+                    android:layout_above="@+id/btn_ingame_right"
+                    android:layout_alignLeft="@+id/btn_ingame_down"
+                    android:onClick="moveUp"
+                    android:layout_column="1"/>
         </TableRow>
+
         <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
+
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Left"
-                    android:id="@+id/btn_left"
-                    android:layout_toLeftOf="@+id/btn_up" android:layout_below="@+id/btn_up" android:onClick="moveLeft"
+                    android:id="@+id/btn_ingame_left"
+                    android:layout_toLeftOf="@+id/btn_ingame_up"
+                    android:layout_below="@+id/btn_ingame_up"
+                    android:onClick="moveLeft"
                     android:layout_column="0"/>
+
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Set"
-                    android:id="@+id/btn_set" android:layout_alignLeft="@+id/btn_up" android:layout_below="@+id/btn_up"
-                    android:layout_alignRight="@+id/btn_up" android:onClick="setPlayer" android:layout_column="1"/>
+                    android:id="@+id/btn_ingame_set"
+                    android:layout_alignLeft="@+id/btn_ingame_up"
+                    android:layout_below="@+id/btn_ingame_up"
+                    android:layout_alignRight="@+id/btn_ingame_up"
+                    android:onClick="setPlayer"
+                    android:layout_column="1"/>
+
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Right"
-                    android:id="@+id/btn_right"
-                    android:layout_alignRight="@+id/view" android:layout_centerVertical="true" android:onClick="moveRight"
+                    android:id="@+id/btn_ingame_right"
+                    android:layout_alignRight="@+id/view_ingame_canvas"
+                    android:layout_centerVertical="true"
+                    android:onClick="moveRight"
                     android:layout_column="2"/>
         </TableRow>
+
         <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
+
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Down"
-                    android:id="@+id/btn_down"
-                    android:layout_toLeftOf="@+id/btn_right" android:layout_below="@+id/btn_right" android:onClick="moveDown"
+                    android:id="@+id/btn_ingame_down"
+                    android:layout_toLeftOf="@+id/btn_ingame_right"
+                    android:layout_below="@+id/btn_ingame_right"
+                    android:onClick="moveDown"
                     android:layout_column="1"/>
         </TableRow>
     </TableLayout>
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tableLayout" android:layout_alignTop="@+id/view">
+            android:layout_toLeftOf="@+id/tl_ingame_controlls"
+            android:layout_alignTop="@+id/view_ingame_canvas">
+
         <TextView
                 android:layout_width="146dp"
                 android:layout_height="wrap_content"
                 android:text="Координаты:"
                 android:id="@+id/tv_coord"
-                android:layout_alignRight="@+id/view" android:layout_alignTop="@+id/view"/>
+                android:layout_alignRight="@+id/view_ingame_canvas"
+                android:layout_alignTop="@+id/view_ingame_canvas"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Скорость: "
-                android:id="@+id/tv_speed" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/textView"/>
+                android:id="@+id/tv_speed"
+                android:layout_alignLeft="@+id/tv_coord"
+                android:layout_below="@+id/textView"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Точность: "
-                android:id="@+id/tv_accuracy" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/tv_score"/>
+                android:id="@+id/tv_accuracy"
+                android:layout_alignLeft="@+id/tv_coord"
+                android:layout_below="@+id/tv_score"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Очки: "
-                android:id="@+id/tv_score" android:layout_alignLeft="@+id/tv_coord" android:layout_below="@+id/tv_coord"/>
+                android:id="@+id/tv_score"
+                android:layout_alignLeft="@+id/tv_coord"
+                android:layout_below="@+id/tv_coord"/>
     </LinearLayout>
+
     <Button
-    android:layout_width="90dp"
-    android:layout_height="44dp"
-    android:text="Fix corner"
-    android:id="@+id/button_fix"
-    android:onClick="fixCoord"
-    android:layout_alignRight="@+id/view" android:layout_alignBottom="@+id/view"/>
+            android:layout_width="90dp"
+            android:layout_height="44dp"
+            android:text="Fix corner"
+            android:id="@+id/btn_ingame_fixcorner"
+            android:onClick="fixCoord"
+            android:layout_alignRight="@+id/view_ingame_canvas"
+            android:layout_alignBottom="@+id/view_ingame_canvas"/>
+
+    <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/view_ingame_canvas"
+            android:layout_alignTop="@+id/view_ingame_canvas"
+            android:layout_alignParentLeft="false"
+            android:id="@+id/tl_ingame_rotation"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false">
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="U"
+                    android:id="@+id/btn_ingame_r_up"
+                    android:layout_gravity="center"
+                    android:layout_column="1"
+                    android:onClick="rotateUp"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="L"
+                    android:id="@+id/btn_ingame_r_left"
+                    android:singleLine="true"
+                    android:layout_gravity="center"
+                    android:onClick="rotateLeft"/>
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="O"
+                    android:id="@+id/btn_ingame_O"
+                    android:layout_gravity="center"/>
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="R"
+                    android:id="@+id/btn_ingame_r_right"
+                    android:layout_gravity="center"
+                    android:onClick="rotateRight"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="D"
+                    android:id="@+id/btn_ingame_r_down"
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:onClick="rotateDown"/>
+        </TableRow>
+    </TableLayout>
 
 
 </RelativeLayout>

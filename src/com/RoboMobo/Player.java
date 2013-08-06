@@ -5,7 +5,6 @@ package com.RoboMobo;
  * User: Nats
  * Date: 31.07.13
  * Time: 16:54
- * To change this template use File | Settings | File Templates.
  */
 public class Player
 {
@@ -15,11 +14,11 @@ public class Player
     public int prevPosY;
     public int score;
 
-    public Player(int x, int y, int s)
+    public Player(int x, int y)
     {
         posX = x;
         posY = y;
-        score = s;
+        score = 0;
     }
 
     public void changePos(int[] coord)

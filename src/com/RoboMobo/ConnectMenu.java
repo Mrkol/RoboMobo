@@ -90,11 +90,28 @@ public class ConnectMenu extends Activity
 
         Log.i("Bluetooth", "Fetch adapter");
         btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (btAdapter == null)      //проверяем, есть ли bluetooth на телефоне
+        {
+            Toast.makeText(this, "Bluetooth is not available.", Toast.LENGTH_SHORT).show();
+        }
+
         if (!btAdapter.isEnabled())
         {
             Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBT, REQUEST_ENABLE_BT);
         }
+
+        if (btAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) //проверяем, включена ли обнаружаемость другими устройствами
+        {
+            Intent discoverDevice = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE); //bluetooth не включен
+            discoverDevice.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 0);
+            startActivity(discoverDevice);                                                    //по пользовательскому соглашению включаем его
+        } else
+        {
+            Toast.makeText(this, "Bluetooth is currently working", Toast.LENGTH_SHORT).show(); //говорим, что bluetooth уже работает
+        }
+
         while (!btAdapter.isEnabled());
         Log.i("Bluetooth", "Adapter locked, start server connection thread");
         expectConnectThread = new ExpectConnectThread(btAdapter, this);

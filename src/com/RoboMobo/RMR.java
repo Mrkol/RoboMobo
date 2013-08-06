@@ -88,6 +88,11 @@ public class RMR
         width = display.getWidth();
         height = display.getHeight();
         am = act;
+
+        if(RMR.state == GameState.Server)
+        {
+            RMR.onServerConnected();
+        }
     }
 
     public static void onServerConnected()
@@ -143,7 +148,7 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
-        if(RMR.state != GameState.NotInGame) RMR.currentMap.Update(elapsedTime);
+        if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame) RMR.currentMap.Update(elapsedTime);
     }
 
 
@@ -158,7 +163,7 @@ public class RMR
             p.setColor(Color.rgb(0xFF, 0xFF, 0xFF));
             RMR.c.drawPaint(p);
 
-            if(RMR.state != GameState.NotInGame) RMR.currentMap.Draw();
+            if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame) RMR.currentMap.Draw();
         }
         RMR.c.restore();
     }

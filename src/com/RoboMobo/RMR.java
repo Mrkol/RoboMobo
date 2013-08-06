@@ -92,7 +92,7 @@ public class RMR
 
     public static void onServerConnected()
     {
-        currentMap = new Map(mapSideLength, mapSideLength, R.drawable.map_test);
+        currentMap = new Map(mapSideLength, mapSideLength);
 
         /*
             Generate da map
@@ -116,7 +116,6 @@ public class RMR
         try
         {
             jobj.put("Tiles", jarr);
-            jobj.put("Background", RMR.currentMap.background);
         }
         catch (JSONException e)
         {
@@ -144,7 +143,7 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
-        RMR.currentMap.Update(elapsedTime);
+        if(RMR.state != GameState.NotInGame) RMR.currentMap.Update(elapsedTime);
     }
 
 
@@ -156,10 +155,10 @@ public class RMR
         RMR.c.save();
         {
             Paint p = new Paint();
-            p.setColor(Color.rgb(0x0, 0x0, 0xF));
+            p.setColor(Color.rgb(0xFF, 0xFF, 0xFF));
             RMR.c.drawPaint(p);
 
-            RMR.currentMap.Draw();
+            if(RMR.state != GameState.NotInGame) RMR.currentMap.Draw();
         }
         RMR.c.restore();
     }
@@ -169,6 +168,8 @@ public class RMR
         Invalid,
         NotInGame,
         Client,
-        Server
+        Server,
+        ClientIngame,
+        ServerIngame
     }
 }

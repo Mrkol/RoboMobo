@@ -5,7 +5,10 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Message;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +22,6 @@ public class Map
     /**
      * Resource ID of background for this map.
      */
-    public final int background;
     public final int width;
     public final int height;
     public double corner1latt = 0;
@@ -49,11 +51,10 @@ public class Map
      */
     public short[][] tiles;
 
-    public Map(int w, int h, int bgrid)
+    public Map(int w, int h)
     {
         this.width = w;
         this.height = h;
-        this.background = bgrid;
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
         corner2fixed = false;
@@ -109,6 +110,35 @@ public class Map
         {
             this.suspendTile = null;
             this.state = MapState.Game;
+        }
+
+        JSONObject pl = new JSONObject();
+        try
+        {
+            pl.put("X", p0.posX);
+            pl.put("Y", p0.posY);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        JSONObject jobj = new JSONObject();
+        try
+        {
+            jobj.put("Player", pl);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+            RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
 
         if (state == MapState.Game)
@@ -207,7 +237,7 @@ public class Map
                 RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
                 prevFilteredCompass = (α * prevFilteredCompass) + ((1 - α) * ((float)Math.toDegrees(-RMR.compass.orientationData[0])));
-                RMR.c.rotate((float)mapRotation - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
+                RMR.c.rotate((!Double.isNaN(mapRotation) ? (float)mapRotation : 0) - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
                 RMR.c.translate(-this.p0.posY, -this.p0.posX);
 
                 src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());

@@ -12,6 +12,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,12 +42,30 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
             {
                 try
                 {
-                    RMR.currentMap = new Map(jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("background"));
-
+                    RMR.currentMap = new Map(jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("height"));
+                    for(int i = 0; i < RMR.currentMap.width; i++)
+                    {
+                        for(int j = 0; j < RMR.currentMap.height; j++)
+                        {
+                            RMR.currentMap.tiles[i][j] = (short)((JSONArray)jobj.getJSONObject("Map").getJSONArray("Tiles").get(i)).getInt(j);
+                        }
+                    }
                 }
                 catch (JSONException e)
                 {
 
+                }
+            }
+
+            if(jobj.has("Player"))
+            {
+                try
+                {
+                    RMR.currentMap.p1.changePos(new int[] {jobj.getJSONObject("Player").getInt("X"), jobj.getJSONObject("Player").getInt("Y")});
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
                 }
             }
         }

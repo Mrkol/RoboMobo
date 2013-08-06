@@ -157,7 +157,7 @@ public class ActivityConnectMenu extends Activity
 
     public void toggleServer(View view)
     {
-        if(!((ToggleButton) view).isEnabled())
+        if(! ((ToggleButton) view).isEnabled())
         {
             expectConnectThread.start();
         }

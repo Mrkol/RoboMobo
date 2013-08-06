@@ -58,6 +58,7 @@ public class ExpectConnectThread extends Thread
                 {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
+                RMR.onServerConnected();
                 Intent connectIntent = new Intent(activity, ActivityMain.class);
                 activity.startActivity(connectIntent);
                 running = false;

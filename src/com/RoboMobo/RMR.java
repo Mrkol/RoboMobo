@@ -92,7 +92,7 @@ public class RMR
         /*
             Generate da map
          */
-        currentMap.players.add(new Player(0, 0, playerID, true, null));
+        RMR.currentMap.p0 = new Player(0, 0, "P0", true);
 
         JSONArray jarr = new JSONArray();
 
@@ -119,24 +119,17 @@ public class RMR
         }
 
 
-        for(int i = 0; i < RMR.currentMap.players.size(); i++)
+        try
         {
-            Player p = RMR.currentMap.players.get(i);
-            if(!p.isLocal)
-            {
-                try
-                {
-                    p.BTS.getOutputStream().write(jobj.toString().getBytes());
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-            }
+            RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 
-    public static void onClientConnected(JSONObject json) //called after server sent map and statistics
+    public static void onClientConnected() //called after server sent map and statistics
     {
 
     }

@@ -12,6 +12,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ActivityMain extends Activity// implements View.OnTouchListener
 {
@@ -25,6 +27,28 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         {
             TextView tv = (TextView) RMR.am.findViewById(R.id.tv_score);
             tv.setText("Очки: " + msg.arg1);
+        }
+    };
+
+    public final Handler HandleBluetoothInput = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            JSONObject jobj = (JSONObject) msg.obj;
+
+            if(jobj.has("Map") && RMR.state == RMR.GameState.Client)
+            {
+                try
+                {
+                    RMR.currentMap = new Map(jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("background"));
+
+                }
+                catch (JSONException e)
+                {
+
+                }
+            }
         }
     };
 
@@ -81,37 +105,37 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void moveUp(View view)
     {
-        RMR.currentMap.players.get(0).prevPosX = RMR.currentMap.players.get(0).posX;
-        RMR.currentMap.players.get(0).prevPosY = RMR.currentMap.players.get(0).posY;
-        RMR.currentMap.players.get(0).posX -= 32;
+        RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
+        RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
+        RMR.currentMap.p0.posX -= 32;
     }
 
     public void moveDown(View view)
     {
-        RMR.currentMap.players.get(0).prevPosX = RMR.currentMap.players.get(0).posX;
-        RMR.currentMap.players.get(0).prevPosY = RMR.currentMap.players.get(0).posY;
-        RMR.currentMap.players.get(0).posX += 32;
+        RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
+        RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
+        RMR.currentMap.p0.posX += 32;
     }
 
     public void moveRight(View view)
     {
-        RMR.currentMap.players.get(0).prevPosX = RMR.currentMap.players.get(0).posX;
-        RMR.currentMap.players.get(0).prevPosY = RMR.currentMap.players.get(0).posY;
-        RMR.currentMap.players.get(0).posY += 32;
+        RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
+        RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
+        RMR.currentMap.p0.posY += 32;
     }
 
     public void moveLeft(View view)
     {
-        RMR.currentMap.players.get(0).prevPosX = RMR.currentMap.players.get(0).posX;
-        RMR.currentMap.players.get(0).prevPosY = RMR.currentMap.players.get(0).posY;
-        RMR.currentMap.players.get(0).posY -= 32;
+        RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
+        RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
+        RMR.currentMap.p0.posY -= 32;
     }
 
     public void setPlayer(View view)
     {
-        if (RMR.currentMap.players.get(0).posX != 16 && RMR.currentMap.players.get(0).posY != 16)
+        if (RMR.currentMap.p0.posX != 16 && RMR.currentMap.p0.posY != 16)
         {
-            RMR.currentMap.players.get(0).changePos(new int[]{16, 16});
+            RMR.currentMap.p0.changePos(new int[]{16, 16});
 
             RMR.currentMap.suspendTile = new Point(0, 0);
             RMR.currentMap.state = Map.MapState.Game;
@@ -120,21 +144,21 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void rotateUp(View view)
     {
-        RMR.currentMap.players.get(0).prevPosX--;
+        RMR.currentMap.p0.prevPosX--;
     }
 
     public void rotateDown(View view)
     {
-        RMR.currentMap.players.get(0).prevPosX++;
+        RMR.currentMap.p0.prevPosX++;
     }
 
     public void rotateLeft(View view)
     {
-        RMR.currentMap.players.get(0).prevPosY--;
+        RMR.currentMap.p0.prevPosY--;
     }
 
     public void rotateRight(View view)
     {
-        RMR.currentMap.players.get(0).prevPosY++;
+        RMR.currentMap.p0.prevPosY++;
     }
 }

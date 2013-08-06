@@ -1,4 +1,4 @@
-package com.example.BTTest2;
+package com.RoboMobo;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
@@ -65,7 +65,6 @@ public class ExpectConnectThread extends Thread
                 }
 //                adapter.cancelDiscovery();
                 Intent connectIntent = new Intent(activity, ActivityMain.class);
-                connectIntent.putExtra("server", true);
                 activity.startActivity(connectIntent);
                 break;
             }

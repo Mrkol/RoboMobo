@@ -33,7 +33,7 @@ public class ConnectMenu extends Activity
     public LinearLayout llDevices;
     public ListView lvDevices;
     public BroadcastReceiver btDeviceFound;
-//    public ExpectConnectThread expectConnectThread;
+    public ExpectConnectThread expectConnectThread;
     public Handler handler;
 
     /**
@@ -84,9 +84,7 @@ public class ConnectMenu extends Activity
                 {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                Intent connectIntent = new Intent(getApplicationContext(), ConnectMenu.class);
-                connectIntent.putExtra("server", false);
-                connectIntent.putExtra("device", selectedDevice);
+                Intent connectIntent = new Intent(getApplicationContext(), ActivityMain.class);
                 startActivity(connectIntent);
             }
         });
@@ -100,8 +98,8 @@ public class ConnectMenu extends Activity
         }
         while (!btAdapter.isEnabled());
         Log.i("Bluetooth", "Adapter locked, start server connection thread");
-//        expectConnectThread = new ExpectConnectThread(btAdapter, this);
-//        expectConnectThread.start();
+        expectConnectThread = new ExpectConnectThread(btAdapter, this);
+        expectConnectThread.start();
         Log.i("Bluetooth", "Thread started, device search");
         devices = new ArrayList<BluetoothDevice>(btAdapter.getBondedDevices());
         if (devices.size() > 0)

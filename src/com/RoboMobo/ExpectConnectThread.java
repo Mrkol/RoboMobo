@@ -1,16 +1,10 @@
 package com.RoboMobo;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.util.Log;
-import com.RoboMobo.ActivityMain;
-import com.RoboMobo.ConnectMenu;
-import com.RoboMobo.RMR;
 
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,11 +14,11 @@ import java.util.UUID;
  */
 public class ExpectConnectThread extends Thread
 {
-    ConnectMenu activity;
+    ActivityConnectMenu activity;
     BluetoothAdapter adapter;
 
 
-    public ExpectConnectThread(BluetoothAdapter btAdapter, ConnectMenu _activity)
+    public ExpectConnectThread(BluetoothAdapter btAdapter, ActivityConnectMenu _activity)
     {
         Log.i("ExpectConnectThread", "started");
         adapter = btAdapter;

@@ -22,7 +22,18 @@ public class ActivityMainMenu extends Activity
 
     public void play(View view)
     {
-        Intent intent = new Intent(this, ConnectMenu.class);
+        Intent intent = new Intent(this, ActivityConnectMenu.class);
+        startActivity(intent);
+    }
+
+    public void host(View view)
+    {
+
+    }
+
+    public void connect(View view)
+    {
+        Intent intent = new Intent(this, ActivityConnectMenu.class);
         startActivity(intent);
     }
 }

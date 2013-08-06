@@ -7,8 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.Display;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
 
@@ -89,16 +92,48 @@ public class RMR
         /*
             Generate da map
          */
+        currentMap.players.add(new Player(0, 0, playerID, true, null));
 
-        /*
-            for each client, send the map + some stats, get their stats
-         */
+        JSONArray jarr = new JSONArray();
 
-        currentMap.players.add(new Player(0, 0, playerID, true));
+        for(int i = 0; i < RMR.currentMap.width; i++)
+        {
+            JSONArray jarrr = new JSONArray();
+            for(int j = 0; j < RMR.currentMap.height; j++)
+            {
+                jarrr.put(RMR.currentMap.tiles[i][j]);
+            }
+            jarr.put(jarrr);
+        }
 
-        /*
-            for each client, create a Player instance from stats
-         */
+        JSONObject jobj = new JSONObject();
+
+        try
+        {
+            jobj.put("Tiles", jarr);
+            jobj.put("Background", RMR.currentMap.background);
+        }
+        catch (JSONException e)
+        {
+
+        }
+
+
+        for(int i = 0; i < RMR.currentMap.players.size(); i++)
+        {
+            Player p = RMR.currentMap.players.get(i);
+            if(!p.isLocal)
+            {
+                try
+                {
+                    p.BTS.getOutputStream().write(jobj.toString().getBytes());
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        }
     }
 
     public static void onClientConnected(JSONObject json) //called after server sent map and statistics

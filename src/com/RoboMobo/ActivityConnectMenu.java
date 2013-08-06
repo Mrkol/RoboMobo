@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Date: 06.08.13
  * Time: 12:08
  */
-public class ConnectMenu extends Activity
+public class ActivityConnectMenu extends Activity
 {
     public BluetoothAdapter btAdapter;
     public ArrayList<BluetoothDevice> devices;

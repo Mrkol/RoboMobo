@@ -1,5 +1,7 @@
 package com.RoboMobo;
 
+import android.bluetooth.BluetoothSocket;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Nats
@@ -15,14 +17,16 @@ public class Player
     public int score;
     public boolean isLocal;
     public String id;
+    public BluetoothSocket BTS;
 
-    public Player(int x, int y, String _id, boolean _isLocal)
+    public Player(int x, int y, String _id, boolean _isLocal, BluetoothSocket bs)
     {
         posX = x;
         posY = y;
         score = 0;
         this.isLocal = _isLocal;
         this.id = _id;
+        if(!_isLocal) BTS = bs;
     }
 
     public void changePos(int[] coord)

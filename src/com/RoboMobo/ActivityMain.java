@@ -62,7 +62,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void fixCoord(View view)
     {
-        if (!RMR.suspended)
+        if (RMR.currentMap.state != Map.MapState.Suspended)
         {
             if (flag)
             {
@@ -113,8 +113,8 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         {
             RMR.currentMap.players.get(0).changePos(new int[]{16, 16});
 
-            RMR.suspendTile = new Point(0, 0);
-            RMR.suspended = false;
+            RMR.currentMap.suspendTile = new Point(0, 0);
+            RMR.currentMap.state = Map.MapState.Game;
         }
     }
 

@@ -5,7 +5,10 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Message;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +22,6 @@ public class Map
     /**
      * Resource ID of background for this map.
      */
-    public final int background;
     public final int width;
     public final int height;
     public double corner1latt = 0;
@@ -34,7 +36,8 @@ public class Map
     public double baseylong = 0;
     public double det;
     public ArrayList<int[]> pickups;
-    public ArrayList<Player> players;
+    public Player p0;
+    public Player p1;
 
     public float prevFilteredCompass = 0;
 
@@ -48,15 +51,13 @@ public class Map
      */
     public short[][] tiles;
 
-    public Map(int w, int h, int bgrid)
+    public Map(int w, int h)
     {
         this.width = w;
         this.height = h;
-        this.background = bgrid;
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
         corner2fixed = false;
-        players = new ArrayList<Player>();
 
         tiles = new short[RMR.mapSideLength][RMR.mapSideLength];
 
@@ -102,28 +103,57 @@ public class Map
         int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
         if (coord != null)
         {
-            players.get(0).changePos(coord);
+            this.p0.changePos(coord);
         }
 
-        if (this.suspendTile != null && (Math.floor(players.get(0).posX / 32.0) == this.suspendTile.x && Math.floor(players.get(0).posY / 32.0) == this.suspendTile.y))
+        if (this.suspendTile != null && (Math.floor(this.p0.posX / 32.0) == this.suspendTile.x && Math.floor(this.p0.posY / 32.0) == this.suspendTile.y))
         {
             this.suspendTile = null;
             this.state = MapState.Game;
         }
 
+        JSONObject pl = new JSONObject();
+        try
+        {
+            pl.put("X", p0.posX);
+            pl.put("Y", p0.posY);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        JSONObject jobj = new JSONObject();
+        try
+        {
+            jobj.put("Player", pl);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+            RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
         if (state == MapState.Game)
         {
-            if (players.get(0).posX < 0 || players.get(0).posY < 0 || Math.floor(players.get(0).posX / 32.0) >= RMR.mapSideLength || Math.floor(players.get(0).posY / 32.0) >= RMR.mapSideLength)
+            if (this.p0.posX < 0 || this.p0.posY < 0 || Math.floor(this.p0.posX / 32.0) >= RMR.mapSideLength || Math.floor(this.p0.posY / 32.0) >= RMR.mapSideLength)
             {
                 this.state = MapState.Suspended;
                 this.suspendTile = new Point();
-                this.suspendTile.set((int) Math.floor(players.get(0).prevPosX / 32.0), (int) Math.floor(players.get(0).prevPosY / 32.0));
+                this.suspendTile.set((int) Math.floor(this.p0.prevPosX / 32.0), (int) Math.floor(this.p0.prevPosY / 32.0));
             }
-            else if (this.tiles[((int) Math.floor(players.get(0).posX / 32.0))][((int) Math.floor(players.get(0).posY / 32.0))] != 0)
+            else if (this.tiles[((int) Math.floor(this.p0.posX / 32.0))][((int) Math.floor(this.p0.posY / 32.0))] != 0)
             {
                 this.state = MapState.Suspended;
                 this.suspendTile = new Point();
-                this.suspendTile.set((int) Math.floor(players.get(0).prevPosX / 32.0), (int) Math.floor(players.get(0).prevPosY / 32.0));
+                this.suspendTile.set((int) Math.floor(this.p0.prevPosX / 32.0), (int) Math.floor(this.p0.prevPosY / 32.0));
             }
 
             for (int i = 0; i < this.pickups.size(); i++)
@@ -147,14 +177,14 @@ public class Map
 
             for (int i = 0; i < pickups.size(); i++)
             {
-                if ((Math.floor(this.players.get(0).posX / 32.0) == this.pickups.get(i)[0]) && (Math.floor(this.players.get(0).posY / 32.0) == this.pickups.get(i)[1]))
+                if ((Math.floor(this.p0.posX / 32.0) == this.pickups.get(i)[0]) && (Math.floor(this.p0.posY / 32.0) == this.pickups.get(i)[1]))
                 {
                    /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
                    Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
-                    this.players.get(0).addScore(1);
+                    this.p0.addScore(1);
                     this.pickups.remove(i);
                     Message msg = new Message();
-                    msg.arg1 = this.players.get(0).score;
+                    msg.arg1 = this.p0.score;
                     ((ActivityMain) RMR.am).HandlerUIUpdate.sendMessage(msg);
                 }
             }
@@ -168,10 +198,10 @@ public class Map
         Paint pa = new Paint();
         RMR.c.save();
         {
-            int mapW = RMR.currentMap.width * 32;
-            int mapH = RMR.currentMap.height * 32;
+            int mapW = this.width * 32;
+            int mapH = this.height * 32;
 
-            Player p = RMR.currentMap.players.get(0);
+            Player p = this.p0;
 
             double mapRotation = Math.toDegrees(Math.asin(Math.abs(this.basexlong - this.baseylong) / Math.sqrt(Math.pow(this.basexlatt - this.baseylatt, 2) + Math.pow(this.basexlong - this.baseylong, 2))));
             //double playerAngle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
@@ -207,8 +237,8 @@ public class Map
                 RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
                 prevFilteredCompass = (α * prevFilteredCompass) + ((1 - α) * ((float)Math.toDegrees(-RMR.compass.orientationData[0])));
-                RMR.c.rotate((float)mapRotation - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
-                RMR.c.translate(-players.get(0).posY, -players.get(0).posX);
+                RMR.c.rotate((!Double.isNaN(mapRotation) ? (float)mapRotation : 0) - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
+                RMR.c.translate(-this.p0.posY, -this.p0.posX);
 
                 src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
                 dst.set(0, 0, mapW, mapH);
@@ -311,7 +341,7 @@ public class Map
                 RMR.c.save();
                 {
                     pa.setColor(Color.MAGENTA);
-                    RMR.c.translate(RMR.currentMap.players.get(0).prevPosY, RMR.currentMap.players.get(0).prevPosX);
+                    RMR.c.translate(this.p0.prevPosY, this.p0.prevPosX);
                     RMR.c.drawRect(-4, -4, 4, 4, pa);
                 }
                 RMR.c.restore();
@@ -359,8 +389,8 @@ public class Map
         baseylatt = (dbaseLatt / 2 + dbaseLong / 2) * Math.sqrt(2);
         baseylong = (dbaseLong / 2 - dbaseLatt / 2) * Math.sqrt(2);
         det = basexlatt * baseylong - basexlong * baseylatt;
-        players.get(0).posX = 32 * (RMR.mapSideLength - 1);
-        players.get(0).posY = 32 * (RMR.mapSideLength - 1);
+        this.p0.posX = 32 * (RMR.mapSideLength - 1);
+        this.p0.posY = 32 * (RMR.mapSideLength - 1);
         //Log.wtf("dbase",Double.toString(Math.sqrt(dbaseLatt*dbaseLatt+dbaseLong*dbaseLong)));
         //Log.wtf("basex",Double.toString(Math.sqrt(basexlatt*basexlatt+baseylong*baseylong)));
         //Log.wtf("basey",Double.toString(Math.sqrt(baseylatt*baseylatt+baseylong*baseylong)));

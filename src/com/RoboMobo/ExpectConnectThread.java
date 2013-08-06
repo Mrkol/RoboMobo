@@ -27,7 +27,8 @@ public class ExpectConnectThread extends Thread
         try
         {
             RMR.btServerSocket = btAdapter.listenUsingRfcommWithServiceRecord("BTTest2", RMR.uuid);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -43,18 +44,21 @@ public class ExpectConnectThread extends Thread
             try
             {
                 RMR.btSocket = RMR.btServerSocket.accept();
-            } catch (IOException e)
+            }
+            catch (IOException e)
             {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
             Log.i("Bluetooth", "Fail");
-            if(RMR.btSocket!=null)
+            if (RMR.btSocket != null)
             {
                 Log.i("Bluetooth", "Connection detected");
+                RMR.state = RMR.GameState.Server;
                 try
                 {
                     RMR.btServerSocket.close();
-                } catch (IOException e)
+                }
+                catch (IOException e)
                 {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
@@ -65,7 +69,8 @@ public class ExpectConnectThread extends Thread
                 try
                 {
                     this.join();
-                } catch (InterruptedException e)
+                }
+                catch (InterruptedException e)
                 {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }

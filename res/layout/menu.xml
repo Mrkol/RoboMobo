@@ -8,13 +8,13 @@
     <Button
             android:layout_width="256dp"
             android:layout_height="64dp"
-            android:text="Play"
+            android:text="Multiplayer"
             android:id="@+id/btn_mianmenu_play"
             android:singleLine="false"
             android:background="@drawable/btn_test"
             android:textStyle="bold"
             android:textSize="30dp"
-            android:onClick="play"
+            android:onClick="mp"
             android:layout_alignLeft="@+id/btn_mainmenu_settings"
             android:layout_above="@+id/btn_mainmenu_settings"/>
 
@@ -29,4 +29,17 @@
             android:textSize="30dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"/>
+
+    <Button
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:text="Singleplayer"
+            android:id="@+id/button"
+            android:singleLine="false"
+            android:background="@drawable/btn_test"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:onClick="sp"
+            android:layout_alignLeft="@+id/btn_mianmenu_play"
+            android:layout_above="@+id/btn_mianmenu_play"/>
 </RelativeLayout>

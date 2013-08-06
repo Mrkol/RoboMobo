@@ -17,16 +17,14 @@ public class Player
     public int score;
     public boolean isLocal;
     public String id;
-    public BluetoothSocket BTS;
 
-    public Player(int x, int y, String _id, boolean _isLocal, BluetoothSocket bs)
+    public Player(int x, int y, String _id, boolean _isLocal)
     {
         posX = x;
         posY = y;
         score = 0;
         this.isLocal = _isLocal;
         this.id = _id;
-        if(!_isLocal) BTS = bs;
     }
 
     public void changePos(int[] coord)

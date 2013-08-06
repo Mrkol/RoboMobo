@@ -4,23 +4,25 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <ScrollView
-            android:layout_width="216dp"
-            android:layout_height="246dp"
-            android:id="@+id/scrollView"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentLeft="true" android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true" android:layout_alignParentTop="true">
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:gravity="left" android:id="@+id/ll_devices">
-        </LinearLayout>
-    </ScrollView>
+    <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/toggleButton" android:layout_alignLeft="@+id/lv_devices"
+            android:layout_alignParentTop="true" android:checked="false" android:onClick="toggleServer"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Server"
+            android:id="@+id/textView"
+            android:textSize="30dp"
+            android:layout_toRightOf="@+id/toggleButton" android:layout_alignBottom="@+id/toggleButton"
+            android:layout_alignTop="@+id/toggleButton" android:gravity="center_vertical"/>
     <ListView
             android:layout_width="wrap_content"
-            android:layout_height="218dp"
-            android:id="@+id/lv_devices" android:layout_alignBottom="@+id/scrollView"
-            android:layout_alignTop="@+id/scrollView"/>
+            android:layout_height="150dp"
+            android:id="@+id/lv_devices"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/textView"/>
 </RelativeLayout>
 

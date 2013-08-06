@@ -29,7 +29,6 @@ public class ActivityConnectMenu extends Activity
     public ArrayList<BluetoothDevice> devices;
     public ArrayAdapter<String> btArrAdapter;
     public static final int REQUEST_ENABLE_BT = 1;
-    public LinearLayout llDevices;
     public ListView lvDevices;
     public BroadcastReceiver btDeviceFound;
     public ExpectConnectThread expectConnectThread;
@@ -44,7 +43,6 @@ public class ActivityConnectMenu extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.connect);
 
-        llDevices = (LinearLayout) findViewById(R.id.ll_devices);
         lvDevices = (ListView) findViewById(R.id.lv_devices);
         btArrAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1);
         lvDevices.setAdapter(btArrAdapter);
@@ -54,6 +52,10 @@ public class ActivityConnectMenu extends Activity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
+                if(expectConnectThread.running)
+                {
+                    return;
+                }
                 Log.i("Item", "Click");
                 String name = (String) ((TextView) view).getText();
                 BluetoothDevice selectedDevice = null;
@@ -67,7 +69,6 @@ public class ActivityConnectMenu extends Activity
                         break;
                     }
                 }
-//                btAdapter.cancelDiscovery();
                 try
                 {
                     temp = selectedDevice.createRfcommSocketToServiceRecord(RMR.uuid);
@@ -115,17 +116,13 @@ public class ActivityConnectMenu extends Activity
         while (!btAdapter.isEnabled());
         Log.i("Bluetooth", "Adapter locked, start server connection thread");
         expectConnectThread = new ExpectConnectThread(btAdapter, this);
-        expectConnectThread.start();
         Log.i("Bluetooth", "Thread started, device search");
         devices = new ArrayList<BluetoothDevice>(btAdapter.getBondedDevices());
         if (devices.size() > 0)
         {
             for (BluetoothDevice device : devices)
             {
-//                devices.add(device);
                 btArrAdapter.add(device.getName());
-//                lvDevices.addView(tvDevice);
-//                lvDevices.addView(tvDevice);
             }
         }
 
@@ -139,20 +136,16 @@ public class ActivityConnectMenu extends Activity
                 {
                     BluetoothDevice foundDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     Log.d("foundDevice", foundDevice == null ? "null" : "OK");
-//                    Ref.devices.add(foundDevice);
                     TextView tvDevice = new TextView(getApplicationContext());
                     tvDevice.setText((CharSequence) foundDevice.getName());
                     devices.add(foundDevice);
                     btArrAdapter.add(foundDevice.getName());
-//                    lvDevices.addView(tvDevice);
                 }
             }
         };
 
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(btDeviceFound, filter);
-
-//        btAdapter.startDiscovery();
     }
 
     @Override
@@ -160,5 +153,24 @@ public class ActivityConnectMenu extends Activity
     {
         super.onDestroy();
         unregisterReceiver(btDeviceFound);
+    }
+
+    public void toggleServer(View view)
+    {
+        if(((ToggleButton) view).isEnabled())
+        {
+            expectConnectThread.start();
+        }
+        else
+        {
+            expectConnectThread.running = false;
+            try
+            {
+                expectConnectThread.join();
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
     }
 }

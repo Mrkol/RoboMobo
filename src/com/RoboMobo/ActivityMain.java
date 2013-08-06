@@ -66,7 +66,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         msensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 
         RMR.sw = (MainSurfaceView) findViewById(R.id.view_ingame_canvas);
-        RMR.init(this);
+        RMR.registerActivity(this);
     }
 
     @Override

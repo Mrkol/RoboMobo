@@ -16,6 +16,7 @@ public class ExpectConnectThread extends Thread
 {
     ActivityConnectMenu activity;
     BluetoothAdapter adapter;
+    boolean running;
 
 
     public ExpectConnectThread(BluetoothAdapter btAdapter, ActivityConnectMenu _activity)
@@ -35,7 +36,8 @@ public class ExpectConnectThread extends Thread
     @Override
     public void run()
     {
-        while (true)
+        running = true;
+        while (running)
         {
             Log.i("Bluetooth", "Try");
             try
@@ -56,9 +58,16 @@ public class ExpectConnectThread extends Thread
                 {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-//                adapter.cancelDiscovery();
                 Intent connectIntent = new Intent(activity, ActivityMain.class);
                 activity.startActivity(connectIntent);
+                running = false;
+                try
+                {
+                    this.join();
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
                 break;
             }
         }

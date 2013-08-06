@@ -72,17 +72,22 @@ public class RMR
     public static Map currentMap;
     public static int mapSideLength = 10;
 
-    public static void init(Activity act)
+    public static void init()
     {
-        display = act.getWindowManager().getDefaultDisplay();
-        width = display.getWidth();
-        height = display.getHeight();
-        am = act;
+
         rnd = new Random();
 
         playerID = "Asdf";
 
         uuid = UUID.fromString("0b344d07-87a9-41cd-bc61-0e4e22f15f4d");
+    }
+
+    public static void registerActivity(Activity act)
+    {
+        display = act.getWindowManager().getDefaultDisplay();
+        width = display.getWidth();
+        height = display.getHeight();
+        am = act;
     }
 
     public static void onServerConnected()

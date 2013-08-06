@@ -17,7 +17,7 @@ public class ActivityMainMenu extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
-
+        RMR.init();
     }
 
     public void play(View view)

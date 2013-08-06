@@ -22,7 +22,6 @@ import java.util.ArrayList;
  * User: loredan
  * Date: 06.08.13
  * Time: 12:08
- * To change this template use File | Settings | File Templates.
  */
 public class ConnectMenu extends Activity
 {

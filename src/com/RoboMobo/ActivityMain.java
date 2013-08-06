@@ -81,37 +81,37 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void moveUp(View view)
     {
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
-        RMR.currentMap.player1.posX -= 32;
+        RMR.currentMap.players.get(0).prevPosX = RMR.currentMap.players.get(0).posX;
+        RMR.currentMap.players.get(0).prevPosY = RMR.currentMap.players.get(0).posY;
+        RMR.currentMap.players.get(0).posX -= 32;
     }
 
     public void moveDown(View view)
     {
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
-        RMR.currentMap.player1.posX += 32;
+        RMR.currentMap.players.get(0).prevPosX = RMR.currentMap.players.get(0).posX;
+        RMR.currentMap.players.get(0).prevPosY = RMR.currentMap.players.get(0).posY;
+        RMR.currentMap.players.get(0).posX += 32;
     }
 
     public void moveRight(View view)
     {
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
-        RMR.currentMap.player1.posY += 32;
+        RMR.currentMap.players.get(0).prevPosX = RMR.currentMap.players.get(0).posX;
+        RMR.currentMap.players.get(0).prevPosY = RMR.currentMap.players.get(0).posY;
+        RMR.currentMap.players.get(0).posY += 32;
     }
 
     public void moveLeft(View view)
     {
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
-        RMR.currentMap.player1.posY -= 32;
+        RMR.currentMap.players.get(0).prevPosX = RMR.currentMap.players.get(0).posX;
+        RMR.currentMap.players.get(0).prevPosY = RMR.currentMap.players.get(0).posY;
+        RMR.currentMap.players.get(0).posY -= 32;
     }
 
     public void setPlayer(View view)
     {
-        if (RMR.currentMap.player1.posX != 16 && RMR.currentMap.player1.posY != 16)
+        if (RMR.currentMap.players.get(0).posX != 16 && RMR.currentMap.players.get(0).posY != 16)
         {
-            RMR.currentMap.player1.changePos(new int[]{16, 16});
+            RMR.currentMap.players.get(0).changePos(new int[]{16, 16});
 
             RMR.suspendTile = new Point(0, 0);
             RMR.suspended = false;
@@ -120,21 +120,21 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void rotateUp(View view)
     {
-        RMR.currentMap.player1.prevPosX--;
+        RMR.currentMap.players.get(0).prevPosX--;
     }
 
     public void rotateDown(View view)
     {
-        RMR.currentMap.player1.prevPosX++;
+        RMR.currentMap.players.get(0).prevPosX++;
     }
 
     public void rotateLeft(View view)
     {
-        RMR.currentMap.player1.prevPosY--;
+        RMR.currentMap.players.get(0).prevPosY--;
     }
 
     public void rotateRight(View view)
     {
-        RMR.currentMap.player1.prevPosY++;
+        RMR.currentMap.players.get(0).prevPosY++;
     }
 }

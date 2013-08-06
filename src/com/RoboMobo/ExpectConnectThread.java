@@ -17,7 +17,6 @@ import java.util.UUID;
  * User: loredan
  * Date: 05.08.13
  * Time: 16:24
- * To change this template use File | Settings | File Templates.
  */
 public class ExpectConnectThread extends Thread
 {

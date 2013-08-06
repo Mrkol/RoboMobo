@@ -6,8 +6,8 @@ import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.view.Display;
+import org.json.JSONObject;
 
 import java.util.Random;
 import java.util.UUID;
@@ -49,10 +49,6 @@ public class RMR
      * Random generator.
      */
     public static Random rnd;
-    /**
-     * Side of the map in labyrinth.
-     */
-    public static int mapSide = 10;
     public static GPSModule gps;
     public static CompassModule compass;
 
@@ -63,14 +59,15 @@ public class RMR
     public static BluetoothSocket btSocket;
     public static final int INCOMING_MESSAGE = 1;
 
+    public static String playerID;
+
+    public static GameState state = GameState.NotInGame;
+
     /**
      * The current map.
      */
     public static Map currentMap;
-
-    public static boolean suspended;
-
-    public static Point suspendTile;
+    public static int mapSideLength = 10;
 
     public static void init(Activity act)
     {
@@ -80,13 +77,33 @@ public class RMR
         am = act;
         rnd = new Random();
 
-        suspended = false;
-        suspendTile = new Point();
-
-        currentMap = new Map(mapSide, mapSide, R.drawable.map_test);
-
+        playerID = "Asdf";
 
         uuid = UUID.fromString("0b344d07-87a9-41cd-bc61-0e4e22f15f4d");
+    }
+
+    public static void onServerConnected()
+    {
+        currentMap = new Map(mapSideLength, mapSideLength, R.drawable.map_test);
+
+        /*
+            Generate da map
+         */
+
+        /*
+            for each client, send the map + some stats, get their stats
+         */
+
+        currentMap.players.add(new Player(0, 0, playerID, true));
+
+        /*
+            for each client, create a Player instance from stats
+         */
+    }
+
+    public static void onClientConnected(JSONObject json) //called after server sent map and statistics
+    {
+
     }
 
     /**
@@ -106,11 +123,19 @@ public class RMR
         RMR.c.save();
         {
             Paint p = new Paint();
-            p.setColor(Color.rgb(0x40, 0xF, 0xF));
+            p.setColor(Color.rgb(0x0, 0x0, 0xF));
             RMR.c.drawPaint(p);
 
             RMR.currentMap.Draw();
         }
         RMR.c.restore();
+    }
+
+    public enum GameState
+    {
+        Invalid,
+        NotInGame,
+        Client,
+        Server
     }
 }

@@ -34,9 +34,13 @@ public class Map
     public double baseylong = 0;
     public double det;
     public ArrayList<int[]> pickups;
-    public Player player1;
+    public ArrayList<Player> players;
 
     public float prevFilteredCompass = 0;
+
+    public MapState state;
+
+    public Point suspendTile;
 
 
     /**
@@ -52,13 +56,13 @@ public class Map
         pickups = new ArrayList<int[]>();
         corner1fixed = false;
         corner2fixed = false;
-        player1 = new Player(0, 0);
+        players = new ArrayList<Player>();
 
-        tiles = new short[RMR.mapSide][RMR.mapSide];
+        tiles = new short[RMR.mapSideLength][RMR.mapSideLength];
 
-        for (int i = 0; i < RMR.mapSide; i++)
+        for (int i = 0; i < RMR.mapSideLength; i++)
         {
-            for (int j = 0; j < RMR.mapSide; j++)
+            for (int j = 0; j < RMR.mapSideLength; j++)
             {
                 tiles[i][j] = 0;
             }
@@ -73,6 +77,9 @@ public class Map
             tiles[i][5] = 1;
         }
 
+        state = MapState.PreGame;
+        this.suspendTile = null;
+
         /*Runnable r = new Runnable()
         {
             @Override
@@ -84,32 +91,39 @@ public class Map
         r.run();*/
     }
 
+    public void Start()
+    {
+        state = MapState.Game;
+    }
+
     public void Update(long elapsedTime)
     {
         //Log.wtf("current coords", RMR.gps.last_latt + " " + RMR.gps.last_long);
         int[] coord = coordTransform(RMR.gps.last_latt, RMR.gps.last_long);
         if (coord != null)
         {
-            player1.changePos(coord);
+            players.get(0).changePos(coord);
         }
 
-        if (Math.floor(player1.posX / 32.0) == RMR.suspendTile.x && Math.floor(player1.posY / 32.0) == RMR.suspendTile.y)
+        if (this.suspendTile != null && (Math.floor(players.get(0).posX / 32.0) == this.suspendTile.x && Math.floor(players.get(0).posY / 32.0) == this.suspendTile.y))
         {
-            RMR.suspendTile = new Point();
-            RMR.suspended = false;
+            this.suspendTile = null;
+            this.state = MapState.Game;
         }
 
-        if (!RMR.suspended)
+        if (state == MapState.Game)
         {
-            if (player1.posX < 0 || player1.posY < 0 || Math.floor(player1.posX / 32.0) >= RMR.mapSide || Math.floor(player1.posY / 32.0) >= RMR.mapSide)
+            if (players.get(0).posX < 0 || players.get(0).posY < 0 || Math.floor(players.get(0).posX / 32.0) >= RMR.mapSideLength || Math.floor(players.get(0).posY / 32.0) >= RMR.mapSideLength)
             {
-                RMR.suspended = true;
-                RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32.0), (int) Math.floor(player1.prevPosY / 32.0));
+                this.state = MapState.Suspended;
+                this.suspendTile = new Point();
+                this.suspendTile.set((int) Math.floor(players.get(0).prevPosX / 32.0), (int) Math.floor(players.get(0).prevPosY / 32.0));
             }
-            else if (this.tiles[((int) Math.floor(player1.posX / 32.0))][((int) Math.floor(player1.posY / 32.0))] != 0)
+            else if (this.tiles[((int) Math.floor(players.get(0).posX / 32.0))][((int) Math.floor(players.get(0).posY / 32.0))] != 0)
             {
-                RMR.suspended = true;
-                RMR.suspendTile.set((int) Math.floor(player1.prevPosX / 32.0), (int) Math.floor(player1.prevPosY / 32.0));
+                this.state = MapState.Suspended;
+                this.suspendTile = new Point();
+                this.suspendTile.set((int) Math.floor(players.get(0).prevPosX / 32.0), (int) Math.floor(players.get(0).prevPosY / 32.0));
             }
 
             for (int i = 0; i < this.pickups.size(); i++)
@@ -123,8 +137,8 @@ public class Map
 
             if (this.pickups.size() < 10 && RMR.rnd.nextInt(20) == 1)
             {
-                int x = RMR.rnd.nextInt(RMR.mapSide);
-                int y = RMR.rnd.nextInt(RMR.mapSide);
+                int x = RMR.rnd.nextInt(RMR.mapSideLength);
+                int y = RMR.rnd.nextInt(RMR.mapSideLength);
                 if (this.tiles[x][y] == 0)
                 {
                     pickups.add(new int[]{x, y, RMR.rnd.nextInt(20000) + 10000, 1});
@@ -133,14 +147,14 @@ public class Map
 
             for (int i = 0; i < pickups.size(); i++)
             {
-                if ((Math.floor(this.player1.posX / 32.0) == this.pickups.get(i)[0]) && (Math.floor(this.player1.posY / 32.0) == this.pickups.get(i)[1]))
+                if ((Math.floor(this.players.get(0).posX / 32.0) == this.pickups.get(i)[0]) && (Math.floor(this.players.get(0).posY / 32.0) == this.pickups.get(i)[1]))
                 {
-               /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
-               Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
-                    this.player1.addPoint(1);
+                   /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
+                   Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
+                    this.players.get(0).addScore(1);
                     this.pickups.remove(i);
                     Message msg = new Message();
-                    msg.arg1 = this.player1.score;
+                    msg.arg1 = this.players.get(0).score;
                     ((ActivityMain) RMR.am).HandlerUIUpdate.sendMessage(msg);
                 }
             }
@@ -157,7 +171,7 @@ public class Map
             int mapW = RMR.currentMap.width * 32;
             int mapH = RMR.currentMap.height * 32;
 
-            Player p = RMR.currentMap.player1;
+            Player p = RMR.currentMap.players.get(0);
 
             double mapRotation = Math.toDegrees(Math.asin(Math.abs(this.basexlong - this.baseylong) / Math.sqrt(Math.pow(this.basexlatt - this.baseylatt, 2) + Math.pow(this.basexlong - this.baseylong, 2))));
             //double playerAngle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
@@ -190,11 +204,11 @@ public class Map
 
             RMR.c.save();
             {
-                RMR.c.translate(RMR.mapSide * 32 / 2, RMR.mapSide * 32 / 2);
+                RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
                 prevFilteredCompass = (α * prevFilteredCompass) + ((1 - α) * ((float)Math.toDegrees(-RMR.compass.orientationData[0])));
                 RMR.c.rotate((float)mapRotation - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
-                RMR.c.translate(-player1.posY, -player1.posX);
+                RMR.c.translate(-players.get(0).posY, -players.get(0).posX);
 
                 src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
                 dst.set(0, 0, mapW, mapH);
@@ -276,28 +290,28 @@ public class Map
                 }
                 RMR.c.restore();
 
-                if (RMR.suspended)
+                if (this.state == MapState.Suspended)
                 {
                     RMR.c.save();
                     {
                         pa.setColor(Color.BLACK);
                         pa.setAlpha(80);
 
-                        RMR.c.drawRect(0, 0, RMR.mapSide * 32, RMR.suspendTile.x * 32, pa);
-                        RMR.c.drawRect((RMR.suspendTile.y + 1) * 32, RMR.suspendTile.x * 32, RMR.mapSide * 32, (RMR.suspendTile.x + 1) * 32, pa);
-                        RMR.c.drawRect(0, RMR.suspendTile.x * 32, RMR.suspendTile.y * 32, (RMR.suspendTile.x + 1) * 32, pa);
-                        RMR.c.drawRect(0, (RMR.suspendTile.x + 1) * 32, RMR.mapSide * 32, RMR.mapSide * 32, pa);
+                        RMR.c.drawRect(0, 0, RMR.mapSideLength * 32, this.suspendTile.x * 32, pa);
+                        RMR.c.drawRect((this.suspendTile.y + 1) * 32, this.suspendTile.x * 32, RMR.mapSideLength * 32, (this.suspendTile.x + 1) * 32, pa);
+                        RMR.c.drawRect(0, this.suspendTile.x * 32, this.suspendTile.y * 32, (this.suspendTile.x + 1) * 32, pa);
+                        RMR.c.drawRect(0, (this.suspendTile.x + 1) * 32, RMR.mapSideLength * 32, RMR.mapSideLength * 32, pa);
 
                         pa.setColor(Color.YELLOW);
                         pa.setAlpha((int) Math.floor((Math.sin(System.currentTimeMillis() / 100) + 2) * 30));
-                        RMR.c.drawRect(RMR.suspendTile.y * 32, RMR.suspendTile.x * 32, (RMR.suspendTile.y + 1) * 32, (RMR.suspendTile.x + 1) * 32, pa);
+                        RMR.c.drawRect(this.suspendTile.y * 32, this.suspendTile.x * 32, (this.suspendTile.y + 1) * 32, (this.suspendTile.x + 1) * 32, pa);
                     }
                     RMR.c.restore();
                 }
                 RMR.c.save();
                 {
                     pa.setColor(Color.MAGENTA);
-                    RMR.c.translate(RMR.currentMap.player1.prevPosY, RMR.currentMap.player1.prevPosX);
+                    RMR.c.translate(RMR.currentMap.players.get(0).prevPosY, RMR.currentMap.players.get(0).prevPosX);
                     RMR.c.drawRect(-4, -4, 4, 4, pa);
                 }
                 RMR.c.restore();
@@ -308,7 +322,7 @@ public class Map
             RMR.c.save();
             {
                 pa.setColor(Color.WHITE);
-                RMR.c.translate(RMR.mapSide * 32 / 2, RMR.mapSide * 32 / 2);
+                RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
                 src.set(0, 0, RMGR.CHAR_test.getWidth(), RMGR.CHAR_test.getHeight());
                 dst.set(-8, -8, 8, 8);
                 RMR.c.drawBitmap(RMGR.CHAR_test, src, dst, pa);
@@ -345,8 +359,8 @@ public class Map
         baseylatt = (dbaseLatt / 2 + dbaseLong / 2) * Math.sqrt(2);
         baseylong = (dbaseLong / 2 - dbaseLatt / 2) * Math.sqrt(2);
         det = basexlatt * baseylong - basexlong * baseylatt;
-        player1.posX = 32 * (RMR.mapSide - 1);
-        player1.posY = 32 * (RMR.mapSide - 1);
+        players.get(0).posX = 32 * (RMR.mapSideLength - 1);
+        players.get(0).posY = 32 * (RMR.mapSideLength - 1);
         //Log.wtf("dbase",Double.toString(Math.sqrt(dbaseLatt*dbaseLatt+dbaseLong*dbaseLong)));
         //Log.wtf("basex",Double.toString(Math.sqrt(basexlatt*basexlatt+baseylong*baseylong)));
         //Log.wtf("basey",Double.toString(Math.sqrt(baseylatt*baseylatt+baseylong*baseylong)));
@@ -361,8 +375,17 @@ public class Map
         double relLatt = latt - corner1latt;
         double relLong = longt - corner1long;
         int[] coord = new int[2];
-        coord[0] = (int) ((baseylong * relLatt / det - baseylatt * relLong / det) * Math.sqrt((2048 * RMR.mapSide * RMR.mapSide) / ((corner2latt - corner1latt) * (corner2latt - corner1latt) + (corner2long - corner1long) * (corner2long - corner1long))));
-        coord[1] = (int) ((-basexlong * relLatt / det + basexlatt * relLong / det) * Math.sqrt((2048 * RMR.mapSide * RMR.mapSide) / ((corner2latt - corner1latt) * (corner2latt - corner1latt) + (corner2long - corner1long) * (corner2long - corner1long))));
+        coord[0] = (int) ((baseylong * relLatt / det - baseylatt * relLong / det) * Math.sqrt((2048 * RMR.mapSideLength * RMR.mapSideLength) / ((corner2latt - corner1latt) * (corner2latt - corner1latt) + (corner2long - corner1long) * (corner2long - corner1long))));
+        coord[1] = (int) ((-basexlong * relLatt / det + basexlatt * relLong / det) * Math.sqrt((2048 * RMR.mapSideLength * RMR.mapSideLength) / ((corner2latt - corner1latt) * (corner2latt - corner1latt) + (corner2long - corner1long) * (corner2long - corner1long))));
         return coord;
+    }
+
+    public enum MapState
+    {
+        Invalid,
+        PreGame,
+        Game,
+        Suspended,
+        PostGame
     }
 }

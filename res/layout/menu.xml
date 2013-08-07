@@ -10,12 +10,12 @@
             android:layout_height="64dp"
             android:text="Multiplayer"
             android:id="@+id/btn_mianmenu_play"
-            android:singleLine="false"
             android:background="@drawable/button"
+            android:singleLine="false"
             android:textStyle="bold"
             android:textSize="30dp"
             android:onClick="mp"
-            android:layout_alignLeft="@+id/btn_mainmenu_settings"
+            android:layout_alignParentLeft="true"
             android:layout_above="@+id/btn_mainmenu_settings"/>
 
     <Button
@@ -23,11 +23,11 @@
             android:layout_height="64dp"
             android:text="Settings"
             android:id="@+id/btn_mainmenu_settings"
-            android:singleLine="false"
             android:background="@drawable/button"
+            android:singleLine="false"
             android:textStyle="bold"
             android:textSize="30dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignLeft="@+id/button"
             android:layout_alignParentBottom="true"/>
 
     <Button

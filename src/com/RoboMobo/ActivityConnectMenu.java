@@ -52,9 +52,12 @@ public class ActivityConnectMenu extends Activity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                if (expectConnectThread.running)
+                if (expectConnectThread!=null)
                 {
-                    return;
+                    if(expectConnectThread.running)
+                    {
+                        return;
+                    }
                 }
                 Log.i("Item", "Click");
                 String name = (String) ((TextView) view).getText();

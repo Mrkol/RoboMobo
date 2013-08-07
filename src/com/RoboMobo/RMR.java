@@ -100,6 +100,7 @@ public class RMR
 
     public static void onServerConnected()
     {
+        Log.i("Server", "Generating map");
         currentMap = new Map(mapSideLength, mapSideLength);
 
         /*
@@ -129,10 +130,10 @@ public class RMR
         {
 
         }
-
-
+        Log.i("Server", "Awaiting for connection");
         try
         {
+            RMR.btSocket.getInputStream().read();
             RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
         }
         catch (IOException e)

@@ -26,7 +26,7 @@ public class ExpectConnectThread extends Thread
         activity = _activity;
         try
         {
-            RMR.btServerSocket = btAdapter.listenUsingRfcommWithServiceRecord("BTTest2", RMR.uuid);
+            RMR.btServerSocket = btAdapter.listenUsingRfcommWithServiceRecord("RoboMobo", RMR.uuid);
         }
         catch (IOException e)
         {
@@ -62,7 +62,7 @@ public class ExpectConnectThread extends Thread
                 {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                RMR.onServerConnected();
+//                RMR.onServerConnected();
                 Intent connectIntent = new Intent(activity, ActivityMain.class);
                 activity.startActivity(connectIntent);
                 running = false;

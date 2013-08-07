@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/tl_ingame_controlls"
-            android:layout_alignTop="@+id/view_ingame_canvas">
+            android:layout_alignTop="@+id/view_ingame_canvas" android:layout_alignBottom="@+id/tl_ingame_rotation">
 
         <TextView
                 android:layout_width="146dp"
@@ -134,6 +134,11 @@
                 android:id="@+id/tv_score"
                 android:layout_alignLeft="@+id/tv_coord"
                 android:layout_below="@+id/tv_coord"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Угол:"
+                android:id="@+id/tv_angel" android:layout_gravity="left|center_vertical"/>
     </LinearLayout>
 
     <Button

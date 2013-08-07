@@ -40,6 +40,17 @@ public class DataExchange extends Thread
     {
         byte[] buffer = new byte[1024];
         int bytes;
+        if(RMR.state == RMR.GameState.Client)
+        {
+            try
+            {
+                out.write(new byte[] {0});
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
         while (true)
         {
             try

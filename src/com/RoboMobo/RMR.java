@@ -130,9 +130,9 @@ public class RMR
 
         }
 
-
         try
         {
+            RMR.btSocket.getInputStream().read();
             RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
         }
         catch (IOException e)

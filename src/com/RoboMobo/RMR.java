@@ -130,11 +130,25 @@ public class RMR
         {
 
         }
+
+
+        JSONObject jo = new JSONObject();
+        try
+        {
+            jo.put("Map", jobj);
+            jo.put("width", RMR.currentMap.width);
+            jo.put("height", RMR.currentMap.height);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
         Log.i("Server", "Awaiting for connection");
         try
         {
             RMR.btSocket.getInputStream().read();
-            RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
+            ((ActivityMain)RMR.am).dataExchange.write(jo);
         }
         catch (IOException e)
         {

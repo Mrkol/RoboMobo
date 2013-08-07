@@ -140,6 +140,8 @@ public class RMR
         {
             e.printStackTrace();
         }
+
+        RMR.state = GameState.ServerIngame;
     }
 
     public static void onClientConnected() //called after server sent map and statistics

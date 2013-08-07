@@ -78,13 +78,16 @@ public class ActivityConnectMenu extends Activity
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 RMR.btSocket = temp;
-                try
+                while (!RMR.btSocket.isConnected())
                 {
-                    RMR.btSocket.connect();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    try
+                    {
+                        RMR.btSocket.connect();
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
                 }
                 RMR.state = RMR.GameState.Client;
                 Intent connectIntent = new Intent(getApplicationContext(), ActivityMain.class);
@@ -117,7 +120,9 @@ public class ActivityConnectMenu extends Activity
             Toast.makeText(this, "Bluetooth is currently working", Toast.LENGTH_SHORT).show(); //говорим, что bluetooth уже работает
         }
 
-        while (!btAdapter.isEnabled()) {};
+        while (!btAdapter.isEnabled())
+        {
+        }
         Log.i("Bluetooth", "Adapter locked, start server connection thread");
         expectConnectThread = new ExpectConnectThread(btAdapter, this);
         Log.i("Bluetooth", "Thread started, device search");
@@ -161,7 +166,7 @@ public class ActivityConnectMenu extends Activity
 
     public void toggleServer(View view)
     {
-        if(! ((ToggleButton) view).isEnabled())
+        if (!((ToggleButton) view).isEnabled())
         {
             expectConnectThread.start();
         }

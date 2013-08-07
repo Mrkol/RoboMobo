@@ -156,6 +156,7 @@ public class RMR
         }
 
         RMR.state = GameState.ServerIngame;
+        RMR.currentMap.Start();
     }
 
     public static void onClientConnected() //called after server sent map and statistics

@@ -21,7 +21,7 @@ public class CompassModule implements SensorEventListener
     public float[] magnetData = new float[3];
     public float[] rotationMatrix = new float[16];
     public float[] orientationData = new float[3];
-    public float preOrientationData;
+
 
     public CompassModule()
     {
@@ -29,7 +29,6 @@ public class CompassModule implements SensorEventListener
         Arrays.fill(magnetData, 0);
         Arrays.fill(rotationMatrix, 0);
         Arrays.fill(orientationData, 0);
-        preOrientationData = 0;
     }
 
     @Override
@@ -46,7 +45,6 @@ public class CompassModule implements SensorEventListener
         if(sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD || sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
         {
             SensorManager.getRotationMatrix(rotationMatrix, null, accelData, magnetData);
-            preOrientationData = orientationData[0];
             SensorManager.getOrientation(rotationMatrix, orientationData);
         }
 

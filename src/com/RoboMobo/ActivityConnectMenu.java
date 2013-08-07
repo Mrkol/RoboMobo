@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.*;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -52,9 +54,9 @@ public class ActivityConnectMenu extends Activity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                if (expectConnectThread!=null)
+                if (expectConnectThread != null)
                 {
-                    if(expectConnectThread.running)
+                    if (expectConnectThread.running)
                     {
                         return;
                     }
@@ -75,22 +77,21 @@ public class ActivityConnectMenu extends Activity
                 try
                 {
                     temp = selectedDevice.createRfcommSocketToServiceRecord(RMR.uuid);
+//                    Method m = selectedDevice.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
+//                    temp = (BluetoothSocket) m.invoke(selectedDevice, 1);
                 }
                 catch (IOException e)
                 {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 RMR.btSocket = temp;
-                while (!RMR.btSocket.isConnected())
+                try
                 {
-                    try
-                    {
-                        RMR.btSocket.connect();
-                    }
-                    catch (IOException e)
-                    {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
+                    RMR.btSocket.connect();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 RMR.state = RMR.GameState.Client;
                 Intent connectIntent = new Intent(getApplicationContext(), ActivityMain.class);

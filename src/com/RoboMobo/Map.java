@@ -19,9 +19,6 @@ import java.util.ArrayList;
  */
 public class Map
 {
-    /**
-     * Resource ID of background for this map.
-     */
     public final int width;
     public final int height;
     public double corner1latt = 0;
@@ -225,7 +222,7 @@ public class Map
                 }
             }
 
-            RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));
+            RMR.c.scale(((float) RMR.sw.getWidth() / (float) mapH), ((float) RMR.sw.getWidth() / (float) mapH));
 
 
             Rect src = new Rect();
@@ -241,12 +238,7 @@ public class Map
                 if(this.corner1fixed && this.corner2fixed) RMR.c.rotate((!Double.isNaN(mapRotation) ? (float)mapRotation : 0) - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
                 RMR.c.translate(-this.p0.posY, -this.p0.posX);
 
-                src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
-                dst.set(0, 0, mapW, mapH);
-
-                RMR.c.drawBitmap(RMGR.MAP_test, src, dst, pa);
-
-                pa.setColor(Color.BLACK);
+                pa.setColor(Color.GRAY);
 
                 RMR.c.save();
                 {
@@ -299,7 +291,7 @@ public class Map
                 RMR.c.restore();
 
 
-                src.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
+                src.set(0, 0, RMGR.PICKUP_0.getWidth(), RMGR.PICKUP_0.getHeight());
                 dst.set(0, 0, 32, 32);
 
                 RMR.c.save();
@@ -312,7 +304,7 @@ public class Map
                             switch (this.pickups.get(i)[0])
                             {
                                 default:
-                                    RMR.c.drawBitmap(RMGR.PICKUP_test, src, dst, pa);
+                                    RMR.c.drawBitmap(RMGR.PICKUP_0, src, dst, pa);
                                     break;
                             }
                         }
@@ -339,13 +331,6 @@ public class Map
                     }
                     RMR.c.restore();
                 }
-                RMR.c.save();
-                {
-                    pa.setColor(Color.MAGENTA);
-                    RMR.c.translate(this.p0.prevPosY, this.p0.prevPosX);
-                    RMR.c.drawRect(-4, -4, 4, 4, pa);
-                }
-                RMR.c.restore();
             }
             RMR.c.restore();
 

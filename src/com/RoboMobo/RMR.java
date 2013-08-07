@@ -163,7 +163,7 @@ public class RMR
         RMR.c.save();
         {
             Paint p = new Paint();
-            p.setColor(Color.rgb(0xFF, 0xFF, 0xFF));
+            p.setColor(Color.rgb(0x20, 0x20, 0x20));
             RMR.c.drawPaint(p);
 
             if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Draw();

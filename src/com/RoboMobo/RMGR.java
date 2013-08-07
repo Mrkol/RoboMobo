@@ -12,14 +12,16 @@ import android.graphics.BitmapFactory;
 public class RMGR
 {
     public static Bitmap MAP_test;
-    public static Bitmap PICKUP_test;
+    public static Bitmap PICKUP_0;
+    public static Bitmap PICKUP_1;
     public static Bitmap CHAR_test;
     public static Bitmap TILE_test;
 
     public static void init(ActivityMain activityMain)
     {
         MAP_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.map_test);
-        PICKUP_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.pickup_test);
+        PICKUP_0 = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.pickup_0);
+        PICKUP_1 = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.pickup_1);
         CHAR_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.char_test);
         TILE_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_test);
     }

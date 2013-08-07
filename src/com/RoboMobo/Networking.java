@@ -1,6 +1,7 @@
 package com.RoboMobo;
 
 import android.util.Log;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -42,19 +43,24 @@ public class Networking
 
     public static JSONObject get(JSONObject send)
     {
+        JSONObject received;
         try
         {
             InputStream is = connection.getInputStream();
             OutputStream os = connection.getOutputStream();
             os.write(send.toString().getBytes());
-            while (is.available() == 0)
-            {
-                ;
-            }
-            return send;
+            while (is.available()==0);
+            byte[] raw = new byte[is.available()];
+            is.read(raw);
+            received = new JSONObject(new String(raw));
+            is.close();
+            os.close();
+            return received;
 
-        }
-        catch (IOException e)
+        } catch (IOException e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (JSONException e)
         {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <Button
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:text="Connect"
+            android:id="@+id/button"
+            android:singleLine="false"
+            android:background="@drawable/btn_test"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:onClick="play"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"/>
+
+    <Button
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:text="Host"
+            android:id="@+id/button1"
+            android:singleLine="false"
+            android:background="@drawable/btn_test"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:onClick="play"
+            android:layout_alignLeft="@+id/button"
+            android:layout_above="@+id/button"/>
+</RelativeLayout>

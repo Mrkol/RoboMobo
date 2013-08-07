@@ -17,11 +17,21 @@ public class ActivityMainMenu extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
-
+        RMR.init();
     }
 
-    public void play(View view)
+    public void mp(View view)
     {
+        Intent intent = new Intent(this, ActivityConnectMenu.class);
+        startActivity(intent);
+    }
+
+    public void sp(View view)
+    {
+        RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
+        RMR.currentMap.p0 = new Player(0, 0, "Me", true);
+        RMR.state = RMR.GameState.Singleplayer;
+        RMR.currentMap.state = Map.MapState.Game;
         Intent intent = new Intent(this, ActivityMain.class);
         startActivity(intent);
     }

@@ -1,13 +1,20 @@
 package com.RoboMobo;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
+import android.util.Log;
 import android.view.Display;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,36 +53,98 @@ public class RMR
      * Random generator.
      */
     public static Random rnd;
-    /**
-     * Side of the map in labyrinth.
-     */
-    public static int mapSide = 10;
     public static GPSModule gps;
     public static CompassModule compass;
 
     public static MainSurfaceView sw;
 
+    public static UUID uuid;
+    public static BluetoothServerSocket btServerSocket;
+    public static BluetoothSocket btSocket;
+    public static final int INCOMING_MESSAGE = 1;
+
+    public static String playerID;
+
+    public static GameState state = GameState.NotInGame;
+
     /**
      * The current map.
      */
     public static Map currentMap;
+    public static int mapSideLength = 10;
 
-    public static boolean suspended;
+    public static void init()
+    {
 
-    public static Point suspendTile;
+        rnd = new Random();
 
-    public static void init(Activity act)
+        playerID = "Asdf";
+
+        uuid = UUID.fromString("0b344d07-87a9-41cd-bc61-0e4e22f15f4d");
+    }
+
+    public static void registerActivity(Activity act)
     {
         display = act.getWindowManager().getDefaultDisplay();
         width = display.getWidth();
         height = display.getHeight();
         am = act;
-        rnd = new Random();
 
-        suspended = false;
-        suspendTile = new Point();
+        if(RMR.state == GameState.Server)
+        {
+            RMR.onServerConnected();
+        }
 
-        currentMap = new Map(mapSide, mapSide, R.drawable.map_test);
+        if(RMR.state == GameState.Singleplayer) RMR.state = GameState.SingleplayerIngame;
+    }
+
+    public static void onServerConnected()
+    {
+        Log.i("Server", "Generating map");
+        currentMap = new Map(mapSideLength, mapSideLength);
+
+        /*
+            Generate da map
+         */
+        RMR.currentMap.p0 = new Player(0, 0, "P0", true);
+
+        JSONArray jarr = new JSONArray();
+
+        for(int i = 0; i < RMR.currentMap.width; i++)
+        {
+            JSONArray jarrr = new JSONArray();
+            for(int j = 0; j < RMR.currentMap.height; j++)
+            {
+                jarrr.put(RMR.currentMap.tiles[i][j]);
+            }
+            jarr.put(jarrr);
+        }
+
+        JSONObject jobj = new JSONObject();
+
+        try
+        {
+            jobj.put("Tiles", jarr);
+        }
+        catch (JSONException e)
+        {
+
+        }
+        Log.i("Server", "Awaiting for connection");
+        try
+        {
+            RMR.btSocket.getInputStream().read();
+            RMR.btSocket.getOutputStream().write(jobj.toString().getBytes());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void onClientConnected() //called after server sent map and statistics
+    {
+
     }
 
     /**
@@ -83,7 +152,7 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
-        RMR.currentMap.Update(elapsedTime);
+        if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Update(elapsedTime);
     }
 
 
@@ -95,11 +164,23 @@ public class RMR
         RMR.c.save();
         {
             Paint p = new Paint();
-            p.setColor(Color.rgb(0x40, 0xF, 0xF));
+            p.setColor(Color.rgb(0xFF, 0xFF, 0xFF));
             RMR.c.drawPaint(p);
 
-            RMR.currentMap.Draw();
+            if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Draw();
         }
         RMR.c.restore();
+    }
+
+    public enum GameState
+    {
+        Invalid,
+        NotInGame,
+        Client,
+        Server,
+        ClientIngame,
+        ServerIngame,
+        Singleplayer,
+        SingleplayerIngame
     }
 }

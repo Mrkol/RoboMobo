@@ -12,11 +12,15 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ActivityMain extends Activity// implements View.OnTouchListener
 {
     public boolean flag = true;
     public SensorManager msensorManager;
+    public DataExchange dataExchange;
 
     public final Handler HandlerUIUpdate = new Handler()
     {
@@ -25,6 +29,46 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         {
             TextView tv = (TextView) RMR.am.findViewById(R.id.tv_score);
             tv.setText("Очки: " + msg.arg1);
+        }
+    };
+
+    public final Handler HandleBluetoothInput = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            JSONObject jobj = (JSONObject) msg.obj;
+
+            if (jobj.has("Map") && RMR.state == RMR.GameState.Client)
+            {
+                try
+                {
+                    RMR.currentMap = new Map(jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("height"));
+                    for (int i = 0; i < RMR.currentMap.width; i++)
+                    {
+                        for (int j = 0; j < RMR.currentMap.height; j++)
+                        {
+                            RMR.currentMap.tiles[i][j] = (short) ((JSONArray) jobj.getJSONObject("Map").getJSONArray("Tiles").get(i)).getInt(j);
+                        }
+                    }
+                }
+                catch (JSONException e)
+                {
+
+                }
+            }
+
+            if (jobj.has("Player"))
+            {
+                try
+                {
+                    RMR.currentMap.p1.changePos(new int[]{jobj.getJSONObject("Player").getInt("X"), jobj.getJSONObject("Player").getInt("Y")});
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     };
 
@@ -39,10 +83,13 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, RMR.gps);
         //((MainSurfaceView) findViewById(R.id.view)).setOnTouchListener(this);
         RMR.compass = new CompassModule();
-        msensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        msensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         RMR.sw = (MainSurfaceView) findViewById(R.id.view_ingame_canvas);
-        RMR.init(this);
+        RMR.registerActivity(this);
+
+        dataExchange = new DataExchange(HandleBluetoothInput);
+        dataExchange.start();
     }
 
     @Override
@@ -62,79 +109,109 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void fixCoord(View view)
     {
-        if (!RMR.suspended)
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
         {
-            if (flag)
+            if (RMR.currentMap.state != Map.MapState.Suspended)
             {
-                RMR.currentMap.fixCorner1(RMR.gps.last_latt, RMR.gps.last_long);
-                flag = false;
-                Log.wtf("fix", "1");
-            }
-            else
-            {
-                RMR.currentMap.fixCorner2(RMR.gps.last_latt, RMR.gps.last_long);
-                flag = true;
-                Log.wtf("fix", "2");
+                if (flag)
+                {
+                    RMR.currentMap.fixCorner1(RMR.gps.last_latt, RMR.gps.last_long);
+                    flag = false;
+                    Log.wtf("fix", "1");
+                }
+                else
+                {
+                    RMR.currentMap.fixCorner2(RMR.gps.last_latt, RMR.gps.last_long);
+                    flag = true;
+                    Log.wtf("fix", "2");
+                }
             }
         }
     }
 
     public void moveUp(View view)
     {
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
-        RMR.currentMap.player1.posX -= 32;
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        {
+            RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
+            RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
+            RMR.currentMap.p0.posX -= 32;
+        }
     }
 
     public void moveDown(View view)
     {
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
-        RMR.currentMap.player1.posX += 32;
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        {
+            RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
+            RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
+            RMR.currentMap.p0.posX += 32;
+        }
     }
 
     public void moveRight(View view)
     {
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
-        RMR.currentMap.player1.posY += 32;
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        {
+            RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
+            RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
+            RMR.currentMap.p0.posY += 32;
+        }
     }
 
     public void moveLeft(View view)
     {
-        RMR.currentMap.player1.prevPosX = RMR.currentMap.player1.posX;
-        RMR.currentMap.player1.prevPosY = RMR.currentMap.player1.posY;
-        RMR.currentMap.player1.posY -= 32;
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        {
+            RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
+            RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
+            RMR.currentMap.p0.posY -= 32;
+        }
     }
 
     public void setPlayer(View view)
     {
-        if (RMR.currentMap.player1.posX != 16 && RMR.currentMap.player1.posY != 16)
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
         {
-            RMR.currentMap.player1.changePos(new int[]{16, 16});
+            if (RMR.currentMap.p0.posX != 16 && RMR.currentMap.p0.posY != 16)
+            {
+                RMR.currentMap.p0.changePos(new int[]{16, 16});
 
-            RMR.suspendTile = new Point(0, 0);
-            RMR.suspended = false;
+                RMR.currentMap.suspendTile = new Point(0, 0);
+                RMR.currentMap.state = Map.MapState.Game;
+            }
         }
     }
 
     public void rotateUp(View view)
     {
-        RMR.currentMap.player1.prevPosX--;
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        {
+            RMR.currentMap.p0.prevPosX--;
+        }
     }
 
     public void rotateDown(View view)
     {
-        RMR.currentMap.player1.prevPosX++;
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        {
+            RMR.currentMap.p0.prevPosX++;
+        }
     }
 
     public void rotateLeft(View view)
     {
-        RMR.currentMap.player1.prevPosY--;
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        {
+            RMR.currentMap.p0.prevPosY--;
+        }
     }
 
     public void rotateRight(View view)
     {
-        RMR.currentMap.player1.prevPosY++;
+        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        {
+            RMR.currentMap.p0.prevPosY++;
+        }
     }
 }

@@ -20,6 +20,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 {
     public boolean flag = true;
     public SensorManager msensorManager;
+    public DataExchange dataExchange;
 
     public final Handler HandlerUIUpdate = new Handler()
     {
@@ -86,6 +87,9 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
         RMR.sw = (MainSurfaceView) findViewById(R.id.view_ingame_canvas);
         RMR.registerActivity(this);
+
+        dataExchange = new DataExchange(HandleBluetoothInput);
+        dataExchange.start();
     }
 
     @Override

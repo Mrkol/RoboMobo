@@ -26,7 +26,7 @@ public class ExpectConnectThread extends Thread
         activity = _activity;
         try
         {
-            RMR.btServerSocket = btAdapter.listenUsingRfcommWithServiceRecord("BTTest2", RMR.uuid);
+            RMR.btServerSocket = btAdapter.listenUsingRfcommWithServiceRecord("RoboMobo", RMR.uuid);
         }
         catch (IOException e)
         {

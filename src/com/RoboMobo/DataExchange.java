@@ -1,6 +1,7 @@
 package com.RoboMobo;
 
 import android.os.Handler;
+import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,12 +39,14 @@ public class DataExchange extends Thread
     @Override
     public void run()
     {
+        Log.i("DataExchange", "Thread started");
         byte[] buffer = new byte[1024];
         int bytes;
         if(RMR.state == RMR.GameState.Client)
         {
             try
             {
+                Log.i("Client", "Map request");
                 out.write(new byte[] {0});
             }
             catch (IOException e)

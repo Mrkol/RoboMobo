@@ -45,7 +45,6 @@ public class CompassModule implements SensorEventListener
         {
             SensorManager.getRotationMatrix(rotationMatrix, null, accelData, magnetData);
             SensorManager.getOrientation(rotationMatrix, orientationData);
-            Log.d("XY", String.valueOf(Math.round(Math.toDegrees(orientationData[0]))));
         }
 
     }

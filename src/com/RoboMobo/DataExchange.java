@@ -56,7 +56,6 @@ public class DataExchange extends Thread
             {
                 e.printStackTrace();
             }
-
         }
     }
 

@@ -119,12 +119,11 @@ public class ActivityConnectMenu extends Activity
         {
             Toast.makeText(this, "Bluetooth is currently working", Toast.LENGTH_SHORT).show(); //говорим, что bluetooth уже работает
         }
-
         while (!btAdapter.isEnabled())
         {
         }
         Log.i("Bluetooth", "Adapter locked, start server connection thread");
-        expectConnectThread = new ExpectConnectThread(btAdapter, this);
+
         Log.i("Bluetooth", "Thread started, device search");
         devices = new ArrayList<BluetoothDevice>(btAdapter.getBondedDevices());
         if (devices.size() > 0)
@@ -166,8 +165,9 @@ public class ActivityConnectMenu extends Activity
 
     public void toggleServer(View view)
     {
-        if (!((ToggleButton) view).isEnabled())
+        if (((ToggleButton) view).isChecked())
         {
+            expectConnectThread = new ExpectConnectThread(btAdapter, this);
             expectConnectThread.start();
         }
         else
@@ -175,11 +175,16 @@ public class ActivityConnectMenu extends Activity
             expectConnectThread.running = false;
             try
             {
+                RMR.btServerSocket.close();
                 expectConnectThread.join();
             }
             catch (InterruptedException e)
             {
                 e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
     }

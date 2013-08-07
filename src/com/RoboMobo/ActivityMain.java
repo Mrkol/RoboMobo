@@ -58,6 +58,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
                 }
 
                 RMR.state = RMR.GameState.ClientIngame;
+                RMR.currentMap.Start();
             }
 
             if (jobj.has("Player"))

@@ -35,8 +35,9 @@
                     android:layout_below="@+id/btn_ingame_up"
                     android:onClick="moveUp"
                     android:layout_column="1"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"
+                    />
 
         </TableRow>
 
@@ -53,8 +54,8 @@
                     android:layout_below="@+id/btn_ingame_up"
                     android:onClick="moveLeft"
                     android:layout_column="0"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
 
             <Button
                     android:layout_width="48dp"
@@ -66,8 +67,8 @@
                     android:layout_alignRight="@+id/btn_ingame_up"
                     android:onClick="setPlayer"
                     android:layout_column="1"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
 
             <Button
                     android:layout_width="48dp"
@@ -78,8 +79,8 @@
                     android:layout_centerVertical="true"
                     android:onClick="moveRight"
                     android:layout_column="2"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
 
         <TableRow
@@ -95,8 +96,8 @@
                     android:layout_below="@+id/btn_ingame_right"
                     android:onClick="moveDown"
                     android:layout_column="1"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
 
     </TableLayout>
@@ -151,11 +152,12 @@
             android:text="Fix corner"
             android:id="@+id/btn_ingame_fixcorner"
             android:onClick="fixCoord"
-            android:background="@drawable/btn_test"
+            android:background="@drawable/button0"
             android:layout_alignLeft="@+id/view_ingame_canvas"
             android:layout_alignBottom="@+id/view_ingame_canvas"
             android:textColor="#ffffff"
-            android:paddingTop="10dp"/>
+            android:paddingTop="10dp"
+            android:layout_marginBottom="8dp"/>
 
     <TableLayout
             android:layout_width="wrap_content"
@@ -179,8 +181,8 @@
                     android:layout_gravity="center"
                     android:layout_column="1"
                     android:onClick="rotateUp"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
 
         <TableRow
@@ -195,8 +197,8 @@
                     android:singleLine="true"
                     android:layout_gravity="center"
                     android:onClick="rotateLeft"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
 
             <Button
                     android:layout_width="35dp"
@@ -204,8 +206,8 @@
                     android:text="O"
                     android:id="@+id/btn_ingame_O"
                     android:layout_gravity="center"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
 
             <Button
                     android:layout_width="35dp"
@@ -214,8 +216,8 @@
                     android:id="@+id/btn_ingame_r_right"
                     android:layout_gravity="center"
                     android:onClick="rotateRight"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
 
         <TableRow
@@ -230,8 +232,8 @@
                     android:layout_column="1"
                     android:layout_gravity="center"
                     android:onClick="rotateDown"
-                    android:background="@drawable/button"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
     </TableLayout>
 

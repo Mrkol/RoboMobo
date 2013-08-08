@@ -197,7 +197,7 @@ public class Map
                 {
                    /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
                    Log.wtf("Pick", this.pickups.get(i)[0] + " " + this.pickups.get(i)[1]);*/
-                    this.p0.addScore(1);
+                    this.p0.addScore(this.pickups.get(i)[4]);
                     this.pickups.remove(i);
                     Message msg = new Message();
                     msg.arg1 = this.p0.score;
@@ -212,7 +212,7 @@ public class Map
                 if (this.tiles[x][y] == 0)
                 {
                     int t = RMR.rnd.nextInt(20000) + 20000;
-                    pickups.add(new int[]{x, y, t, t, 1});        //[x, y, timer, lifetime, type]
+                    pickups.add(new int[]{x, y, t, t, 1 + RMR.rnd.nextInt(2)});        //[x, y, timer, lifetime, type]
                 }
             }
             /*TextView text = (TextView) RMR.am.findViewById(R.id.tv_score);
@@ -308,8 +308,8 @@ public class Map
 
                 RMR.c.save();
                 {
-                    if (RMGR.animationTimer == 0) RMGR.tile_0_iterator++;
-                    if (RMGR.tile_0_iterator == 5) RMGR.tile_0_iterator = 0;
+                    if((System.currentTimeMillis() / 30) % 2 == 0) RMGR.tile_0_iterator++;
+                    if(RMGR.tile_0_iterator == RMGR.TILE_0.length) RMGR.tile_0_iterator = 0;
                     for (int i = 0; i < this.height; i++)
                     {
                         for (int j = 0; j < this.width; j++)
@@ -320,11 +320,13 @@ public class Map
                             }
                             RMR.c.save();
                             {
+                                int it =  RMGR.tile_0_iterator + i + j;
+                                it %= RMGR.TILE_0.length;
                                 RMR.c.translate(i * 32, j * 32);
-                                src.set(0, 0, RMGR.TILE_0[RMGR.tile_0_iterator].getWidth(), RMGR.TILE_0[RMGR.tile_0_iterator].getHeight());
+                                src.set(0, 0, RMGR.TILE_0[it].getWidth(), RMGR.TILE_0[it].getHeight());
                                 dst.set(0, 0, 32, 32);
                                 pa.setColor(Color.WHITE);
-                                RMR.c.drawBitmap(RMGR.TILE_0[RMGR.tile_0_iterator], src, dst, pa);
+                                RMR.c.drawBitmap(RMGR.TILE_0[it], src, dst, pa);
                             }
                             RMR.c.restore();
                         }
@@ -333,21 +335,34 @@ public class Map
                 RMR.c.restore();
 
 
-                src.set(0, 0, RMGR.PICKUP_0.getWidth(), RMGR.PICKUP_0.getHeight());
-                dst.set(4, 4, 28, 28);
 
                 RMR.c.save();
                 {
+                    if((System.currentTimeMillis() / 30) % 2 == 0) RMGR.pickup_0_iterator++;
+                    if((System.currentTimeMillis() / 30) % 2 == 0) RMGR.pickup_1_iterator++;
                     for (int i = 0; i < this.pickups.size(); i++)
                     {
                         RMR.c.save();
                         {
                             RMR.c.translate(this.pickups.get(i)[1] * 32, this.pickups.get(i)[0] * 32);
-                            pa.setAlpha((int) Math.floor(100 / ((float) this.pickups.get(i)[3] / ((float) this.pickups.get(i)[2] != 0 ? (float) this.pickups.get(i)[2] : 1))));
+                            pa.setAlpha((int) Math.floor(100 / ((float)this.pickups.get(i)[3] / ((float)this.pickups.get(i)[2] != 0 ? (float)this.pickups.get(i)[2] : 1))));
                             switch (this.pickups.get(i)[4])
                             {
                                 default:
-                                    RMR.c.drawBitmap(RMGR.PICKUP_0, src, dst, pa);
+                                case 1:
+                                    int it = (RMGR.pickup_0_iterator + this.pickups.get(i)[0] + this.pickups.get(i)[1]);
+                                    it %= RMGR.PICKUP_0.length;
+                                    src.set(0, 0, RMGR.PICKUP_0[it].getWidth(), RMGR.PICKUP_0[it].getHeight());
+                                    dst.set(4, 4, 28, 28);
+                                    RMR.c.drawBitmap(RMGR.PICKUP_0[it], src, dst, pa);
+                                    break;
+
+                                case 2:
+                                    int it1 = (RMGR.pickup_1_iterator + this.pickups.get(i)[0] + this.pickups.get(i)[1]);
+                                    it1 %= RMGR.PICKUP_1.length;
+                                    src.set(0, 0, RMGR.PICKUP_1[it1].getWidth(), RMGR.PICKUP_1[it1].getHeight());
+                                    dst.set(4, 4, 28, 28);
+                                    RMR.c.drawBitmap(RMGR.PICKUP_1[it1], src, dst, pa);
                                     break;
                             }
                         }

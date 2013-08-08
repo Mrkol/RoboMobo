@@ -91,13 +91,16 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         RMR.sw = (MainSurfaceView) findViewById(R.id.view_ingame_canvas);
         RMR.registerActivity(this);
 
-        if(Networking.isServer)
+        if(RMR.state != RMR.GameState.SingleplayerIngame && RMR.state != RMR.GameState.Singleplayer)
         {
-            RMR.state = RMR.GameState.Server;
-        }
-        else
-        {
-            RMR.state = RMR.GameState.Client;
+            if(Networking.isServer)
+            {
+                RMR.state = RMR.GameState.Server;
+            }
+            else
+            {
+                RMR.state = RMR.GameState.Client;
+            }
         }
 
         /*if (RMR.state != RMR.GameState.Singleplayer && RMR.state != RMR.GameState.SingleplayerIngame)

@@ -89,58 +89,66 @@ public class RMR
         width = display.getWidth();
         height = display.getHeight();
         am = act;
-        if(RMR.state == GameState.NotInGame)
+
+        if(RMR.state != GameState.Singleplayer)
         {
-            if(Networking.isServer)
+            if(RMR.state == GameState.NotInGame)
             {
-                RMR.state = GameState.Server;
-                RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
-
-                RMR.currentMap.p0 = new Player(0, 0, "P0", true);
-                RMR.currentMap.p1 = new Player(0, 0, "P1", false);
-
-                JSONArray jarr = new JSONArray();
-
-                for(int i = 0; i < RMR.currentMap.width; i++)
+                if(Networking.isServer)
                 {
-                    JSONArray jarrr = new JSONArray();
-                    for(int j = 0; j < RMR.currentMap.height; j++)
+                    RMR.state = GameState.Server;
+                    RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
+
+                    RMR.currentMap.p0 = new Player(0, 0, "P0", true);
+                    RMR.currentMap.p1 = new Player(0, 0, "P1", false);
+
+                    JSONArray jarr = new JSONArray();
+
+                    for(int i = 0; i < RMR.currentMap.width; i++)
                     {
-                        jarrr.put(RMR.currentMap.tiles[i][j]);
+                        JSONArray jarrr = new JSONArray();
+                        for(int j = 0; j < RMR.currentMap.height; j++)
+                        {
+                            jarrr.put(RMR.currentMap.tiles[i][j]);
+                        }
+                        jarr.put(jarrr);
                     }
-                    jarr.put(jarrr);
+
+                    JSONObject jobj = new JSONObject();
+
+                    try
+                    {
+                        jobj.put("Tiles", jarr);
+                    }
+                    catch (JSONException e)
+                    {
+
+                    }
+
+
+                    JSONObject jo = new JSONObject();
+                    try
+                    {
+                        jo.put("Map", jobj);
+                        jo.put("width", RMR.currentMap.width);
+                        jo.put("height", RMR.currentMap.height);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+
+                    Networking.get(jo);
                 }
-
-                JSONObject jobj = new JSONObject();
-
-                try
+                else
                 {
-                    jobj.put("Tiles", jarr);
+                    RMR.state = GameState.Client;
                 }
-                catch (JSONException e)
-                {
-
-                }
-
-
-                JSONObject jo = new JSONObject();
-                try
-                {
-                    jo.put("Map", jobj);
-                    jo.put("width", RMR.currentMap.width);
-                    jo.put("height", RMR.currentMap.height);
-                }
-                catch (JSONException e)
-                {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-
-                Networking.get(jo);
             }
-            else
-            {
-                RMR.state = GameState.Client;
-            }
+        }
+        else
+        {
+            RMR.state = GameState.SingleplayerIngame;
         }
     }
     /*
@@ -294,8 +302,6 @@ public class RMR
     {
         RMR.c.save();
         {
-            RMGR.animationTimer++;
-            if(RMGR.animationTimer == 3) RMGR.animationTimer = 0;
             Paint p = new Paint();
             p.setColor(Color.rgb(0x20, 0x20, 0x20));
             RMR.c.drawPaint(p);

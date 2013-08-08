@@ -22,6 +22,7 @@ public class CompassModule implements SensorEventListener
     public float[] rotationMatrix = new float[16];
     public float[] orientationData = new float[3];
 
+
     public CompassModule()
     {
         Arrays.fill(accelData, 0);

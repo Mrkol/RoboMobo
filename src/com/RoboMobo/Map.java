@@ -227,11 +227,13 @@ public class Map
             {
                 RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
-
-                prevFilteredCompass = (α * prevFilteredCompass) + ((1 - α) * ((float) Math.toDegrees(-RMR.compass.orientationData[0])));
+                double delta = prevFilteredCompass + Math.toDegrees(RMR.compass.orientationData[0]);
+                Log.d("compass", delta + " " + prevFilteredCompass + " " + (Math.abs(delta)>180));
+                delta = (delta > 180) ? (delta - 360) : ((delta < -180) ? (delta + 360) : delta);
+                prevFilteredCompass = (float) (α * delta - Math.toDegrees(RMR.compass.orientationData[0]));
                 if (this.corner1fixed && this.corner2fixed)
                 {
-                    RMR.c.rotate((!Double.isNaN(mapRotation) ? (float) mapRotation : 0) - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
+                    RMR.c.rotate((!Double.isNaN(mapRotation) ? (float) mapRotation : 0) + prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
                 }
 
                 RMR.c.translate(-this.p0.posY, -this.p0.posX);

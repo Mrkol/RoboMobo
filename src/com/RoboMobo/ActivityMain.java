@@ -91,8 +91,11 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         RMR.sw = (MainSurfaceView) findViewById(R.id.view_ingame_canvas);
         RMR.registerActivity(this);
 
-        dataExchange = new DataExchange(HandleBluetoothInput);
-        dataExchange.start();
+        if (RMR.state != RMR.GameState.Singleplayer && RMR.state != RMR.GameState.SingleplayerIngame)
+        {
+            dataExchange = new DataExchange(HandleBluetoothInput);
+            dataExchange.start();
+        }
     }
 
     @Override

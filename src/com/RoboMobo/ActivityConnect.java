@@ -1,6 +1,7 @@
 package com.RoboMobo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -31,5 +32,7 @@ public class ActivityConnect extends Activity
     {
         String ip = ((EditText) findViewById(R.id.et_url)).getText().toString();
         Networking.init(ip, ((ToggleButton) findViewById(R.id.tb_server)).isChecked());
+        Intent intent = new Intent(this, ActivityMain.class);
+        startActivity(intent);
     }
 }

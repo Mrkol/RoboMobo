@@ -75,6 +75,10 @@ public class Map
         {
             tiles[i][5] = 1;
         }
+        for (int i = 0; i < 3; i++)
+        {
+            tiles[i][8] = 2;
+        }
 
         state = MapState.PreGame;
         this.suspendTile = null;
@@ -88,11 +92,6 @@ public class Map
             }
         };
         r.run();*/
-    }
-
-    public void Start()
-    {
-        state = MapState.Game;
     }
 
     public void Update(long elapsedTime)
@@ -314,21 +313,39 @@ public class Map
                     {
                         for (int j = 0; j < this.width; j++)
                         {
-                            if (this.tiles[j][i] == 0)
+                            switch (this.tiles[j][i])
                             {
-                                continue;
+                                default:
+                                    continue;
+
+                                case 1:
+                                    RMR.c.save();
+                                    {
+                                        int it =  RMGR.tile_0_iterator + i + j;
+                                        it %= RMGR.TILE_0.length;
+                                        RMR.c.translate(i * 32, j * 32);
+                                        src.set(0, 0, RMGR.TILE_0[it].getWidth(), RMGR.TILE_0[it].getHeight());
+                                        dst.set(0, 0, 32, 32);
+                                        pa.setColor(Color.WHITE);
+                                        RMR.c.drawBitmap(RMGR.TILE_0[it], src, dst, pa);
+                                    }
+                                    RMR.c.restore();
+                                    break;
+
+                                case 2:
+                                    RMR.c.save();
+                                    {
+                                        int it =  RMGR.tile_1_iterator + i + j;
+                                        it %= RMGR.TILE_1.length;
+                                        RMR.c.translate(i * 32, j * 32);
+                                        src.set(0, 0, RMGR.TILE_1[it].getWidth(), RMGR.TILE_1[it].getHeight());
+                                        dst.set(0, 0, 32, 32);
+                                        pa.setColor(Color.WHITE);
+                                        RMR.c.drawBitmap(RMGR.TILE_1[it], src, dst, pa);
+                                    }
+                                    RMR.c.restore();
+                                    break;
                             }
-                            RMR.c.save();
-                            {
-                                int it =  RMGR.tile_0_iterator + i + j;
-                                it %= RMGR.TILE_0.length;
-                                RMR.c.translate(i * 32, j * 32);
-                                src.set(0, 0, RMGR.TILE_0[it].getWidth(), RMGR.TILE_0[it].getHeight());
-                                dst.set(0, 0, 32, 32);
-                                pa.setColor(Color.WHITE);
-                                RMR.c.drawBitmap(RMGR.TILE_0[it], src, dst, pa);
-                            }
-                            RMR.c.restore();
                         }
                     }
                 }

@@ -15,13 +15,16 @@ public class RMGR
     public static Bitmap[] PICKUP_1;
     public static Bitmap CHAR_0;
     public static Bitmap[] TILE_0;
+    public static Bitmap[] TILE_1;
     public static short tile_0_iterator = 0;
+    public static short tile_1_iterator = 0;
     public static short pickup_0_iterator = 0;
     public static short pickup_1_iterator = 0;
 
     public static void init(ActivityMain activityMain)
     {
         TILE_0 = new Bitmap[13];
+        TILE_0 = new Bitmap[14];
         PICKUP_0 = new Bitmap[25];
         PICKUP_1 = new Bitmap[11];
 
@@ -78,5 +81,20 @@ public class RMGR
         TILE_0[10] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_0_10);
         TILE_0[11] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_0_11);
         TILE_0[12] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_0_12);
+
+        TILE_1[0] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_0);
+        TILE_1[1] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_1);
+        TILE_1[2] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_2);
+        TILE_1[3] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_3);
+        TILE_1[4] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_4);
+        TILE_1[5] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_5);
+        TILE_1[6] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_6);
+        TILE_1[7] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_7);
+        TILE_1[8] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_8);
+        TILE_1[9] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_9);
+        TILE_1[10] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_10);
+        TILE_1[11] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_11);
+        TILE_1[12] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_12);
+        TILE_1[12] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_1_13);
     }
 }

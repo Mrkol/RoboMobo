@@ -137,6 +137,7 @@ public class Map
                 {
                     case FINISHED:
                         JSONObject[] jb = RMR.net.get();
+                        RMR.net = new Networking(RMR.net.ip, RMR.net.isServer);
                         RMR.net.execute(jobj);
                         for (int i = 0; i < jb.length; i++)
                         {

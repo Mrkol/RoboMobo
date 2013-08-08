@@ -24,7 +24,7 @@ public class RMGR
     public static void init(ActivityMain activityMain)
     {
         TILE_0 = new Bitmap[13];
-        TILE_0 = new Bitmap[14];
+        TILE_1 = new Bitmap[14];
         PICKUP_0 = new Bitmap[25];
         PICKUP_1 = new Bitmap[11];
 

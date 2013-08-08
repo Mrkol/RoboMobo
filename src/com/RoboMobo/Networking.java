@@ -22,11 +22,13 @@ public class Networking extends AsyncTask<JSONObject, Void, JSONObject[]>
     public HttpURLConnection connection;
     public URL url;
     public String msg;
+    public String ip;
     public InputStream in;
     public OutputStream out;
     public boolean isServer;
-    public Networking(String ip, boolean server)
+    public Networking(String _ip, boolean server)
     {
+        ip = _ip;
         msg = "http://";
         msg += ip;
         msg += server ? ":8192/TOP1?" : ":8192/TOP0?";

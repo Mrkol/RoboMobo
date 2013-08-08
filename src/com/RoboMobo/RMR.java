@@ -241,6 +241,7 @@ public class RMR
                 {
                     case FINISHED:
                         JSONObject[] joar = net.get();
+                        net = new Networking(net.ip, net.isServer);
                         net.execute(jobj);
                         for (int i = 0; i < joar.length; i++)
                         {

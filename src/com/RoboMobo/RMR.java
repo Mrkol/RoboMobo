@@ -89,23 +89,69 @@ public class RMR
         width = display.getWidth();
         height = display.getHeight();
         am = act;
-
-        if(RMR.state == GameState.Server)
+        if(RMR.state == GameState.NotInGame)
         {
-            RMR.onServerConnected();
+            if(Networking.isServer)
+            {
+                RMR.state = GameState.Server;
+                RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
+
+                RMR.currentMap.p0 = new Player(0, 0, "P0", true);
+                RMR.currentMap.p1 = new Player(0, 0, "P1", false);
+
+                JSONArray jarr = new JSONArray();
+
+                for(int i = 0; i < RMR.currentMap.width; i++)
+                {
+                    JSONArray jarrr = new JSONArray();
+                    for(int j = 0; j < RMR.currentMap.height; j++)
+                    {
+                        jarrr.put(RMR.currentMap.tiles[i][j]);
+                    }
+                    jarr.put(jarrr);
+                }
+
+                JSONObject jobj = new JSONObject();
+
+                try
+                {
+                    jobj.put("Tiles", jarr);
+                }
+                catch (JSONException e)
+                {
+
+                }
+
+
+                JSONObject jo = new JSONObject();
+                try
+                {
+                    jo.put("Map", jobj);
+                    jo.put("width", RMR.currentMap.width);
+                    jo.put("height", RMR.currentMap.height);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+
+                Networking.get(jo);
+            }
+            else
+            {
+                RMR.state = GameState.Client;
+            }
         }
-
-        if(RMR.state == GameState.Singleplayer) RMR.state = GameState.SingleplayerIngame;
     }
-
+    /*
     public static void onServerConnected()
     {
         Log.i("Server", "Generating map");
         currentMap = new Map(mapSideLength, mapSideLength);
 
-        /*
+
             Generate da map
-         */
+
         RMR.currentMap.p0 = new Player(0, 0, "P0", true);
 
         JSONArray jarr = new JSONArray();
@@ -162,14 +208,14 @@ public class RMR
     public static void onClientConnected() //called after server sent map and statistics
     {
 
-    }
+    } */
 
     /**
      * Update stuff.
      */
     public static void Update(long elapsedTime)
     {
-        if(RMR.state == GameState.NotInGame)
+        if(RMR.state == GameState.Client)
         {
             JSONObject jobj = new JSONObject();
             try
@@ -198,6 +244,27 @@ public class RMR
                             RMR.state = RMR.GameState.ClientIngame;
                         }
                         break;
+                    }
+                    else
+                    if(jo.has("Map"))
+                    {
+                        try
+                        {
+                            RMR.currentMap = new Map(jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("height"));
+                            for (int p = 0; p < RMR.currentMap.width; p++)
+                            {
+                                for (int l = 0; l < RMR.currentMap.height; l++)
+                                {
+                                    RMR.currentMap.tiles[p][l] = (short) ((JSONArray) jobj.getJSONObject("Map").getJSONArray("Tiles").get(p)).getInt(l);
+                                }
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+
+                        }
+
+                        RMR.state = RMR.GameState.ClientIngame;
                     }
                     else
                     {

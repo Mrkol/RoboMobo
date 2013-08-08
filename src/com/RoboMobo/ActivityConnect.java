@@ -17,7 +17,6 @@ import java.net.URLDecoder;
  * User: loredan
  * Date: 08.08.13
  * Time: 11:59
- * To change this template use File | Settings | File Templates.
  */
 public class ActivityConnect extends Activity
 {

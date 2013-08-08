@@ -30,7 +30,7 @@ public class ActivityConnect extends Activity
     public void connect(View view)
     {
         String ip = ((EditText) findViewById(R.id.et_url)).getText().toString();
-        Networking.init(ip, ((ToggleButton) findViewById(R.id.tb_server)).isChecked());
+        RMR.net = new Networking(ip, ((ToggleButton) findViewById(R.id.tb_server)).isChecked());
         Intent intent = new Intent(this, ActivityMain.class);
         startActivity(intent);
     }

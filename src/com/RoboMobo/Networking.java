@@ -1,5 +1,6 @@
 package com.RoboMobo;
 
+import android.os.AsyncTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,15 +17,15 @@ import java.net.URLDecoder;
  * Date: 03.08.13
  * Time: 10:05
  */
-public class Networking
+public class Networking extends AsyncTask<JSONObject, Void, JSONObject[]>
 {
-    public static HttpURLConnection connection;
-    public static URL url;
-    public static String msg;
-    public static InputStream in;
-    public static OutputStream out;
-    public static boolean isServer;
-    public static void init(String ip, boolean server)
+    public HttpURLConnection connection;
+    public URL url;
+    public String msg;
+    public InputStream in;
+    public OutputStream out;
+    public boolean isServer;
+    public Networking(String ip, boolean server)
     {
         msg = "http://";
         msg += ip;
@@ -44,7 +45,8 @@ public class Networking
         isServer = server;
     }
 
-    public static JSONObject[] get(JSONObject send)
+    @Override
+    protected JSONObject[] doInBackground(JSONObject... send)
     {
         JSONObject[] received;
         try

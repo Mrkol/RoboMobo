@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Display;
 import org.json.JSONArray;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -73,6 +75,8 @@ public class RMR
     public static Map currentMap;
     public static int mapSideLength = 10;
 
+    public static Networking net;
+
     public static void init()
     {
 
@@ -89,9 +93,9 @@ public class RMR
         width = display.getWidth();
         height = display.getHeight();
         am = act;
-        if(RMR.state == GameState.NotInGame)
+        if (RMR.state == GameState.NotInGame)
         {
-            if(Networking.isServer)
+            if (net.isServer)
             {
                 RMR.state = GameState.Server;
                 RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
@@ -101,10 +105,10 @@ public class RMR
 
                 JSONArray jarr = new JSONArray();
 
-                for(int i = 0; i < RMR.currentMap.width; i++)
+                for (int i = 0; i < RMR.currentMap.width; i++)
                 {
                     JSONArray jarrr = new JSONArray();
-                    for(int j = 0; j < RMR.currentMap.height; j++)
+                    for (int j = 0; j < RMR.currentMap.height; j++)
                     {
                         jarrr.put(RMR.currentMap.tiles[i][j]);
                     }
@@ -135,7 +139,7 @@ public class RMR
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
 
-                Networking.get(jo);
+                net.execute(jo);
             }
             else
             {
@@ -215,7 +219,7 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
-        if(RMR.state == GameState.Client)
+        if (RMR.state == GameState.Client)
         {
             JSONObject jobj = new JSONObject();
             try
@@ -227,49 +231,48 @@ public class RMR
                 e.printStackTrace();
             }
 
-            JSONObject[] joar = Networking.get(jobj);
             try
             {
-                for(int i = 0; i < joar.length; i++)
+                switch (net.getStatus())
                 {
-                    JSONObject jo = joar[i];
-                    if(jo.has("ready") && jo.getBoolean("ready"))
-                    {
-                        if(Networking.isServer)
+                    case FINISHED:
+                        JSONObject[] joar = net.get();
+                        net.execute(jobj);
+                        for (int i = 0; i < joar.length; i++)
                         {
-                            RMR.state = RMR.GameState.ServerIngame;
-                        }
-                        else
-                        {
-                            RMR.state = RMR.GameState.ClientIngame;
-                        }
-                        break;
-                    }
-                    else
-                    if(jo.has("Map"))
-                    {
-                        try
-                        {
-                            RMR.currentMap = new Map(jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("height"));
-                            for (int p = 0; p < RMR.currentMap.width; p++)
+                            JSONObject jo = joar[i];
+                            if (jo.has("ready") && jo.getBoolean("ready"))
                             {
-                                for (int l = 0; l < RMR.currentMap.height; l++)
+                                if (net.isServer)
                                 {
-                                    RMR.currentMap.tiles[p][l] = (short) ((JSONArray) jobj.getJSONObject("Map").getJSONArray("Tiles").get(p)).getInt(l);
+                                    RMR.state = RMR.GameState.ServerIngame;
                                 }
+                                else
+                                {
+                                    RMR.state = RMR.GameState.ClientIngame;
+                                }
+                                break;
+                            }
+                            else if (jo.has("Map"))
+                            {
+                                RMR.currentMap = new Map(jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("height"));
+                                for (int p = 0; p < RMR.currentMap.width; p++)
+                                {
+                                    for (int l = 0; l < RMR.currentMap.height; l++)
+                                    {
+                                        RMR.currentMap.tiles[p][l] = (short) ((JSONArray) jobj.getJSONObject("Map").getJSONArray("Tiles").get(p)).getInt(l);
+                                    }
+                                }
+
+                                RMR.state = RMR.GameState.ClientIngame;
                             }
                         }
-                        catch (JSONException e)
-                        {
-
-                        }
-
-                        RMR.state = RMR.GameState.ClientIngame;
-                    }
-                    else
-                    {
+                        break;
+                    case PENDING:
+                        net.execute(jobj);
+                        break;
+                    case RUNNING:
                         Thread.sleep(5000);
-                    }
                 }
             }
             catch (JSONException e)
@@ -280,10 +283,15 @@ public class RMR
             {
                 e.printStackTrace();
             }
+            catch (ExecutionException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
 
 
-        if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Update(elapsedTime);
+        if (RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame)
+            RMR.currentMap.Update(elapsedTime);
     }
 
 
@@ -295,12 +303,13 @@ public class RMR
         RMR.c.save();
         {
             RMGR.animationTimer++;
-            if(RMGR.animationTimer == 3) RMGR.animationTimer = 0;
+            if (RMGR.animationTimer == 3) RMGR.animationTimer = 0;
             Paint p = new Paint();
             p.setColor(Color.rgb(0x20, 0x20, 0x20));
             RMR.c.drawPaint(p);
 
-            if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Draw();
+            if (RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame)
+                RMR.currentMap.Draw();
         }
         RMR.c.restore();
     }

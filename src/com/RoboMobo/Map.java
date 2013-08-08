@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -131,24 +132,41 @@ public class Map
 
         if (RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.ServerIngame)
         {
-            JSONObject[] jb = Networking.get(jobj);
-
-            for(int i = 0; i < jb.length; i++)
+            try
             {
-                JSONObject jo = jb[i];
-                if(jo.has("Player"))
+                switch (RMR.net.getStatus())
                 {
-                    try
-                    {
-                        this.p1.prevPosX = this.p1.posX;
-                        this.p1.prevPosY = this.p1.posY;
-                        this.p1.posX = jo.getJSONObject("Player").getInt("X");
-                        this.p1.posY = jo.getJSONObject("Player").getInt("Y");
-                    }
-                    catch (JSONException e)
-                    {
-                    }
+                    case FINISHED:
+                        JSONObject[] jb = RMR.net.get();
+                        RMR.net.execute(jobj);
+                        for (int i = 0; i < jb.length; i++)
+                        {
+                            JSONObject jo = jb[i];
+                            if (jo.has("Player"))
+                            {
+                                this.p1.prevPosX = this.p1.posX;
+                                this.p1.prevPosY = this.p1.posY;
+                                this.p1.posX = jo.getJSONObject("Player").getInt("X");
+                                this.p1.posY = jo.getJSONObject("Player").getInt("Y");
+                            }
+                        }
+                        break;
+                    case PENDING:
+                        RMR.net.execute(jobj);
+                        break;
                 }
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            catch (ExecutionException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
 
@@ -246,7 +264,7 @@ public class Map
                 RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
                 double delta = prevFilteredCompass + Math.toDegrees(RMR.compass.orientationData[0]);
-                Log.d("compass", delta + " " + prevFilteredCompass + " " + (Math.abs(delta)>180));
+                Log.d("compass", delta + " " + prevFilteredCompass + " " + (Math.abs(delta) > 180));
                 delta = (delta > 180) ? (delta - 360) : ((delta < -180) ? (delta + 360) : delta);
                 prevFilteredCompass = (float) (α * delta - Math.toDegrees(RMR.compass.orientationData[0]));
                 if (this.corner1fixed && this.corner2fixed)
@@ -290,8 +308,8 @@ public class Map
 
                 RMR.c.save();
                 {
-                    if(RMGR.animationTimer == 0) RMGR.tile_0_iterator++;
-                    if(RMGR.tile_0_iterator == 5) RMGR.tile_0_iterator = 0;
+                    if (RMGR.animationTimer == 0) RMGR.tile_0_iterator++;
+                    if (RMGR.tile_0_iterator == 5) RMGR.tile_0_iterator = 0;
                     for (int i = 0; i < this.height; i++)
                     {
                         for (int j = 0; j < this.width; j++)
@@ -325,7 +343,7 @@ public class Map
                         RMR.c.save();
                         {
                             RMR.c.translate(this.pickups.get(i)[1] * 32, this.pickups.get(i)[0] * 32);
-                            pa.setAlpha((int) Math.floor(100 / ((float)this.pickups.get(i)[3] / ((float)this.pickups.get(i)[2] != 0 ? (float)this.pickups.get(i)[2] : 1))));
+                            pa.setAlpha((int) Math.floor(100 / ((float) this.pickups.get(i)[3] / ((float) this.pickups.get(i)[2] != 0 ? (float) this.pickups.get(i)[2] : 1))));
                             switch (this.pickups.get(i)[4])
                             {
                                 default:

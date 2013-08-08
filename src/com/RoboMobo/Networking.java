@@ -1,6 +1,5 @@
 package com.RoboMobo;
 
-import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -24,7 +22,7 @@ public class Networking
     public static String msg;
     public static InputStream in;
     public static OutputStream out;
-
+    public static boolean isServer;
     public static void init(String ip, boolean server)
     {
         msg = ip;
@@ -41,31 +39,40 @@ public class Networking
 //        {
 //            Log.wtf("IO", e.getMessage());
 //        }
+        isServer = server;
     }
 
-    public static JSONObject get(JSONObject send)
+    public static JSONObject[] get(JSONObject send)
     {
-        JSONObject received;
+        JSONObject[] received;
         try
         {
-            connection = (HttpURLConnection) (new URL(msg+send.toString())).openConnection();
+            connection = (HttpURLConnection) (new URL(msg + send.toString())).openConnection();
 //            InputStream is = connection.getInputStream();
 //            OutputStream os = connection.getOutputStream();
 //            os.write(send.toString().getBytes());
 //            while (is.available()==0);
 //            byte[] raw = new byte[is.available()];
 //            is.read(raw);
-            received = new JSONObject(connection.getResponseMessage());
+
+            String[] str = connection.getResponseMessage().split("&");
+            received = new JSONObject[str.length];
+            for(int i = 0; i < str.length; i++)
+            {
+                received[i] = new JSONObject(str[i]);
+            }
 //            is.close();
 //            os.close();
             return received;
 
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (JSONException e)
+            e.printStackTrace();
+        }
+        catch (JSONException e)
         {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         return null;
     }

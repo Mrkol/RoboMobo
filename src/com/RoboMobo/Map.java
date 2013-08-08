@@ -131,7 +131,25 @@ public class Map
 
         if (RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.ServerIngame)
         {
-            ((ActivityMain) RMR.am).dataExchange.write(jobj);
+            JSONObject[] jb = Networking.get(jobj);
+
+            for(int i = 0; i < jb.length; i++)
+            {
+                JSONObject jo = jb[i];
+                if(jo.has("Player"))
+                {
+                    try
+                    {
+                        this.p1.prevPosX = this.p1.posX;
+                        this.p1.prevPosY = this.p1.posY;
+                        this.p1.posX = jo.getJSONObject("Player").getInt("X");
+                        this.p1.posY = jo.getJSONObject("Player").getInt("Y");
+                    }
+                    catch (JSONException e)
+                    {
+                    }
+                }
+            }
         }
 
         if (state == MapState.Game)

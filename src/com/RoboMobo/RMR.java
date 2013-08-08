@@ -169,6 +169,53 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
+        if(RMR.state == GameState.NotInGame)
+        {
+            JSONObject jobj = new JSONObject();
+            try
+            {
+                jobj.put("ready", true);
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+            JSONObject[] joar = Networking.get(jobj);
+            try
+            {
+                for(int i = 0; i < joar.length; i++)
+                {
+                    JSONObject jo = joar[i];
+                    if(jo.has("ready") && jo.getBoolean("ready"))
+                    {
+                        if(Networking.isServer)
+                        {
+                            RMR.state = RMR.GameState.ServerIngame;
+                        }
+                        else
+                        {
+                            RMR.state = RMR.GameState.ClientIngame;
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        Thread.sleep(5000);
+                    }
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
         if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Update(elapsedTime);
     }
 

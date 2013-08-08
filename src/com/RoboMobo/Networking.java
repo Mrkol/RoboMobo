@@ -21,24 +21,26 @@ public class Networking
 {
     public static HttpURLConnection connection;
     public static URL url;
+    public static String msg;
     public static InputStream in;
     public static OutputStream out;
 
-    public static void init(String _url)
+    public static void init(String ip, boolean server)
     {
-        try
-        {
-            url = new URL(_url);
-            connection = (HttpURLConnection) url.openConnection();
-        }
-        catch (MalformedURLException e)
-        {
-            Log.wtf("URL", e.getMessage());
-        }
-        catch (IOException e)
-        {
-            Log.wtf("IO", e.getMessage());
-        }
+        msg = ip;
+        msg += server ? ":8192/TOP1?" : ":8192/TOP0?";
+//        try
+//        {
+//            connection = (HttpURLConnection) url.openConnection();
+//        }
+//        catch (MalformedURLException e)
+//        {
+//            Log.wtf("URL", e.getMessage());
+//        }
+//        catch (IOException e)
+//        {
+//            Log.wtf("IO", e.getMessage());
+//        }
     }
 
     public static JSONObject get(JSONObject send)
@@ -46,15 +48,16 @@ public class Networking
         JSONObject received;
         try
         {
-            InputStream is = connection.getInputStream();
-            OutputStream os = connection.getOutputStream();
-            os.write(send.toString().getBytes());
-            while (is.available()==0);
-            byte[] raw = new byte[is.available()];
-            is.read(raw);
-            received = new JSONObject(new String(raw));
-            is.close();
-            os.close();
+            connection = (HttpURLConnection) (new URL(msg+send.toString())).openConnection();
+//            InputStream is = connection.getInputStream();
+//            OutputStream os = connection.getOutputStream();
+//            os.write(send.toString().getBytes());
+//            while (is.available()==0);
+//            byte[] raw = new byte[is.available()];
+//            is.read(raw);
+            received = new JSONObject(connection.getResponseMessage());
+//            is.close();
+//            os.close();
             return received;
 
         } catch (IOException e)

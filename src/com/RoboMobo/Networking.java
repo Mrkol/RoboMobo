@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,7 +56,7 @@ public class Networking
 //            byte[] raw = new byte[is.available()];
 //            is.read(raw);
 
-            String[] str = connection.getResponseMessage().split("&");
+            String[] str = URLDecoder.decode(connection.getResponseMessage()).split("&");
             received = new JSONObject[str.length];
             for(int i = 0; i < str.length; i++)
             {

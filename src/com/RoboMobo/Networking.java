@@ -26,7 +26,8 @@ public class Networking
     public static boolean isServer;
     public static void init(String ip, boolean server)
     {
-        msg = ip;
+        msg = "http://";
+        msg += ip;
         msg += server ? ":8192/TOP1?" : ":8192/TOP0?";
 //        try
 //        {

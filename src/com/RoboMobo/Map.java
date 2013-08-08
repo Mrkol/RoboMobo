@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Message;
+import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,9 +19,6 @@ import java.util.ArrayList;
  */
 public class Map
 {
-    /**
-     * Resource ID of background for this map.
-     */
     public final int width;
     public final int height;
     public double corner1latt = 0;
@@ -158,20 +156,7 @@ public class Map
                 {
                     pickups.remove(this.pickups.get(i));
                 }
-            }
 
-            if (this.pickups.size() < 10 && RMR.rnd.nextInt(20) == 1)
-            {
-                int x = RMR.rnd.nextInt(RMR.mapSideLength);
-                int y = RMR.rnd.nextInt(RMR.mapSideLength);
-                if (this.tiles[x][y] == 0)
-                {
-                    pickups.add(new int[]{x, y, RMR.rnd.nextInt(20000) + 10000, 1});
-                }
-            }
-
-            for (int i = 0; i < pickups.size(); i++)
-            {
                 if ((Math.floor(this.p0.posX / 32.0) == this.pickups.get(i)[0]) && (Math.floor(this.p0.posY / 32.0) == this.pickups.get(i)[1]))
                 {
                    /*Log.wtf("Pl", Math.floor(this.player1.posX / 32) + " " + Math.floor(this.player1.posY / 32));
@@ -181,6 +166,17 @@ public class Map
                     Message msg = new Message();
                     msg.arg1 = this.p0.score;
                     ((ActivityMain) RMR.am).HandlerUIUpdate.sendMessage(msg);
+                }
+            }
+
+            if (this.pickups.size() < 10 && RMR.rnd.nextInt(20) == 1)
+            {
+                int x = RMR.rnd.nextInt(RMR.mapSideLength);
+                int y = RMR.rnd.nextInt(RMR.mapSideLength);
+                if (this.tiles[x][y] == 0)
+                {
+                    int t = RMR.rnd.nextInt(20000) + 20000;
+                    pickups.add(new int[]{x, y, t, t, 1});        //[x, y, timer, lifetime, type]
                 }
             }
             /*TextView text = (TextView) RMR.am.findViewById(R.id.tv_score);
@@ -198,8 +194,8 @@ public class Map
 
             Player p = this.p0;
 
-            double mapRotation = Math.toDegrees(Math.asin(Math.abs(this.basexlong - this.baseylong) / Math.sqrt(Math.pow(this.basexlatt - this.baseylatt, 2) + Math.pow(this.basexlong - this.baseylong, 2))));
-            //double playerAngle = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
+            //double mapRotation = Math.toDegrees(Math.asin(Math.abs(this.basexlong - this.baseylong) / Math.sqrt(Math.pow(this.basexlatt - this.baseylatt, 2) + Math.pow(this.basexlong - this.baseylong, 2))));
+            double mapRotation = Math.toDegrees(Math.asin(Math.abs(p.posY - p.prevPosY) / Math.sqrt(Math.pow(p.posX - p.prevPosX, 2) + Math.pow(p.posY - p.prevPosY, 2))));
             if ((p.posX - p.prevPosX) >= 0)
             {
                 if ((p.posY - p.prevPosY) >= 0)
@@ -219,7 +215,7 @@ public class Map
                 }
             }
 
-            RMR.c.scale(((float) RMR.sw.getHeight() / (float) mapH), ((float) RMR.sw.getHeight() / (float) mapH));
+            RMR.c.scale(((float) RMR.sw.getWidth() / (float) mapH), ((float) RMR.sw.getWidth() / (float) mapH));
 
 
             Rect src = new Rect();
@@ -231,24 +227,21 @@ public class Map
             {
                 RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
+
                 prevFilteredCompass = (α * prevFilteredCompass) + ((1 - α) * ((float) Math.toDegrees(-RMR.compass.orientationData[0])));
                 if (this.corner1fixed && this.corner2fixed)
                 {
                     RMR.c.rotate((!Double.isNaN(mapRotation) ? (float) mapRotation : 0) - prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
                 }
+
                 RMR.c.translate(-this.p0.posY, -this.p0.posX);
 
-                src.set(0, 0, RMGR.MAP_test.getWidth(), RMGR.MAP_test.getHeight());
-                dst.set(0, 0, mapW, mapH);
-
-                RMR.c.drawBitmap(RMGR.MAP_test, src, dst, pa);
-
-                pa.setColor(Color.BLACK);
+                pa.setColor(Color.DKGRAY);
 
                 RMR.c.save();
                 {
 
-                    for (int i = 0; i < RMR.currentMap.width; i++)
+                    /*for (int i = 0; i < RMR.currentMap.width; i++)
                     {
                         for (int j = 0; j < RMR.currentMap.height; j++)
                         {
@@ -264,7 +257,11 @@ public class Map
                             }
                             RMR.c.restore();
                         }
-                    }
+                    }*/
+                    RMR.c.drawLine(0, 0, 32 * this.width, 0, pa);
+                    RMR.c.drawLine(0, 0, 0, 32 * this.height, pa);
+                    RMR.c.drawLine(32 * this.width, 32 * this.height, 32 * this.width, 0, pa);
+                    RMR.c.drawLine(32 * this.width, 32 * this.height, 0, 32 * this.height, pa);
                 }
                 RMR.c.restore();
 
@@ -273,6 +270,8 @@ public class Map
 
                 RMR.c.save();
                 {
+                    if(RMGR.animationTimer == 0) RMGR.tile_0_iterator++;
+                    if(RMGR.tile_0_iterator == 5) RMGR.tile_0_iterator = 0;
                     for (int i = 0; i < this.height; i++)
                     {
                         for (int j = 0; j < this.width; j++)
@@ -284,10 +283,10 @@ public class Map
                             RMR.c.save();
                             {
                                 RMR.c.translate(i * 32, j * 32);
-                                src.set(0, 0, RMGR.TILE_test.getWidth(), RMGR.TILE_test.getHeight());
+                                src.set(0, 0, RMGR.TILE_0[RMGR.tile_0_iterator].getWidth(), RMGR.TILE_0[RMGR.tile_0_iterator].getHeight());
                                 dst.set(0, 0, 32, 32);
                                 pa.setColor(Color.WHITE);
-                                RMR.c.drawBitmap(RMGR.TILE_test, src, dst, pa);
+                                RMR.c.drawBitmap(RMGR.TILE_0[RMGR.tile_0_iterator], src, dst, pa);
                             }
                             RMR.c.restore();
                         }
@@ -296,8 +295,8 @@ public class Map
                 RMR.c.restore();
 
 
-                src.set(0, 0, RMGR.PICKUP_test.getWidth(), RMGR.PICKUP_test.getHeight());
-                dst.set(0, 0, 32, 32);
+                src.set(0, 0, RMGR.PICKUP_0.getWidth(), RMGR.PICKUP_0.getHeight());
+                dst.set(4, 4, 28, 28);
 
                 RMR.c.save();
                 {
@@ -306,10 +305,11 @@ public class Map
                         RMR.c.save();
                         {
                             RMR.c.translate(this.pickups.get(i)[1] * 32, this.pickups.get(i)[0] * 32);
-                            switch (this.pickups.get(i)[0])
+                            pa.setAlpha((int) Math.floor(100 / ((float)this.pickups.get(i)[3] / ((float)this.pickups.get(i)[2] != 0 ? (float)this.pickups.get(i)[2] : 1))));
+                            switch (this.pickups.get(i)[4])
                             {
                                 default:
-                                    RMR.c.drawBitmap(RMGR.PICKUP_test, src, dst, pa);
+                                    RMR.c.drawBitmap(RMGR.PICKUP_0, src, dst, pa);
                                     break;
                             }
                         }
@@ -317,6 +317,8 @@ public class Map
                     }
                 }
                 RMR.c.restore();
+
+                pa = new Paint();
 
                 if (this.state == MapState.Suspended)
                 {
@@ -336,13 +338,6 @@ public class Map
                     }
                     RMR.c.restore();
                 }
-                RMR.c.save();
-                {
-                    pa.setColor(Color.MAGENTA);
-                    RMR.c.translate(this.p0.prevPosY, this.p0.prevPosX);
-                    RMR.c.drawRect(-4, -4, 4, 4, pa);
-                }
-                RMR.c.restore();
             }
             RMR.c.restore();
 
@@ -351,9 +346,9 @@ public class Map
             {
                 pa.setColor(Color.WHITE);
                 RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
-                src.set(0, 0, RMGR.CHAR_test.getWidth(), RMGR.CHAR_test.getHeight());
-                dst.set(-8, -8, 8, 8);
-                RMR.c.drawBitmap(RMGR.CHAR_test, src, dst, pa);
+                src.set(0, 0, RMGR.CHAR_0.getWidth(), RMGR.CHAR_0.getHeight());
+                dst.set(-12, -12, 12, 12);
+                RMR.c.drawBitmap(RMGR.CHAR_0, src, dst, pa);
             }
             RMR.c.restore();
         }

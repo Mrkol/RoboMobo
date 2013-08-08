@@ -180,8 +180,10 @@ public class RMR
     {
         RMR.c.save();
         {
+            RMGR.animationTimer++;
+            if(RMGR.animationTimer == 3) RMGR.animationTimer = 0;
             Paint p = new Paint();
-            p.setColor(Color.rgb(0xFF, 0xFF, 0xFF));
+            p.setColor(Color.rgb(0x20, 0x20, 0x20));
             RMR.c.drawPaint(p);
 
             if(RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame) RMR.currentMap.Draw();

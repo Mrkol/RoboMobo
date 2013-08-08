@@ -19,7 +19,7 @@
             android:layout_height="144dp"
             android:id="@+id/tl_ingame_controlls"
             android:layout_alignRight="@+id/view_ingame_canvas"
-            android:layout_above="@+id/btn_ingame_fixcorner">
+            android:layout_alignBottom="@+id/view_ingame_canvas">
 
         <TableRow
                 android:layout_width="fill_parent"
@@ -35,7 +35,9 @@
                     android:layout_below="@+id/btn_ingame_up"
                     android:onClick="moveUp"
                     android:layout_column="1"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"
+                    />
 
         </TableRow>
 
@@ -52,7 +54,8 @@
                     android:layout_below="@+id/btn_ingame_up"
                     android:onClick="moveLeft"
                     android:layout_column="0"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
 
             <Button
                     android:layout_width="48dp"
@@ -64,7 +67,8 @@
                     android:layout_alignRight="@+id/btn_ingame_up"
                     android:onClick="setPlayer"
                     android:layout_column="1"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
 
             <Button
                     android:layout_width="48dp"
@@ -75,7 +79,8 @@
                     android:layout_centerVertical="true"
                     android:onClick="moveRight"
                     android:layout_column="2"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
 
         <TableRow
@@ -91,7 +96,8 @@
                     android:layout_below="@+id/btn_ingame_right"
                     android:onClick="moveDown"
                     android:layout_column="1"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
 
     </TableLayout>
@@ -100,7 +106,7 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tl_ingame_controlls"
+            android:layout_alignLeft="@+id/view_ingame_canvas"
             android:layout_alignTop="@+id/view_ingame_canvas">
 
         <TextView
@@ -109,7 +115,8 @@
                 android:text="Координаты:"
                 android:id="@+id/tv_coord"
                 android:layout_alignRight="@+id/view_ingame_canvas"
-                android:layout_alignTop="@+id/view_ingame_canvas"/>
+                android:layout_alignTop="@+id/view_ingame_canvas"
+                android:textColor="#ffffff"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -117,7 +124,8 @@
                 android:text="Скорость: "
                 android:id="@+id/tv_speed"
                 android:layout_alignLeft="@+id/tv_coord"
-                android:layout_below="@+id/textView"/>
+                android:layout_below="@+id/textView"
+                android:textColor="#ffffff"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -125,7 +133,8 @@
                 android:text="Точность: "
                 android:id="@+id/tv_accuracy"
                 android:layout_alignLeft="@+id/tv_coord"
-                android:layout_below="@+id/tv_score"/>
+                android:layout_below="@+id/tv_score"
+                android:textColor="#ffffff"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -133,18 +142,22 @@
                 android:text="Очки: "
                 android:id="@+id/tv_score"
                 android:layout_alignLeft="@+id/tv_coord"
-                android:layout_below="@+id/tv_coord"/>
+                android:layout_below="@+id/tv_coord"
+                android:textColor="#ffffff"/>
     </LinearLayout>
 
     <Button
             android:layout_width="96dp"
-            android:layout_height="44dp"
+            android:layout_height="32dp"
             android:text="Fix corner"
             android:id="@+id/btn_ingame_fixcorner"
             android:onClick="fixCoord"
-            android:layout_alignRight="@+id/view_ingame_canvas"
+            android:background="@drawable/button0"
+            android:layout_alignLeft="@+id/view_ingame_canvas"
             android:layout_alignBottom="@+id/view_ingame_canvas"
-            android:background="@drawable/btn_test"/>
+            android:textColor="#ffffff"
+            android:paddingTop="10dp"
+            android:layout_marginBottom="8dp"/>
 
     <TableLayout
             android:layout_width="wrap_content"
@@ -168,7 +181,8 @@
                     android:layout_gravity="center"
                     android:layout_column="1"
                     android:onClick="rotateUp"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
 
         <TableRow
@@ -183,7 +197,8 @@
                     android:singleLine="true"
                     android:layout_gravity="center"
                     android:onClick="rotateLeft"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
 
             <Button
                     android:layout_width="35dp"
@@ -191,7 +206,8 @@
                     android:text="O"
                     android:id="@+id/btn_ingame_O"
                     android:layout_gravity="center"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
 
             <Button
                     android:layout_width="35dp"
@@ -200,7 +216,8 @@
                     android:id="@+id/btn_ingame_r_right"
                     android:layout_gravity="center"
                     android:onClick="rotateRight"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
 
         <TableRow
@@ -215,7 +232,8 @@
                     android:layout_column="1"
                     android:layout_gravity="center"
                     android:onClick="rotateDown"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button1"
+                    android:textColor="#000000"/>
         </TableRow>
     </TableLayout>
 

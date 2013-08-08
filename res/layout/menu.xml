@@ -10,25 +10,34 @@
             android:layout_height="64dp"
             android:text="Multiplayer"
             android:id="@+id/btn_mianmenu_play"
-            android:background="@drawable/button"
             android:singleLine="false"
+            android:background="@drawable/button0"
             android:textStyle="bold"
             android:textSize="30dp"
             android:onClick="mp"
-            android:layout_alignParentLeft="true"
-            android:layout_above="@+id/btn_mainmenu_settings"/>
+            android:layout_alignLeft="@+id/btn_mainmenu_settings"
+            android:layout_above="@+id/btn_mainmenu_settings"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="false"
+            android:textColor="#ffffff"
+            android:typeface="sans"
+            android:paddingTop="20dp"/>
 
     <Button
             android:layout_width="256dp"
             android:layout_height="64dp"
             android:text="Settings"
             android:id="@+id/btn_mainmenu_settings"
-            android:background="@drawable/button"
             android:singleLine="false"
+            android:background="@drawable/button0"
             android:textStyle="bold"
             android:textSize="30dp"
-            android:layout_alignLeft="@+id/button"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:textColor="#ffffff"
+            android:typeface="sans"
+            android:paddingTop="20dp"/>
 
     <Button
             android:layout_width="256dp"
@@ -36,10 +45,25 @@
             android:text="Singleplayer"
             android:id="@+id/button"
             android:singleLine="false"
-            android:background="@drawable/button"
+            android:background="@drawable/button0"
             android:textStyle="bold"
             android:textSize="30dp"
             android:onClick="sp"
             android:layout_alignLeft="@+id/btn_mianmenu_play"
-            android:layout_above="@+id/btn_mianmenu_play"/>
+            android:layout_above="@+id/btn_mianmenu_play"
+            android:layout_alignParentRight="true"
+            android:textColor="#ffffff"
+            android:typeface="sans"
+            android:paddingTop="20dp"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/logo"
+            android:layout_above="@+id/button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

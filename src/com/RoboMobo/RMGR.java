@@ -11,16 +11,21 @@ import android.graphics.BitmapFactory;
  */
 public class RMGR
 {
-    public static Bitmap MAP_test;
-    public static Bitmap PICKUP_test;
-    public static Bitmap CHAR_test;
-    public static Bitmap TILE_test;
+    public static Bitmap PICKUP_0;
+    public static Bitmap CHAR_0;
+    public static Bitmap[] TILE_0;
+    public static short tile_0_iterator = 0;
+    public static short animationTimer = 0;
 
     public static void init(ActivityMain activityMain)
     {
-        MAP_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.map_test);
-        PICKUP_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.pickup_test);
-        CHAR_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.char_test);
-        TILE_test = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_test);
+        TILE_0 = new Bitmap[5];
+        PICKUP_0 = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.pickup_0);
+        CHAR_0 = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.char_test);
+        TILE_0[0] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_0_0);
+        TILE_0[1] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_0_1);
+        TILE_0[2] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_0_2);
+        TILE_0[3] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_0_3);
+        TILE_0[4] = BitmapFactory.decodeResource(activityMain.getResources(), R.drawable.tile_0_4);
     }
 }

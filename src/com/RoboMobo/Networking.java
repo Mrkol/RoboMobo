@@ -55,6 +55,7 @@ public class Networking extends AsyncTask<JSONObject, Void, JSONObject[]>
         try
         {
             connection = (HttpURLConnection) (new URL(msg + send[0].toString())).openConnection();
+            Log.wtf("Sent", send[0].toString());
             InputStream is = connection.getInputStream();
 //            OutputStream os = connection.getOutputStream();
 //            os.write(send.toString().getBytes());
@@ -68,7 +69,7 @@ public class Networking extends AsyncTask<JSONObject, Void, JSONObject[]>
             for(int i = 0; i < str.length; i++)
             {
                 received[i] = new JSONObject(str[i]);
-                Log.wtf("JSON", str[i]);
+                Log.wtf("Recieved", str[i]);
             }
 //            is.close();
 //            os.close();

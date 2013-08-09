@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.Display;
 import org.json.JSONArray;
 import org.json.JSONException;

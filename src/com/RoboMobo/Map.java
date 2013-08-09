@@ -109,28 +109,29 @@ public class Map
             this.state = MapState.Game;
         }
 
-        JSONObject pl = new JSONObject();
-        try
-        {
-            pl.put("X", p0.posX);
-            pl.put("Y", p0.posY);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        JSONObject jobj = new JSONObject();
-        try
-        {
-            jobj.put("Player", pl);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
         if (RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.ServerIngame)
         {
+
+            JSONObject pl = new JSONObject();
+            try
+            {
+                pl.put("X", p0.posX);
+                pl.put("Y", p0.posY);
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            JSONObject jobj = new JSONObject();
+            try
+            {
+                jobj.put("Player", pl);
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
             try
             {
                 switch (RMR.net.getStatus())

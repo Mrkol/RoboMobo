@@ -224,15 +224,6 @@ public class RMR
         if (RMR.state == GameState.Client || RMR.state == GameState.Server)
         {
             JSONObject jobj = new JSONObject();
-            try
-            {
-                if(currentMap!=null)
-                    jobj.put("ready", true);
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
 
             try
             {
@@ -240,10 +231,10 @@ public class RMR
                 {
                     case FINISHED:
                         JSONObject[] joar = net.get();
-                        net = new Networking(net.ip, net.isServer);
-                        net.execute(jobj);
                         if(joar==null)
                         {
+                            net = new Networking(net.ip, net.isServer);
+                            net.execute(jobj);
                             break;
                         }
                         for (int i = 0; i < joar.length; i++)
@@ -255,10 +246,11 @@ public class RMR
                                 {
                                     RMR.state = RMR.GameState.ServerIngame;
                                 }
-//                                else
-//                                {
-//                                    RMR.state = RMR.GameState.ClientIngame;
-//                                }
+                                else
+                                {
+                                    net = new Networking(net.ip, net.isServer);
+                                    net.execute(jobj);
+                                }
                                 break;
                             }
                             else if (jo.has("Map"))
@@ -276,8 +268,9 @@ public class RMR
                                 RMR.currentMap.p0 = new Player(0, 0, "P0", true);
                                 RMR.currentMap.p1 = new Player(0, 0, "P1", false);
 
+                                jobj.put("ready", true);
                                 net = new Networking(net.ip, net.isServer);
-                                net.execute((new JSONObject()).put("ready", true));
+                                net.execute(jobj);
 
                                 RMR.state = RMR.GameState.ClientIngame;
                             }

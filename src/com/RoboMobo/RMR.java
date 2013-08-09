@@ -223,7 +223,7 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
-        if (RMR.state == GameState.Client)
+        if (RMR.state == GameState.Client || RMR.state == GameState.Server)
         {
             JSONObject jobj = new JSONObject();
             try

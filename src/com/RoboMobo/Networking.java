@@ -60,7 +60,7 @@ public class Networking extends AsyncTask<JSONObject, Void, JSONObject[]>
             while (is.available()==0);
             byte[] raw = new byte[is.available()];
             is.read(raw);
-            String[] str = (new String(raw)).split("&");
+            String[] str = URLDecoder.decode(new String(raw)).split("&");
 
 //            String[] str = URLDecoder.decode(connection.getResponseMessage()).split("&");
             received = new JSONObject[str.length];

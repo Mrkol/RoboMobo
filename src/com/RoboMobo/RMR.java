@@ -243,6 +243,10 @@ public class RMR
                         JSONObject[] joar = net.get();
                         net = new Networking(net.ip, net.isServer);
                         net.execute(jobj);
+                        if(joar==null)
+                        {
+                            break;
+                        }
                         for (int i = 0; i < joar.length; i++)
                         {
                             JSONObject jo = joar[i];

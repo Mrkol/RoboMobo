@@ -424,7 +424,7 @@ public class Map
                 RMR.c.save();
                 {
                     pa.setColor(Color.WHITE);
-                    RMR.c.translate(p1.posY * 32, p1.posX * 32);
+                    RMR.c.translate(p1.posY, p1.posX);
                     src.set(0, 0, RMGR.CHAR_0.getWidth(), RMGR.CHAR_0.getHeight());
                     dst.set(-12, -12, 12, 12);
                     RMR.c.drawBitmap(RMGR.CHAR_0, src, dst, pa);

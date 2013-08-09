@@ -19,7 +19,8 @@
             android:layout_height="144dp"
             android:id="@+id/tl_ingame_controlls"
             android:layout_alignRight="@+id/view_ingame_canvas"
-            android:layout_alignBottom="@+id/view_ingame_canvas">
+            android:layout_alignBottom="@+id/view_ingame_canvas"
+            android:visibility="gone">
 
         <TableRow
                 android:layout_width="fill_parent"
@@ -174,7 +175,8 @@
             android:layout_alignParentLeft="false"
             android:id="@+id/tl_ingame_rotation"
             android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false">
+            android:layout_alignParentTop="false"
+            android:visibility="gone">
 
         <TableRow
                 android:layout_width="fill_parent"

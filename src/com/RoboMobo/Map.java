@@ -75,7 +75,7 @@ public class Map
         {
             tiles[i][5] = 1;
         }
-        for (int i = 0; i < 3; i++)
+        for (int i = 6; i < 16; i++)
         {
             tiles[i][8] = 2;
         }
@@ -256,7 +256,7 @@ public class Map
                 }
             }
 
-            RMR.c.scale(((float) RMR.sw.getWidth() / (float) mapH), ((float) RMR.sw.getWidth() / (float) mapH));
+            RMR.c.scale(((float) RMR.sw.getWidth() / 320f), ((float) RMR.sw.getWidth() / 320f));
 
 
             Rect src = new Rect();
@@ -266,7 +266,7 @@ public class Map
 
             RMR.c.save();
             {
-                RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
+                RMR.c.translate(10 * 32 / 2, 10 * 32 / 2);
                 /*if(this.corner1fixed && this.corner2fixed)*/
                 double delta = prevFilteredCompass + Math.toDegrees(RMR.compass.orientationData[0]);
                 Log.d("compass", delta + " " + prevFilteredCompass + " " + (Math.abs(delta) > 180));
@@ -421,15 +421,18 @@ public class Map
                 }
 
 
-                RMR.c.save();
+                if(RMR.state != RMR.GameState.SingleplayerIngame)
                 {
-                    pa.setColor(Color.WHITE);
-                    RMR.c.translate(p1.posY, p1.posX);
-                    src.set(0, 0, RMGR.CHAR_0.getWidth(), RMGR.CHAR_0.getHeight());
-                    dst.set(-12, -12, 12, 12);
-                    RMR.c.drawBitmap(RMGR.CHAR_0, src, dst, pa);
+                    RMR.c.save();
+                    {
+                        pa.setColor(Color.WHITE);
+                        RMR.c.translate(p1.posY, p1.posX);
+                        src.set(0, 0, RMGR.CHAR_0.getWidth(), RMGR.CHAR_0.getHeight());
+                        dst.set(-12, -12, 12, 12);
+                        RMR.c.drawBitmap(RMGR.CHAR_0, src, dst, pa);
+                    }
+                    RMR.c.restore();
                 }
-                RMR.c.restore();
             }
             RMR.c.restore();
 
@@ -437,7 +440,7 @@ public class Map
             RMR.c.save();
             {
                 pa.setColor(Color.WHITE);
-                RMR.c.translate(RMR.mapSideLength * 32 / 2, RMR.mapSideLength * 32 / 2);
+                RMR.c.translate(10 * 32 / 2, 10 * 32 / 2);
                 src.set(0, 0, RMGR.CHAR_0.getWidth(), RMGR.CHAR_0.getHeight());
                 dst.set(-12, -12, 12, 12);
                 RMR.c.drawBitmap(RMGR.CHAR_0, src, dst, pa);

@@ -1,6 +1,7 @@
 package com.RoboMobo;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,19 +54,21 @@ public class Networking extends AsyncTask<JSONObject, Void, JSONObject[]>
         JSONObject[] received;
         try
         {
-            connection = (HttpURLConnection) (new URL(msg + send.toString())).openConnection();
-//            InputStream is = connection.getInputStream();
+            connection = (HttpURLConnection) (new URL(msg + send[0].toString())).openConnection();
+            InputStream is = connection.getInputStream();
 //            OutputStream os = connection.getOutputStream();
 //            os.write(send.toString().getBytes());
-//            while (is.available()==0);
-//            byte[] raw = new byte[is.available()];
-//            is.read(raw);
+            while (is.available()==0);
+            byte[] raw = new byte[is.available()];
+            is.read(raw);
+            String[] str = URLDecoder.decode(new String(raw)).split("&");
 
-            String[] str = URLDecoder.decode(connection.getResponseMessage()).split("&");
+//            String[] str = URLDecoder.decode(connection.getResponseMessage()).split("&");
             received = new JSONObject[str.length];
             for(int i = 0; i < str.length; i++)
             {
                 received[i] = new JSONObject(str[i]);
+                Log.wtf("JSON", str[i]);
             }
 //            is.close();
 //            os.close();

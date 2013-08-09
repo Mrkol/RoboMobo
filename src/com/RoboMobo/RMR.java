@@ -220,12 +220,13 @@ public class RMR
      */
     public static void Update(long elapsedTime)
     {
-        if (RMR.state == GameState.Client)
+        if (RMR.state == GameState.Client || RMR.state == GameState.Server)
         {
             JSONObject jobj = new JSONObject();
             try
             {
-                jobj.put("ready", true);
+                if(currentMap!=null)
+                    jobj.put("ready", true);
             }
             catch (JSONException e)
             {
@@ -240,6 +241,10 @@ public class RMR
                         JSONObject[] joar = net.get();
                         net = new Networking(net.ip, net.isServer);
                         net.execute(jobj);
+                        if(joar==null)
+                        {
+                            break;
+                        }
                         for (int i = 0; i < joar.length; i++)
                         {
                             JSONObject jo = joar[i];
@@ -249,22 +254,29 @@ public class RMR
                                 {
                                     RMR.state = RMR.GameState.ServerIngame;
                                 }
-                                else
-                                {
-                                    RMR.state = RMR.GameState.ClientIngame;
-                                }
+//                                else
+//                                {
+//                                    RMR.state = RMR.GameState.ClientIngame;
+//                                }
                                 break;
                             }
                             else if (jo.has("Map"))
                             {
-                                RMR.currentMap = new Map(jobj.getJSONObject("Map").getInt("width"), jobj.getJSONObject("Map").getInt("height"));
+                                Log.wtf("Map", "Processing");
+                                RMR.currentMap = new Map(jo.getInt("width"), jo.getInt("height"));
                                 for (int p = 0; p < RMR.currentMap.width; p++)
                                 {
                                     for (int l = 0; l < RMR.currentMap.height; l++)
                                     {
-                                        RMR.currentMap.tiles[p][l] = (short) ((JSONArray) jobj.getJSONObject("Map").getJSONArray("Tiles").get(p)).getInt(l);
+                                        RMR.currentMap.tiles[p][l] = (short) ((JSONArray) jo.getJSONObject("Map").getJSONArray("Tiles").get(p)).getInt(l);
                                     }
                                 }
+
+                                RMR.currentMap.p0 = new Player(0, 0, "P0", true);
+                                RMR.currentMap.p1 = new Player(0, 0, "P1", false);
+
+                                net = new Networking(net.ip, net.isServer);
+                                net.execute((new JSONObject()).put("ready", true));
 
                                 RMR.state = RMR.GameState.ClientIngame;
                             }

@@ -274,7 +274,7 @@ public class Map
                 prevFilteredCompass = (float) (α * delta - Math.toDegrees(RMR.compass.orientationData[0]));
                 if (this.corner1fixed && this.corner2fixed)
                 {
-                    RMR.c.rotate((!Double.isNaN(mapRotation) ? (float) mapRotation : 0) + prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
+                    RMR.c.rotate(/*(!Double.isNaN(mapRotation) ? (float) mapRotation : 0) + */prevFilteredCompass/*-(float) playerAngle*/, 0, 0);
                 }
 
                 RMR.c.translate(-this.p0.posY, -this.p0.posX);

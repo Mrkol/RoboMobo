@@ -232,7 +232,7 @@ public class RMR
                 {
                     case FINISHED:
                         JSONObject[] joar = net.get();
-                        if(joar==null || (net.getStatus() == AsyncTask.Status.RUNNING && RMR.state == GameState.Server))
+                        if(joar==null)
                         {
                             net = new Networking(net.ip, net.isServer);
                             net.execute(jobj);
@@ -275,13 +275,19 @@ public class RMR
 
                                 RMR.state = RMR.GameState.ClientIngame;
                             }
+                            else
+                            {
+                                net = new Networking(net.ip, net.isServer);
+                                net.execute(jobj);
+                            }
                         }
                         break;
                     case PENDING:
                         net.execute(jobj);
                         break;
                     case RUNNING:
-                        Thread.sleep(5000);
+                        Thread.sleep(2000);
+                        break;
                 }
             }
             catch (JSONException e)

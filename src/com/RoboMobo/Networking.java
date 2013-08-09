@@ -59,7 +59,21 @@ public class Networking extends AsyncTask<JSONObject, Void, JSONObject[]>
             InputStream is = connection.getInputStream();
 //            OutputStream os = connection.getOutputStream();
 //            os.write(send.toString().getBytes());
-            while (is.available()==0);
+            int j = 0;
+            while (is.available()==0)
+            {
+                try
+                {
+                    Thread.sleep(100);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                j++;
+                if(j>=20)
+                    return null;
+            }
             byte[] raw = new byte[is.available()];
             is.read(raw);
             String[] str = URLDecoder.decode(new String(raw)).split("&");

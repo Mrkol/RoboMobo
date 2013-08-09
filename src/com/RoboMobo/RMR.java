@@ -6,14 +6,11 @@ import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.Display;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -94,11 +91,11 @@ public class RMR
         height = display.getHeight();
         am = act;
 
-        if(RMR.state != GameState.Singleplayer)
+        if (RMR.state != GameState.Singleplayer)
         {
-            if(RMR.state == GameState.NotInGame)
+            if (RMR.state == GameState.NotInGame)
             {
-                if(net.isServer)
+                if (net.isServer)
                 {
                     RMR.state = GameState.Server;
                     RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
@@ -108,10 +105,10 @@ public class RMR
 
                     JSONArray jarr = new JSONArray();
 
-                    for(int i = 0; i < RMR.currentMap.width; i++)
+                    for (int i = 0; i < RMR.currentMap.width; i++)
                     {
                         JSONArray jarrr = new JSONArray();
-                        for(int j = 0; j < RMR.currentMap.height; j++)
+                        for (int j = 0; j < RMR.currentMap.height; j++)
                         {
                             jarrr.put(RMR.currentMap.tiles[i][j]);
                         }
@@ -296,7 +293,9 @@ public class RMR
 
 
         if (RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame)
+        {
             RMR.currentMap.Update(elapsedTime);
+        }
     }
 
 
@@ -312,7 +311,9 @@ public class RMR
             RMR.c.drawPaint(p);
 
             if (RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame)
+            {
                 RMR.currentMap.Draw();
+            }
         }
         RMR.c.restore();
     }

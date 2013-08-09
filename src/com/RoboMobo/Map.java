@@ -310,6 +310,8 @@ public class Map
                 {
                     if((System.currentTimeMillis() / 30) % 2 == 0) RMGR.tile_0_iterator++;
                     if(RMGR.tile_0_iterator == RMGR.TILE_0.length) RMGR.tile_0_iterator = 0;
+                    if((System.currentTimeMillis() / 30) % 2 == 0) RMGR.tile_1_iterator++;
+                    if(RMGR.tile_1_iterator == RMGR.TILE_1.length) RMGR.tile_1_iterator = 0;
                     for (int i = 0; i < this.height; i++)
                     {
                         for (int j = 0; j < this.width; j++)
@@ -357,7 +359,10 @@ public class Map
                 RMR.c.save();
                 {
                     if((System.currentTimeMillis() / 30) % 2 == 0) RMGR.pickup_0_iterator++;
+                    if(RMGR.pickup_0_iterator == RMGR.PICKUP_0.length) RMGR.pickup_0_iterator = 0;
                     if((System.currentTimeMillis() / 30) % 2 == 0) RMGR.pickup_1_iterator++;
+                    if(RMGR.pickup_1_iterator == RMGR.PICKUP_1.length) RMGR.pickup_1_iterator = 0;
+
                     for (int i = 0; i < this.pickups.size(); i++)
                     {
                         RMR.c.save();

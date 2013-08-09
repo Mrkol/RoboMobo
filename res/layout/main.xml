@@ -20,7 +20,7 @@
             android:id="@+id/tl_ingame_controlls"
             android:layout_alignRight="@+id/view_ingame_canvas"
             android:layout_alignBottom="@+id/view_ingame_canvas"
-            android:visibility="gone">
+            android:visibility="visible">
 
         <TableRow
                 android:layout_width="fill_parent"

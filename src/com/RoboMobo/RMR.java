@@ -72,7 +72,7 @@ public class RMR
      * The current map.
      */
     public static Map currentMap;
-    public static int mapSideLength = 20;
+    public static int mapSideLength = 10;
 
     public static Networking net;
 

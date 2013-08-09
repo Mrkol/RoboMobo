@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Display;
 import org.json.JSONArray;
@@ -231,7 +232,7 @@ public class RMR
                 {
                     case FINISHED:
                         JSONObject[] joar = net.get();
-                        if(joar==null)
+                        if(joar==null || (net.getStatus() == AsyncTask.Status.RUNNING && RMR.state == GameState.Server))
                         {
                             net = new Networking(net.ip, net.isServer);
                             net.execute(jobj);

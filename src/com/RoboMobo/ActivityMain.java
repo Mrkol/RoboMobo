@@ -12,9 +12,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ActivityMain extends Activity// implements View.OnTouchListener
 {
@@ -78,6 +75,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         RMGR.init(this);
         setContentView(R.layout.main);
@@ -89,9 +87,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
         msensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         RMR.sw = (MainSurfaceView) findViewById(R.id.view_ingame_canvas);
-        RMR.registerActivity(this);
-
-        if(RMR.state != RMR.GameState.SingleplayerIngame && RMR.state != RMR.GameState.Singleplayer)
+        if(RMR.state != RMR.GameState.Singleplayer)
         {
             if(RMR.net.isServer)
             {
@@ -102,6 +98,8 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
                 RMR.state = RMR.GameState.Client;
             }
         }
+        RMR.registerActivity(this);
+
 
         /*if (RMR.state != RMR.GameState.Singleplayer && RMR.state != RMR.GameState.SingleplayerIngame)
         {
@@ -127,7 +125,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void fixCoord(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.PreGame)
         {
             if (RMR.currentMap.state != Map.MapState.Suspended)
             {
@@ -149,7 +147,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void moveUp(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
             RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
@@ -159,7 +157,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void moveDown(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
             RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
@@ -169,7 +167,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void moveRight(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
             RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
@@ -179,7 +177,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void moveLeft(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.p0.prevPosX = RMR.currentMap.p0.posX;
             RMR.currentMap.p0.prevPosY = RMR.currentMap.p0.posY;
@@ -189,21 +187,21 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void setPlayer(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             if (RMR.currentMap.p0.posX != 16 && RMR.currentMap.p0.posY != 16)
             {
                 RMR.currentMap.p0.changePos(new int[]{16, 16});
 
                 RMR.currentMap.suspendTile = new Point(0, 0);
-                RMR.currentMap.state = Map.MapState.Game;
+                RMR.currentMap.state = Map.MapState.InGame;
             }
         }
     }
 
     public void rotateUp(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.p0.prevPosX--;
         }
@@ -211,7 +209,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void rotateDown(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.p0.prevPosX++;
         }
@@ -219,7 +217,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void rotateLeft(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.p0.prevPosY--;
         }
@@ -227,7 +225,7 @@ public class ActivityMain extends Activity// implements View.OnTouchListener
 
     public void rotateRight(View view)
     {
-        if (RMR.state == RMR.GameState.ServerIngame || RMR.state == RMR.GameState.ClientIngame || RMR.state == RMR.GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.p0.prevPosY++;
         }

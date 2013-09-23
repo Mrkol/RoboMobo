@@ -31,7 +31,7 @@ public class ActivityMainMenu extends Activity
         RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
         RMR.currentMap.p0 = new Player(0, 0, "Me", true);
         RMR.state = RMR.GameState.Singleplayer;
-        RMR.currentMap.state = Map.MapState.Game;
+        RMR.currentMap.state = Map.MapState.InGame;
         Intent intent = new Intent(this, ActivityMain.class);
         startActivity(intent);
     }

@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Display;
 import org.json.JSONArray;
@@ -66,7 +65,7 @@ public class RMR
 
     public static String playerID;
 
-    public static GameState state = GameState.NotInGame;
+    public static GameState state = GameState.Invalid;
 
     /**
      * The current map.
@@ -93,62 +92,50 @@ public class RMR
         height = display.getHeight();
         am = act;
 
-        if (RMR.state != GameState.Singleplayer)
+        RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
+
+        if (RMR.state != GameState.Server)
         {
-            if (RMR.state == GameState.NotInGame)
+            RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
+
+            RMR.currentMap.p0 = new Player(0, 0, "P0", true);
+            RMR.currentMap.p1 = new Player(0, 0, "P1", false);
+            JSONArray jarr = new JSONArray();
+
+            for (int i = 0; i < RMR.currentMap.width; i++)
             {
-                if (net.isServer)
+                JSONArray jarrr = new JSONArray();
+                for (int j = 0; j < RMR.currentMap.height; j++)
                 {
-                    RMR.state = GameState.Server;
-                    RMR.currentMap = new Map(RMR.mapSideLength, RMR.mapSideLength);
-
-                    RMR.currentMap.p0 = new Player(0, 0, "P0", true);
-                    RMR.currentMap.p1 = new Player(0, 0, "P1", false);
-
-                    JSONArray jarr = new JSONArray();
-
-                    for (int i = 0; i < RMR.currentMap.width; i++)
-                    {
-                        JSONArray jarrr = new JSONArray();
-                        for (int j = 0; j < RMR.currentMap.height; j++)
-                        {
-                            jarrr.put(RMR.currentMap.tiles[i][j]);
-                        }
-                        jarr.put(jarrr);
-                    }
-                    JSONObject jobj = new JSONObject();
-
-                    try
-                    {
-                        jobj.put("Tiles", jarr);
-                    }
-                    catch (JSONException e)
-                    {
-
-                    }
-                    JSONObject jo = new JSONObject();
-                    try
-                    {
-                        jo.put("Map", jobj);
-                        jo.put("width", RMR.currentMap.width);
-                        jo.put("height", RMR.currentMap.height);
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
-                    net.execute(jo);
+                    jarrr.put(RMR.currentMap.tiles[i][j]);
                 }
-                else
-                {
-                    RMR.state = GameState.Client;
-                }
+                jarr.put(jarrr);
             }
+            JSONObject jobj = new JSONObject();
+
+            try
+            {
+                jobj.put("Tiles", jarr);
+            }
+            catch (JSONException e)
+            {
+
+            }
+            JSONObject jo = new JSONObject();
+            try
+            {
+                jo.put("Map", jobj);
+                jo.put("width", RMR.currentMap.width);
+                jo.put("height", RMR.currentMap.height);
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            net.execute(jo);
         }
-        else
-        {
-            RMR.state = GameState.SingleplayerIngame;
-        }
+
+        RMR.currentMap.state = Map.MapState.PreGame;
     }
     /*
     public static void onServerConnected()
@@ -245,7 +232,7 @@ public class RMR
                             {
                                 if (net.isServer)
                                 {
-                                    RMR.state = RMR.GameState.ServerIngame;
+                                    RMR.currentMap.state = Map.MapState.InGame;
                                 }
                                 else
                                 {
@@ -273,7 +260,7 @@ public class RMR
                                 net = new Networking(net.ip, net.isServer);
                                 net.execute(jobj);
 
-                                RMR.state = RMR.GameState.ClientIngame;
+                                RMR.currentMap.state = Map.MapState.InGame;
                             }
                             else
                             {
@@ -305,7 +292,7 @@ public class RMR
         }
 
 
-        if (RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame)
+        if (RMR.currentMap.state == Map.MapState.InGame)
         {
             RMR.currentMap.Update(elapsedTime);
         }
@@ -323,7 +310,7 @@ public class RMR
             p.setColor(Color.rgb(0x20, 0x20, 0x20));
             RMR.c.drawPaint(p);
 
-            if (RMR.state == GameState.ClientIngame || RMR.state == GameState.ServerIngame || RMR.state == GameState.SingleplayerIngame)
+            if (RMR.currentMap != null && RMR.currentMap.state == Map.MapState.InGame)
             {
                 RMR.currentMap.Draw();
             }
@@ -334,12 +321,8 @@ public class RMR
     public enum GameState
     {
         Invalid,
-        NotInGame,
+        Singleplayer,
         Client,
         Server,
-        ClientIngame,
-        ServerIngame,
-        Singleplayer,
-        SingleplayerIngame
     }
 }
